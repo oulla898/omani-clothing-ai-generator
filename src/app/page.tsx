@@ -135,7 +135,7 @@ export default function Home() {
             </button>
 
             <p className="text-xs text-gray-500 mt-2">
-              Note: "omani" will be automatically added to your prompt for best results
+              Note: &quot;omani&quot; will be automatically added to your prompt for best results
             </p>
           </div>
 

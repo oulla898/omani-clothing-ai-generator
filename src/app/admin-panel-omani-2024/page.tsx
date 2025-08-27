@@ -1,7 +1,8 @@
 'use client'
 
 import { useUser, SignInButton } from '@clerk/nextjs'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import Link from 'next/link'
 
 // Simple in-memory user store for demo (replace with database later)
 interface User {
@@ -64,10 +65,10 @@ export default function AdminPanel() {
       <div className="min-h-screen bg-gradient-to-br from-red-100 to-orange-100 flex items-center justify-center">
         <div className="text-center p-8 bg-white rounded-lg shadow-lg max-w-md w-full mx-4">
           <h1 className="text-3xl font-bold text-red-600 mb-4">Access Denied</h1>
-          <p className="text-gray-600 mb-6">You don't have permission to access this page</p>
-          <a href="/" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors inline-block">
+          <p className="text-gray-600 mb-6">You don&apos;t have permission to access this page</p>
+          <Link href="/" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors inline-block">
             Go to Home
-          </a>
+          </Link>
         </div>
       </div>
     )
@@ -81,9 +82,9 @@ export default function AdminPanel() {
             <h1 className="text-3xl font-bold text-gray-800">Admin Panel</h1>
             <p className="text-gray-600">Manage users and credits</p>
           </div>
-          <a href="/" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+          <Link href="/" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
             Back to Home
-          </a>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
