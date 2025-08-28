@@ -23,40 +23,54 @@ export class CreditManager {
    */
   static async initializeUserCredits(userId: string): Promise<UserCredits | null> {
     try {
-      // Check if user already has credits
-      const { data: existing } = await supabase
+      // Double-check if user already has credits to prevent duplicates
+      const { data: existing, error: checkError } = await supabase
         .from('user_credits')
         .select('*')
         .eq('user_id', userId)
         .single()
 
-      if (existing) {
+      if (existing && !checkError) {
+        console.log('User already exists, returning existing credits:', existing)
         return existing
       }
 
-      // Create new user credits
-      const { data: newCredits, error: creditsError } = await supabase
-        .from('user_credits')
-        .insert({
-          user_id: userId,
-          credits: 10
-        })
-        .select()
-        .single()
+      // Only create if user truly doesn't exist
+      if (checkError && checkError.code === 'PGRST116') {
+        console.log('Creating new user credits for:', userId)
+        
+        // Use upsert to handle race conditions
+        const { data: newCredits, error: creditsError } = await supabase
+          .from('user_credits')
+          .upsert({
+            user_id: userId,
+            credits: 10
+          }, {
+            onConflict: 'user_id'
+          })
+          .select()
+          .single()
 
-      if (creditsError) throw creditsError
+        if (creditsError) {
+          console.error('Error creating user credits:', creditsError)
+          throw creditsError
+        }
 
-      // Log initial credit transaction
-      await supabase
-        .from('credit_transactions')
-        .insert({
-          user_id: userId,
-          amount: 10,
-          type: 'initial',
-          description: 'Initial signup bonus'
-        })
+        // Log initial credit transaction
+        await supabase
+          .from('credit_transactions')
+          .insert({
+            user_id: userId,
+            amount: 10,
+            type: 'initial',
+            description: 'Initial signup bonus'
+          })
 
-      return newCredits
+        return newCredits
+      }
+
+      // If there's a different error, throw it
+      throw checkError
     } catch (error) {
       console.error('Error initializing user credits:', error)
       return null
@@ -75,11 +89,13 @@ export class CreditManager {
         .single()
 
       if (error) {
-        // If user doesn't exist, initialize them
+        // If user doesn't exist, initialize them ONLY if it's a "not found" error
         if (error.code === 'PGRST116') {
+          console.log('User not found, initializing new user:', userId)
           const newUser = await this.initializeUserCredits(userId)
           return newUser?.credits || 0
         }
+        console.error('Database error getting user credits:', error)
         throw error
       }
 
