@@ -10,16 +10,10 @@ export default function Home() {
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [credits, setCredits] = useState(10) // Default credits
 
   const generateImage = async () => {
     if (!prompt.trim()) {
       setError('Please enter a prompt')
-      return
-    }
-
-    if (credits <= 0) {
-      setError('Insufficient credits')
       return
     }
 
@@ -49,7 +43,6 @@ export default function Home() {
       }
 
       setGeneratedImage(data.output?.[0])
-      setCredits(prev => prev - 1) // Deduct credit
     } catch (error) {
       setError(error instanceof Error ? error.message : 'An error occurred')
     } finally {
@@ -89,10 +82,6 @@ export default function Home() {
             <p className="text-gray-600">Welcome, {user?.firstName}!</p>
           </div>
           <div className="flex items-center gap-4">
-            <div className="bg-white px-4 py-2 rounded-lg shadow">
-              <span className="text-sm text-gray-600">Credits: </span>
-              <span className="font-bold text-blue-600">{credits}</span>
-            </div>
             <SignOutButton>
               <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors">
                 Sign Out
@@ -128,10 +117,10 @@ export default function Home() {
 
             <button
               onClick={generateImage}
-              disabled={isGenerating || credits <= 0}
+              disabled={isGenerating}
               className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white py-3 rounded-lg font-medium transition-colors"
             >
-              {isGenerating ? 'Generating...' : `Generate Image (1 Credit)`}
+              {isGenerating ? 'Generating...' : 'Generate Image'}
             </button>
 
             <p className="text-xs text-gray-500 mt-2">

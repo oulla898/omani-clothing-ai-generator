@@ -30,7 +30,5 @@ CLERK_SECRET_KEY=your_clerk_secret_key_here
 The application includes:
 ✅ AI Image Generation for Omani Traditional Clothing  
 ✅ Clerk Authentication System
-✅ Credit System (10 credits per user)
-✅ Admin Panel at `/admin-panel-omani-2024`
 ✅ Responsive Design
 ✅ Production-ready configuration
