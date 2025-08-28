@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useUser, SignInButton, SignOutButton } from '@clerk/nextjs'
 import Image from 'next/image'
 
@@ -10,7 +10,30 @@ export default function Home() {
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [credits, setCredits] = useState(10) // Default credits
+  const [credits, setCredits] = useState(0)
+  const [isLoadingCredits, setIsLoadingCredits] = useState(true)
+
+  // Fetch user credits when component mounts or user changes
+  useEffect(() => {
+    const fetchCredits = async () => {
+      if (!isSignedIn) return
+      
+      setIsLoadingCredits(true)
+      try {
+        const response = await fetch('/api/credits')
+        if (response.ok) {
+          const data = await response.json()
+          setCredits(data.credits)
+        }
+      } catch (error) {
+        console.error('Error fetching credits:', error)
+      } finally {
+        setIsLoadingCredits(false)
+      }
+    }
+
+    fetchCredits()
+  }, [isSignedIn])
 
   const generateImage = async () => {
     if (!prompt.trim()) {
@@ -19,7 +42,7 @@ export default function Home() {
     }
 
     if (credits <= 0) {
-      setError('Insufficient credits')
+      setError('Insufficient credits. You need at least 1 credit to generate an image.')
       return
     }
 
@@ -28,6 +51,28 @@ export default function Home() {
     setGeneratedImage(null)
 
     try {
+      // First, deduct credits
+      const creditResponse = await fetch('/api/credits', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'deduct',
+          amount: 1,
+          description: 'Image generation'
+        }),
+      })
+
+      if (!creditResponse.ok) {
+        const creditData = await creditResponse.json()
+        throw new Error(creditData.error || 'Failed to deduct credits')
+      }
+
+      const creditData = await creditResponse.json()
+      setCredits(creditData.credits)
+
+      // Then generate the image
       const response = await fetch('/api/predictions', {
         method: 'POST',
         headers: {
@@ -39,19 +84,54 @@ export default function Home() {
       })
 
       if (!response.ok) {
+        // If image generation fails, refund the credit
+        await fetch('/api/credits', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            action: 'add',
+            amount: 1,
+            description: 'Refund for failed generation'
+          }),
+        })
+        
         throw new Error('Failed to generate image')
       }
 
       const data = await response.json()
       
       if (data.error) {
+        // Refund credit on error
+        await fetch('/api/credits', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            action: 'add',
+            amount: 1,
+            description: 'Refund for failed generation'
+          }),
+        })
+        
         throw new Error(data.error)
       }
 
       setGeneratedImage(data.output?.[0])
-      setCredits(prev => prev - 1) // Deduct credit
     } catch (error) {
       setError(error instanceof Error ? error.message : 'An error occurred')
+      // Refresh credits in case of refund
+      try {
+        const response = await fetch('/api/credits')
+        if (response.ok) {
+          const data = await response.json()
+          setCredits(data.credits)
+        }
+      } catch (e) {
+        console.error('Error refreshing credits:', e)
+      }
     } finally {
       setIsGenerating(false)
     }
@@ -91,7 +171,11 @@ export default function Home() {
           <div className="flex items-center gap-4">
             <div className="bg-white px-4 py-2 rounded-lg shadow">
               <span className="text-sm text-gray-600">Credits: </span>
-              <span className="font-bold text-blue-600">{credits}</span>
+              {isLoadingCredits ? (
+                <span className="font-bold text-gray-400">Loading...</span>
+              ) : (
+                <span className="font-bold text-blue-600">{credits}</span>
+              )}
             </div>
             <SignOutButton>
               <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors">

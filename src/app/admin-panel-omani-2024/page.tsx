@@ -1,47 +1,95 @@
 'use client'
 
 import { useUser, SignInButton } from '@clerk/nextjs'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
-// Simple in-memory user store for demo (replace with database later)
 interface User {
   id: string
-  email: string
-  firstName: string
-  lastName: string
+  user_id: string
   credits: number
+  created_at: string
+  updated_at: string
+  // We'll need to fetch user details from Clerk API separately
+  email?: string
+  firstName?: string
+  lastName?: string
 }
-
-const mockUsers: User[] = [
-  { id: '1', email: 'user1@example.com', firstName: 'Ahmed', lastName: 'Al-Omani', credits: 10 },
-  { id: '2', email: 'user2@example.com', firstName: 'Fatima', lastName: 'Al-Sayed', credits: 5 },
-  { id: '3', email: 'user3@example.com', firstName: 'Omar', lastName: 'Al-Rashid', credits: 15 },
-]
 
 export default function AdminPanel() {
   const { isSignedIn, user } = useUser()
-  const [users, setUsers] = useState<User[]>(mockUsers)
+  const [users, setUsers] = useState<User[]>([])
   const [selectedUser, setSelectedUser] = useState<string>('')
   const [creditAmount, setCreditAmount] = useState<number>(0)
+  const [isLoading, setIsLoading] = useState(true)
+  const [isUpdating, setIsUpdating] = useState(false)
 
   // Simple admin check (in production, use proper role-based access)
   const isAdmin = user?.emailAddresses[0]?.emailAddress === 'admin@omani-clothing.com'
 
-  const updateUserCredits = () => {
-    if (!selectedUser || creditAmount === 0) return
+  // Fetch all users and their credits
+  useEffect(() => {
+    const fetchUsers = async () => {
+      if (!isSignedIn || !isAdmin) return
+      
+      try {
+        const response = await fetch('/api/admin/credits')
+        if (response.ok) {
+          const data = await response.json()
+          setUsers(data.users)
+        }
+      } catch (error) {
+        console.error('Error fetching users:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
 
-    setUsers(prevUsers => 
-      prevUsers.map(u => 
-        u.id === selectedUser 
-          ? { ...u, credits: u.credits + creditAmount }
-          : u
-      )
-    )
-    
-    setSelectedUser('')
-    setCreditAmount(0)
-    alert('Credits updated successfully!')
+    fetchUsers()
+  }, [isSignedIn, isAdmin])
+
+  const updateUserCredits = async () => {
+    if (!selectedUser || creditAmount === 0) {
+      alert('Please select a user and enter a credit amount')
+      return
+    }
+
+    setIsUpdating(true)
+    try {
+      const response = await fetch('/api/admin/credits', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          targetUserId: selectedUser,
+          action: 'add',
+          amount: creditAmount,
+          description: `Admin credit adjustment by ${user?.emailAddresses[0]?.emailAddress}`
+        }),
+      })
+
+      if (response.ok) {
+        alert('Credits updated successfully!')
+        setSelectedUser('')
+        setCreditAmount(0)
+        
+        // Refresh users list
+        const refreshResponse = await fetch('/api/admin/credits')
+        if (refreshResponse.ok) {
+          const data = await refreshResponse.json()
+          setUsers(data.users)
+        }
+      } else {
+        const errorData = await response.json()
+        alert(`Failed to update credits: ${errorData.error}`)
+      }
+    } catch (error) {
+      console.error('Error updating credits:', error)
+      alert('Error updating credits')
+    } finally {
+      setIsUpdating(false)
+    }
   }
 
   if (!isSignedIn) {
@@ -93,12 +141,23 @@ export default function AdminPanel() {
             <h2 className="text-xl font-semibold mb-4">User Management</h2>
             
             <div className="space-y-4">
-              {users.map(user => (
+              {isLoading ? (
+                <div className="text-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-600 mx-auto mb-4"></div>
+                  <p className="text-gray-600">Loading users...</p>
+                </div>
+              ) : users.length === 0 ? (
+                <div className="text-center py-8">
+                  <p className="text-gray-600">No users found</p>
+                </div>
+              ) : (
+                users.map(user => (
                 <div key={user.id} className="border border-gray-200 rounded-lg p-4">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h3 className="font-medium">{user.firstName} {user.lastName}</h3>
-                      <p className="text-sm text-gray-600">{user.email}</p>
+                      <h3 className="font-medium">{user.firstName || 'Unknown'} {user.lastName || 'User'}</h3>
+                      <p className="text-sm text-gray-600">{user.email || user.user_id}</p>
+                      <p className="text-xs text-gray-400">ID: {user.user_id}</p>
                     </div>
                     <div className="text-right">
                       <span className="text-lg font-bold text-blue-600">{user.credits}</span>
@@ -106,7 +165,8 @@ export default function AdminPanel() {
                     </div>
                   </div>
                 </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
 
@@ -126,8 +186,8 @@ export default function AdminPanel() {
                 >
                   <option value="">Choose a user...</option>
                   {users.map(user => (
-                    <option key={user.id} value={user.id}>
-                      {user.firstName} {user.lastName} ({user.email})
+                    <option key={user.id} value={user.user_id}>
+                      {user.firstName || 'Unknown'} {user.lastName || 'User'} ({user.email || user.user_id})
                     </option>
                   ))}
                 </select>
@@ -148,10 +208,10 @@ export default function AdminPanel() {
 
               <button
                 onClick={updateUserCredits}
-                disabled={!selectedUser || creditAmount === 0}
+                disabled={!selectedUser || creditAmount === 0 || isUpdating}
                 className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white py-3 rounded-lg font-medium transition-colors"
               >
-                Add Credits
+                {isUpdating ? 'Updating...' : 'Add Credits'}
               </button>
             </div>
           </div>
