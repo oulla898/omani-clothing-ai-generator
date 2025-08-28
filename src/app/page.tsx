@@ -19,16 +19,30 @@ export default function Home() {
       if (!isSignedIn || !user?.emailAddresses?.[0]?.emailAddress) return
       
       const userEmail = user.emailAddresses[0].emailAddress
-      console.log('Fetching credits for email:', userEmail)
+      
+      // Add debugging
+      console.log('=== CREDIT DEBUG ===');
+      console.log('User object:', user);
+      console.log('Email addresses:', user?.emailAddresses);
+      console.log('Primary email:', user?.emailAddresses?.[0]?.emailAddress);
+      console.log('User ID:', user?.id);
+      console.log('Device/Browser:', navigator.userAgent);
+      console.log('Fetching credits for email:', userEmail);
+      
       setIsLoadingCredits(true)
       try {
         const response = await fetch('/api/credits')
+        console.log('API Response status:', response.status);
+        console.log('API Response headers:', Object.fromEntries(response.headers));
+        
         if (response.ok) {
           const data = await response.json()
+          console.log('Credits API response:', data);
           console.log('Credits fetched successfully:', data.credits)
           setCredits(data.credits)
         } else {
-          console.error('Failed to fetch credits:', response.status, response.statusText)
+          const errorData = await response.text()
+          console.error('Failed to fetch credits:', response.status, response.statusText, errorData)
         }
       } catch (error) {
         console.error('Error fetching credits:', error)

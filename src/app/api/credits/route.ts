@@ -4,23 +4,41 @@ import { CreditManager } from '@/lib/credits'
 
 export async function GET() {
   try {
+    console.log('=== API CREDITS DEBUG ===');
+    
     // Check if user is authenticated
     const { userId } = await auth()
+    console.log('Clerk userId from auth():', userId);
+    
     if (!userId) {
+      console.log('No userId - returning unauthorized');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     // Get user's email from Clerk
     const client = await clerkClient()
+    console.log('ClerkClient created successfully');
+    
     const user = await client.users.getUser(userId)
+    console.log('Clerk user object:', {
+      id: user.id,
+      emailAddresses: user.emailAddresses,
+      primaryEmailAddressId: user.primaryEmailAddressId
+    });
+    
     const userEmail = user.emailAddresses.find((email: { id: string; emailAddress: string }) => email.id === user.primaryEmailAddressId)?.emailAddress
     
+    console.log('Extracted email:', userEmail);
+    console.log('All emails:', user.emailAddresses.map((e: any) => e.emailAddress));
+    
     if (!userEmail) {
+      console.log('No email found - returning error');
       return NextResponse.json({ error: 'No email found' }, { status: 400 })
     }
 
     console.log('Getting credits for email:', userEmail)
     const credits = await CreditManager.getUserCredits(userEmail)
+    console.log('Credits retrieved from database:', credits);
     
     return NextResponse.json({ credits })
   } catch (error) {

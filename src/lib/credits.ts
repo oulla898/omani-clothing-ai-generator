@@ -82,23 +82,36 @@ export class CreditManager {
    */
   static async getUserCredits(userEmail: string): Promise<number> {
     try {
+      console.log('=== CREDITMANAGER DEBUG ===');
+      console.log('Querying credits for email:', userEmail);
+      
       const { data, error } = await supabase
         .from('user_credits')
         .select('credits')
         .eq('user_email', userEmail)
         .single()
 
+      console.log('Supabase query result:', { data, error });
+
       if (error) {
+        console.log('Supabase error details:', {
+          code: error.code,
+          message: error.message,
+          details: error.details
+        });
+        
         // If user doesn't exist, initialize them ONLY if it's a "not found" error
         if (error.code === 'PGRST116') {
           console.log('User not found, initializing new user:', userEmail)
           const newUser = await this.initializeUserCredits(userEmail)
+          console.log('New user created:', newUser);
           return newUser?.credits || 0
         }
         console.error('Database error getting user credits:', error)
         throw error
       }
 
+      console.log('Credits found in database:', data.credits);
       return data.credits
     } catch (error) {
       console.error('Error getting user credits:', error)
