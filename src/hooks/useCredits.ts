@@ -14,7 +14,7 @@ export function useCredits() {
     if (user) {
       fetchUserCredits()
     }
-  }, [user])
+  }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchUserCredits = async () => {
     if (!user) return

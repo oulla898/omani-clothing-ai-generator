@@ -4,9 +4,18 @@ import { useState } from 'react'
 import { useUser } from '@clerk/nextjs'
 import { supabase } from '../lib/supabase'
 
+interface DebugResult {
+  step?: string
+  success?: boolean
+  data?: unknown
+  error?: string
+  user_id?: string
+  count?: number
+}
+
 export default function DebugPanel() {
   const { user } = useUser()
-  const [result, setResult] = useState<any>(null)
+  const [result, setResult] = useState<DebugResult | null>(null)
   const [loading, setLoading] = useState(false)
 
   const testConnection = async () => {

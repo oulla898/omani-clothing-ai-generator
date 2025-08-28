@@ -23,7 +23,7 @@ export function useGenerations() {
     if (user) {
       fetchGenerations()
     }
-  }, [user])
+  }, [user]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchGenerations = async () => {
     if (!user) return
