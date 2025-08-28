@@ -52,7 +52,8 @@ export default function Home() {
     }
 
     fetchCredits()
-  }, [isSignedIn, user?.emailAddresses, user])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSignedIn, user?.emailAddresses])
 
   const generateImage = async () => {
     if (!prompt.trim()) {
