@@ -3,9 +3,11 @@
 import { useState } from 'react'
 import { useUser, SignInButton, SignOutButton } from '@clerk/nextjs'
 import Image from 'next/image'
+import { useCredits } from '../hooks/useCredits'
 
 export default function Home() {
   const { isSignedIn, user } = useUser()
+  const { credits, loading: creditsLoading, hasCredits, deductCredit } = useCredits()
   const [prompt, setPrompt] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
@@ -17,9 +19,22 @@ export default function Home() {
       return
     }
 
+    if (!hasCredits) {
+      setError('You have no credits remaining. Please purchase more credits to continue.')
+      return
+    }
+
     setIsGenerating(true)
     setError(null)
     setGeneratedImage(null)
+
+    // Deduct credit first
+    const creditDeducted = await deductCredit()
+    if (!creditDeducted) {
+      setError('Failed to deduct credit. Please try again.')
+      setIsGenerating(false)
+      return
+    }
 
     try {
       const response = await fetch('/api/predictions', {
@@ -82,6 +97,12 @@ export default function Home() {
             <p className="text-gray-600">Welcome, {user?.firstName}!</p>
           </div>
           <div className="flex items-center gap-4">
+            <div className="bg-white px-4 py-2 rounded-lg shadow">
+              <span className="text-sm text-gray-600">Credits:</span>
+              <span className="ml-2 font-bold text-lg">
+                {creditsLoading ? '...' : credits ?? 0}
+              </span>
+            </div>
             <SignOutButton>
               <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors">
                 Sign Out
@@ -117,10 +138,10 @@ export default function Home() {
 
             <button
               onClick={generateImage}
-              disabled={isGenerating}
+              disabled={isGenerating || !hasCredits || creditsLoading}
               className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white py-3 rounded-lg font-medium transition-colors"
             >
-              {isGenerating ? 'Generating...' : 'Generate Image'}
+              {isGenerating ? 'Generating...' : !hasCredits ? 'No Credits Remaining' : 'Generate Image (1 Credit)'}
             </button>
 
             <p className="text-xs text-gray-500 mt-2">

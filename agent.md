@@ -17,6 +17,7 @@ This is a commercial AI image generation web application built with Next.js that
 - **Next.js API Routes** - Server-side API endpoints
 - **Replicate API** - AI image generation service
 - **Clerk** - Authentication and user management
+- **Supabase** - PostgreSQL database for credit tracking
 
 ### Development Tools
 - **ESLint** - Code linting
@@ -40,7 +41,13 @@ src/
 │   ├── globals.css                # Global styles
 │   ├── layout.tsx                 # Root layout with Clerk provider
 │   └── page.tsx                   # Main application page
+├── hooks/
+│   └── useCredits.ts              # Credit management hook
+├── lib/
+│   └── supabase.ts                # Supabase client configuration
 ├── middleware.ts                  # Clerk authentication middleware
+database/
+└── setup.sql                      # Database schema for credit system
 public/                            # Static assets
 ```
 
@@ -62,7 +69,15 @@ public/                            # Static assets
   - Generates 1:1 aspect ratio images in WebP format
   - Uses 28 inference steps for quality
 
-### 3. Responsive Design
+### 3. Credit System
+- **Database**: Supabase PostgreSQL
+- **Storage**: User credits tracked per Clerk user ID
+- **Allocation**: New users receive 10 free credits
+- **Cost**: 1 credit per image generation
+- **Validation**: Credits checked before generation
+- **Security**: Row Level Security (RLS) for data protection
+
+### 4. Responsive Design
 - **Framework**: Tailwind CSS
 - **Layout**: Grid-based responsive design
 - **Colors**: Purple/blue gradient theme
@@ -104,6 +119,9 @@ Generates AI images of traditional Omani clothing.
 REPLICATE_API_TOKEN=your_replicate_token_here
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key_here
 CLERK_SECRET_KEY=your_clerk_secret_key_here
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url_here
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key_here
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key_here
 ```
 
 ### Replicate Model Configuration
@@ -145,29 +163,45 @@ CLERK_SECRET_KEY=your_clerk_secret_key_here
 ### New User Journey
 1. **Landing Page**: Sees sign-in prompt with project description
 2. **Authentication**: Signs up/in via Clerk
-3. **Main Interface**: Accesses generation interface
-4. **Image Generation**: Enters prompt, generates image
-5. **Unlimited Usage**: Can generate as many images as desired
+3. **Credit Allocation**: Automatically receives 10 free credits
+4. **Main Interface**: Accesses generation interface with credit display
+5. **Image Generation**: Enters prompt, uses 1 credit per generation
+6. **Credit Management**: Can see remaining credits and usage limits
 
 ### Image Generation Process
 1. User enters description of traditional Omani clothing
-2. System validates prompt availability
-3. Shows loading state with spinner
-4. Calls Replicate API with enhanced prompt
-5. Displays generated image
-6. Ready for next generation
+2. System validates credit availability
+3. Deducts 1 credit from user balance
+4. Shows loading state with spinner
+5. Calls Replicate API with enhanced prompt
+6. Displays generated image
+7. Updates credit display
+8. Ready for next generation (if credits remain)
 
-## Database Considerations
+## Database Architecture
 
-### Current State
-- Simplified application focused on image generation
-- No credit tracking or limitations
-- User authentication only
+### Current Implementation
+- **Supabase PostgreSQL**: Production-ready database
+- **Credit Tracking**: Real-time credit balance management
+- **User Management**: Linked to Clerk authentication
+- **Security**: Row Level Security (RLS) policies
+- **Performance**: Optimized indexes and triggers
 
-### Future Implementation Needs
-- Image generation history
-- User analytics and reporting
-- Enhanced user profiles
+### Database Schema
+```sql
+user_credits table:
+- id: UUID (Primary Key)
+- user_id: TEXT (Clerk User ID)
+- credits: INTEGER (Default: 10)
+- created_at: TIMESTAMP
+- updated_at: TIMESTAMP (Auto-updated)
+```
+
+### Future Enhancement Needs
+- Credit purchase system integration
+- Image generation history tracking
+- User analytics and usage reporting
+- Enhanced user profiles with preferences
 
 ## Deployment Configuration
 
@@ -190,10 +224,11 @@ CLERK_SECRET_KEY=your_clerk_secret_key_here
 - Ready for future business features
 
 ### Business Logic
-- Unlimited image generation for authenticated users
-- User authentication requirement
-- Scalable architecture
-- Ready for future monetization features
+- **Freemium Model**: 10 free credits for new users
+- **Usage-Based**: 1 credit per image generation
+- **Scalable Pricing**: Ready for credit purchase system
+- **User Retention**: Credit system encourages engagement
+- **Monetization Ready**: Foundation for subscription or pay-per-use models
 
 ## Technical Excellence
 
