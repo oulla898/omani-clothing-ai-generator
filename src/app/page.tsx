@@ -16,9 +16,10 @@ export default function Home() {
   // Fetch user credits when component mounts or user changes
   useEffect(() => {
     const fetchCredits = async () => {
-      if (!isSignedIn || !user?.id) return
+      if (!isSignedIn || !user?.emailAddresses?.[0]?.emailAddress) return
       
-      console.log('Fetching credits for user:', user.id)
+      const userEmail = user.emailAddresses[0].emailAddress
+      console.log('Fetching credits for email:', userEmail)
       setIsLoadingCredits(true)
       try {
         const response = await fetch('/api/credits')
@@ -37,7 +38,7 @@ export default function Home() {
     }
 
     fetchCredits()
-  }, [isSignedIn, user?.id])
+  }, [isSignedIn, user?.emailAddresses?.[0]?.emailAddress])
 
   const generateImage = async () => {
     if (!prompt.trim()) {

@@ -1,4 +1,4 @@
-import { auth } from '@clerk/nextjs/server'
+import { auth, clerkClient } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { CreditManager } from '@/lib/credits'
 
@@ -10,7 +10,17 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const credits = await CreditManager.getUserCredits(userId)
+    // Get user's email from Clerk
+    const client = await clerkClient()
+    const user = await client.users.getUser(userId)
+    const userEmail = user.emailAddresses.find((email: any) => email.id === user.primaryEmailAddressId)?.emailAddress
+    
+    if (!userEmail) {
+      return NextResponse.json({ error: 'No email found' }, { status: 400 })
+    }
+
+    console.log('Getting credits for email:', userEmail)
+    const credits = await CreditManager.getUserCredits(userEmail)
     
     return NextResponse.json({ credits })
   } catch (error) {
@@ -30,6 +40,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    // Get user's email from Clerk
+    const client = await clerkClient()
+    const user = await client.users.getUser(userId)
+    const userEmail = user.emailAddresses.find((email: any) => email.id === user.primaryEmailAddressId)?.emailAddress
+    
+    if (!userEmail) {
+      return NextResponse.json({ error: 'No email found' }, { status: 400 })
+    }
+
     const { action, amount, description } = await request.json()
 
     if (!action || !amount) {
@@ -38,10 +57,12 @@ export async function POST(request: NextRequest) {
 
     let success = false
 
+    console.log(`${action} ${amount} credits for email:`, userEmail)
+
     if (action === 'deduct') {
-      success = await CreditManager.deductCredits(userId, amount, description)
+      success = await CreditManager.deductCredits(userEmail, amount, description)
     } else if (action === 'add') {
-      success = await CreditManager.addCredits(userId, amount, description)
+      success = await CreditManager.addCredits(userEmail, amount, description)
     } else {
       return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
     }
@@ -54,7 +75,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to update credits' }, { status: 500 })
     }
 
-    const newCredits = await CreditManager.getUserCredits(userId)
+    const newCredits = await CreditManager.getUserCredits(userEmail)
     
     return NextResponse.json({ credits: newCredits, success: true })
   } catch (error) {

@@ -2,7 +2,7 @@ import { supabase } from './supabase'
 
 export interface UserCredits {
   id: string
-  user_id: string
+  user_email: string
   credits: number
   created_at: string
   updated_at: string
@@ -10,7 +10,7 @@ export interface UserCredits {
 
 export interface CreditTransaction {
   id: string
-  user_id: string
+  user_email: string
   amount: number
   type: 'deduct' | 'add' | 'initial'
   description: string
@@ -21,13 +21,13 @@ export class CreditManager {
   /**
    * Initialize user with default credits (10) when they first sign up
    */
-  static async initializeUserCredits(userId: string): Promise<UserCredits | null> {
+  static async initializeUserCredits(userEmail: string): Promise<UserCredits | null> {
     try {
       // Double-check if user already has credits to prevent duplicates
       const { data: existing, error: checkError } = await supabase
         .from('user_credits')
         .select('*')
-        .eq('user_id', userId)
+        .eq('user_email', userEmail)
         .single()
 
       if (existing && !checkError) {
@@ -37,16 +37,16 @@ export class CreditManager {
 
       // Only create if user truly doesn't exist
       if (checkError && checkError.code === 'PGRST116') {
-        console.log('Creating new user credits for:', userId)
+        console.log('Creating new user credits for email:', userEmail)
         
         // Use upsert to handle race conditions
         const { data: newCredits, error: creditsError } = await supabase
           .from('user_credits')
           .upsert({
-            user_id: userId,
+            user_email: userEmail,
             credits: 10
           }, {
-            onConflict: 'user_id'
+            onConflict: 'user_email'
           })
           .select()
           .single()
@@ -60,7 +60,7 @@ export class CreditManager {
         await supabase
           .from('credit_transactions')
           .insert({
-            user_id: userId,
+            user_email: userEmail,
             amount: 10,
             type: 'initial',
             description: 'Initial signup bonus'
@@ -80,19 +80,19 @@ export class CreditManager {
   /**
    * Get user's current credit balance
    */
-  static async getUserCredits(userId: string): Promise<number> {
+  static async getUserCredits(userEmail: string): Promise<number> {
     try {
       const { data, error } = await supabase
         .from('user_credits')
         .select('credits')
-        .eq('user_id', userId)
+        .eq('user_email', userEmail)
         .single()
 
       if (error) {
         // If user doesn't exist, initialize them ONLY if it's a "not found" error
         if (error.code === 'PGRST116') {
-          console.log('User not found, initializing new user:', userId)
-          const newUser = await this.initializeUserCredits(userId)
+          console.log('User not found, initializing new user:', userEmail)
+          const newUser = await this.initializeUserCredits(userEmail)
           return newUser?.credits || 0
         }
         console.error('Database error getting user credits:', error)
@@ -109,10 +109,10 @@ export class CreditManager {
   /**
    * Deduct credits from user account
    */
-  static async deductCredits(userId: string, amount: number, description: string = 'Image generation'): Promise<boolean> {
+  static async deductCredits(userEmail: string, amount: number, description: string = 'Image generation'): Promise<boolean> {
     try {
       // Get current credits
-      const currentCredits = await this.getUserCredits(userId)
+      const currentCredits = await this.getUserCredits(userEmail)
       
       if (currentCredits < amount) {
         return false // Insufficient credits
@@ -124,7 +124,7 @@ export class CreditManager {
       const { error: updateError } = await supabase
         .from('user_credits')
         .update({ credits: newCredits })
-        .eq('user_id', userId)
+        .eq('user_email', userEmail)
 
       if (updateError) throw updateError
 
@@ -132,7 +132,7 @@ export class CreditManager {
       await supabase
         .from('credit_transactions')
         .insert({
-          user_id: userId,
+          user_email: userEmail,
           amount: -amount,
           type: 'deduct',
           description
@@ -148,17 +148,17 @@ export class CreditManager {
   /**
    * Add credits to user account
    */
-  static async addCredits(userId: string, amount: number, description: string = 'Credits added'): Promise<boolean> {
+  static async addCredits(userEmail: string, amount: number, description: string = 'Credits added'): Promise<boolean> {
     try {
       // Get current credits
-      const currentCredits = await this.getUserCredits(userId)
+      const currentCredits = await this.getUserCredits(userEmail)
       const newCredits = currentCredits + amount
 
       // Update credits
       const { error: updateError } = await supabase
         .from('user_credits')
         .update({ credits: newCredits })
-        .eq('user_id', userId)
+        .eq('user_email', userEmail)
 
       if (updateError) throw updateError
 
@@ -166,7 +166,7 @@ export class CreditManager {
       await supabase
         .from('credit_transactions')
         .insert({
-          user_id: userId,
+          user_email: userEmail,
           amount: amount,
           type: 'add',
           description
@@ -182,12 +182,12 @@ export class CreditManager {
   /**
    * Get user's credit transaction history
    */
-  static async getCreditHistory(userId: string, limit: number = 50): Promise<CreditTransaction[]> {
+  static async getCreditHistory(userEmail: string, limit: number = 50): Promise<CreditTransaction[]> {
     try {
       const { data, error } = await supabase
         .from('credit_transactions')
         .select('*')
-        .eq('user_id', userId)
+        .eq('user_email', userEmail)
         .order('created_at', { ascending: false })
         .limit(limit)
 
