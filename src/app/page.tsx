@@ -38,7 +38,7 @@ export default function Home() {
     }
 
     fetchCredits()
-  }, [isSignedIn, user?.emailAddresses?.[0]?.emailAddress])
+  }, [isSignedIn, user?.emailAddresses])
 
   const generateImage = async () => {
     if (!prompt.trim()) {

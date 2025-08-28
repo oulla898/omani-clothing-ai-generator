@@ -2,7 +2,7 @@ import { auth, clerkClient } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { CreditManager } from '@/lib/credits'
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     // Check if user is authenticated
     const { userId } = await auth()
@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     // Get user's email from Clerk
     const client = await clerkClient()
     const user = await client.users.getUser(userId)
-    const userEmail = user.emailAddresses.find((email: any) => email.id === user.primaryEmailAddressId)?.emailAddress
+    const userEmail = user.emailAddresses.find((email: { id: string; emailAddress: string }) => email.id === user.primaryEmailAddressId)?.emailAddress
     
     if (!userEmail) {
       return NextResponse.json({ error: 'No email found' }, { status: 400 })
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
     // Get user's email from Clerk
     const client = await clerkClient()
     const user = await client.users.getUser(userId)
-    const userEmail = user.emailAddresses.find((email: any) => email.id === user.primaryEmailAddressId)?.emailAddress
+    const userEmail = user.emailAddresses.find((email: { id: string; emailAddress: string }) => email.id === user.primaryEmailAddressId)?.emailAddress
     
     if (!userEmail) {
       return NextResponse.json({ error: 'No email found' }, { status: 400 })
