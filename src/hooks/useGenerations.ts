@@ -50,12 +50,7 @@ export function useGenerations() {
   }
 
   const saveGeneration = async (prompt: string, imageUrl: string): Promise<boolean> => {
-    if (!user) {
-      console.error('No user found when trying to save generation')
-      return false
-    }
-
-    console.log('Attempting to save generation:', { userId: user.id, prompt, imageUrl })
+    if (!user) return false
 
     try {
       const { data, error } = await supabase
@@ -67,12 +62,7 @@ export function useGenerations() {
         }])
         .select()
 
-      if (error) {
-        console.error('Supabase error saving generation:', error)
-        throw error
-      }
-
-      console.log('Generation saved successfully:', data)
+      if (error) throw error
 
       // Refresh the list to include the new generation
       await fetchGenerations()
