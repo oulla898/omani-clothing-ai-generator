@@ -32,6 +32,32 @@ export type Database = {
           updated_at?: string
         }
       }
+      user_generations: {
+        Row: {
+          id: string
+          user_id: string
+          prompt: string
+          image_url: string
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          prompt: string
+          image_url: string
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          prompt?: string
+          image_url?: string
+          created_at?: string
+          updated_at?: string
+        }
+      }
     }
   }
 }

@@ -4,14 +4,18 @@ import { useState } from 'react'
 import { useUser, SignInButton, SignOutButton } from '@clerk/nextjs'
 import Image from 'next/image'
 import { useCredits } from '../hooks/useCredits'
+import { useGenerations } from '../hooks/useGenerations'
+import ImageHistory from '../components/ImageHistory'
 
 export default function Home() {
   const { isSignedIn, user } = useUser()
   const { credits, loading: creditsLoading, hasCredits, deductCredit } = useCredits()
+  const { saveGeneration, totalGenerations } = useGenerations()
   const [prompt, setPrompt] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [activeTab, setActiveTab] = useState<'generate' | 'history'>('generate')
 
   const generateImage = async () => {
     if (!prompt.trim()) {
@@ -57,7 +61,13 @@ export default function Home() {
         throw new Error(data.error)
       }
 
-      setGeneratedImage(data.output?.[0])
+      const imageUrl = data.output?.[0]
+      setGeneratedImage(imageUrl)
+
+      // Save the generation to database
+      if (imageUrl) {
+        await saveGeneration(prompt, imageUrl)
+      }
     } catch (error) {
       setError(error instanceof Error ? error.message : 'An error occurred')
     } finally {
@@ -103,6 +113,12 @@ export default function Home() {
                 {creditsLoading ? '...' : credits ?? 0}
               </span>
             </div>
+            <div className="bg-white px-4 py-2 rounded-lg shadow">
+              <span className="text-sm text-gray-600">Images:</span>
+              <span className="ml-2 font-bold text-lg">
+                {totalGenerations}
+              </span>
+            </div>
             <SignOutButton>
               <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors">
                 Sign Out
@@ -111,6 +127,31 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Tab Navigation */}
+        <div className="flex space-x-1 bg-white rounded-lg p-1 shadow-lg mb-8">
+          <button
+            onClick={() => setActiveTab('generate')}
+            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+              activeTab === 'generate'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-600 hover:text-gray-800'
+            }`}
+          >
+            Generate New Image
+          </button>
+          <button
+            onClick={() => setActiveTab('history')}
+            className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+              activeTab === 'history'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-600 hover:text-gray-800'
+            }`}
+          >
+            Image History ({totalGenerations})
+          </button>
+        </div>
+
+        {activeTab === 'generate' ? (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Input Section */}
           <div className="bg-white rounded-lg shadow-lg p-6">
@@ -178,6 +219,9 @@ export default function Home() {
             </div>
           </div>
         </div>
+        ) : (
+          <ImageHistory />
+        )}
       </div>
     </div>
   )
