@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { useCredits } from '../hooks/useCredits'
 import { useGenerations } from '../hooks/useGenerations'
 import ImageHistory from '../components/ImageHistory'
+import DebugPanel from '../components/DebugPanel'
 
 export default function Home() {
   const { isSignedIn, user } = useUser()
@@ -66,7 +67,16 @@ export default function Home() {
 
       // Save the generation to database
       if (imageUrl) {
-        await saveGeneration(prompt, imageUrl)
+        console.log('Attempting to save generation to database...')
+        const saved = await saveGeneration(prompt, imageUrl)
+        if (saved) {
+          console.log('Generation saved successfully!')
+        } else {
+          console.error('Failed to save generation to database')
+          // Don't show error to user since image generation was successful
+        }
+      } else {
+        console.error('No image URL received from API')
       }
     } catch (error) {
       setError(error instanceof Error ? error.message : 'An error occurred')
@@ -152,6 +162,8 @@ export default function Home() {
         </div>
 
         {activeTab === 'generate' ? (
+        <>
+        <DebugPanel />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Input Section */}
           <div className="bg-white rounded-lg shadow-lg p-6">
@@ -219,6 +231,7 @@ export default function Home() {
             </div>
           </div>
         </div>
+        </>
         ) : (
           <ImageHistory />
         )}
