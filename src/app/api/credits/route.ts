@@ -29,7 +29,7 @@ export async function GET() {
     const userEmail = user.emailAddresses.find((email: { id: string; emailAddress: string }) => email.id === user.primaryEmailAddressId)?.emailAddress
     
     console.log('Extracted email:', userEmail);
-    console.log('All emails:', user.emailAddresses.map((e: any) => e.emailAddress));
+    console.log('All emails:', user.emailAddresses.map((e: { id: string; emailAddress: string }) => e.emailAddress));
     
     if (!userEmail) {
       console.log('No email found - returning error');

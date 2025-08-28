@@ -52,7 +52,7 @@ export default function Home() {
     }
 
     fetchCredits()
-  }, [isSignedIn, user?.emailAddresses])
+  }, [isSignedIn, user?.emailAddresses, user])
 
   const generateImage = async () => {
     if (!prompt.trim()) {
