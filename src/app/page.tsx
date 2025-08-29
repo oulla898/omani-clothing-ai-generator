@@ -153,12 +153,6 @@ export default function Home() {
               'ذكاء اصطناعي عماني يضبط لفة المِصر وهيبة البشت ولمعة الخنجر'
             )}
           </h1>
-          <p className="text-xl mb-8 opacity-95">
-            {getText(
-              'Describe what you want and let AI bring your vision to life with authentic Omani heritage.',
-              'اكتب ما تريده ودع الذكاء الاصطناعي يصنع حلمك بلمسة عُمانية أصيلة.'
-            )}
-          </p>
 
           {/* Generation Form */}
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 text-left">
