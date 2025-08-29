@@ -91,7 +91,7 @@ body {
 }
 
 /* RTL spacing fixes */
-[dir="rtl"] .hidden.md\\:flex.items-center.nav-links {
+[dir="rtl"] .nav-links {
   gap: 1.5rem;
   margin-left: 0;
   margin-right: 0;
