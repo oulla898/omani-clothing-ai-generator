@@ -1,5 +1,6 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Aref+Ruqaa:wght@400;700&family=Amiri:wght@400;700&family=Scheherazade+New:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Scheherazade+New:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700;800;900&display=swap');
 
 :root {
   --background: #ffffff;
@@ -19,13 +20,27 @@ body {
   font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
 }
 
+.font-english {
+  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+  direction: ltr;
+}
+
 .font-arabic {
-  font-family: 'Scheherazade New', 'Noto Naskh Arabic', 'Amiri', serif !important;
+  font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', 'Aref Ruqaa', 'Tahoma', sans-serif !important;
+  direction: rtl;
+}
+
+.font-arabic * {
+  font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', 'Aref Ruqaa', 'Tahoma', sans-serif !important;
 }
 
 .font-arabic h1, .font-arabic h2, .font-arabic h3 {
-  font-family: 'Aref Ruqaa', 'Amiri', serif !important;
+  font-family: 'Aref Ruqaa', 'Amiri', 'Noto Naskh Arabic', serif !important;
   font-weight: 700;
+}
+
+.font-arabic p, .font-arabic span, .font-arabic div, .font-arabic button, .font-arabic textarea, .font-arabic input {
+  font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', 'Tahoma', sans-serif !important;
 }
 
 .logo-font {
@@ -35,9 +50,9 @@ body {
 }
 
 .logo-font-arabic {
-  font-family: 'Aref Ruqaa', 'Amiri', serif !important;
+  font-family: 'Aref Ruqaa', 'Amiri', 'Noto Naskh Arabic', serif !important;
   font-weight: 700;
-  font-size: 1.2em;
+  font-size: 1.3em;
 }
 
 html {

@@ -94,7 +94,7 @@ export default function Home() {
   }
 
   return (
-    <div className={`min-h-screen ${currentLang === 'ar' ? 'font-arabic' : ''}`} dir={currentLang === 'ar' ? 'rtl' : 'ltr'}>
+    <div className={`min-h-screen ${currentLang === 'ar' ? 'font-arabic' : 'font-english'}`} dir={currentLang === 'ar' ? 'rtl' : 'ltr'} style={{fontFamily: currentLang === 'ar' ? '"Noto Naskh Arabic", "Scheherazade New", "Amiri", "Aref Ruqaa", "Tahoma", sans-serif' : '"Cormorant Garamond", "Playfair Display", Georgia, serif'}}>
       {/* Header */}
       <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-200">
         <nav className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -153,6 +153,12 @@ export default function Home() {
               'ذكاء اصطناعي عماني يضبط لفة المِصر وهيبة البشت ولمعة الخنجر'
             )}
           </h1>
+          <p className="text-xl mb-8 opacity-95">
+            {getText(
+              'Describe what you want and let AI bring your vision to life with authentic Omani heritage.',
+              'اكتب ما تريده ودع الذكاء الاصطناعي يصنع حلمك بلمسة عُمانية أصيلة.'
+            )}
+          </p>
 
           {/* Generation Form */}
           <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 text-left">
