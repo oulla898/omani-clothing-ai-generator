@@ -53,7 +53,7 @@ export function useGenerations() {
     if (!user) return false
 
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from('user_generations')
         .insert([{
           user_id: user.id,

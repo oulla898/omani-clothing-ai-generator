@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useUser, SignInButton, SignOutButton } from '@clerk/nextjs'
 import Image from 'next/image'
 import { useCredits } from '../hooks/useCredits'
@@ -8,9 +8,9 @@ import { useGenerations } from '../hooks/useGenerations'
 import ImageHistory from '../components/ImageHistory'
 
 export default function Home() {
-  const { isSignedIn, user } = useUser()
+  const { isSignedIn } = useUser()
   const { credits, loading: creditsLoading, hasCredits, deductCredit } = useCredits()
-  const { saveGeneration, totalGenerations } = useGenerations()
+  const { saveGeneration } = useGenerations()
   const [prompt, setPrompt] = useState('')
   const [isGenerating, setIsGenerating] = useState(false)
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
