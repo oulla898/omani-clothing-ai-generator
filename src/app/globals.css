@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Sans+Arabic:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Aref+Ruqaa:wght@400;700&family=Amiri+Quran:wght@400&family=Scheherazade+New:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap');
 
 :root {
   --background: #ffffff;
@@ -16,16 +16,28 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
 }
 
 .font-arabic {
-  font-family: 'Noto Sans Arabic', 'Amiri', Tahoma, sans-serif;
+  font-family: 'Scheherazade New', 'Noto Naskh Arabic', 'Aref Ruqaa', serif;
 }
 
 .font-arabic h1, .font-arabic h2, .font-arabic h3 {
-  font-family: 'Amiri', serif;
+  font-family: 'Aref Ruqaa', 'Amiri Quran', serif;
   font-weight: 700;
+}
+
+.logo-font {
+  font-family: 'Playfair Display', 'Cormorant Garamond', serif;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.logo-font-arabic {
+  font-family: 'Aref Ruqaa', 'Amiri Quran', serif;
+  font-weight: 700;
+  font-size: 1.2em;
 }
 
 html {

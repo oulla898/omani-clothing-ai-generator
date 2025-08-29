@@ -98,8 +98,8 @@ export default function Home() {
       {/* Header */}
       <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-200">
         <nav className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            {getText('Omani AI', 'الذكاء العُماني')}
+          <div className={`text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent ${currentLang === 'ar' ? 'logo-font-arabic' : 'logo-font-arabic'}`}>
+            هيبة
           </div>
           
           <div className="hidden md:flex items-center space-x-6">
@@ -156,7 +156,7 @@ export default function Home() {
           <p className="text-xl mb-8 opacity-95">
             {getText(
               'Describe what you want and let AI bring your vision to life with authentic Omani heritage.',
-              'اكتب ما تريده ودع الذكاء الاصطناعي يحقق رؤيتك بلمسة من موروثنا الأصيل.'
+              'اكتب ما تريده ودع الذكاء الاصطناعي يصنع حلمك بلمسة عُمانية أصيلة.'
             )}
           </p>
 
@@ -359,7 +359,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-8 px-4 text-center">
         <p className="opacity-80">
-          {getText('© 2025 Omani AI — Made with care for our heritage', '© 2025 الذكاء العُماني — صُنع بحب لتراثنا')}
+          {getText('© 2025 Heiba — Made with care for our heritage', '© 2025 هيبة — صُنع بحب لتراثنا')}
         </p>
       </footer>
 
