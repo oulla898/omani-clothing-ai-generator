@@ -1,13 +1,4 @@
-# Omani Traditional Clothing AI Generator
-
-A Next.js application that generates beautiful images of traditional Omani clothing using AI.
-
-## Features
-
-- 🤖 AI-powered image generation using Replicate
-- 🔐 User authentication with Clerk
-- 🎨 Beautiful UI with Tailwind CSS
-- ⚡ Built with Next.js 15
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
 
