@@ -94,15 +94,15 @@ export default function Home() {
   }
 
   return (
-    <div className={`min-h-screen ${currentLang === 'ar' ? 'font-arabic' : 'font-english'}`} dir={currentLang === 'ar' ? 'rtl' : 'ltr'} style={{fontFamily: currentLang === 'ar' ? '"Noto Naskh Arabic", "Scheherazade New", "Amiri", "Aref Ruqaa", "Tahoma", sans-serif' : '"Cormorant Garamond", "Playfair Display", Georgia, serif'}}>
+    <div className={`min-h-screen ${currentLang === 'ar' ? 'font-arabic' : 'font-english'}`} dir={currentLang === 'ar' ? 'rtl' : 'ltr'}>
       {/* Header */}
       <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-200">
         <nav className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <div className={`text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent ${currentLang === 'ar' ? 'logo-font-arabic' : 'logo-font-arabic'}`}>
+          <div className="logo-font-arabic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
             هيبة
           </div>
           
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden md:flex items-center space-x-6 nav-links">
             <a href="#home" className="text-gray-700 hover:text-purple-600 transition-colors">
               {getText('Home', 'الرئيسية')}
             </a>
@@ -146,7 +146,7 @@ export default function Home() {
 
       {/* Hero Section */}
       <section id="home" className="min-h-screen flex items-center justify-center pt-20 px-4 bg-gradient-to-br from-purple-600 to-blue-600 text-white">
-        <div className="max-w-2xl text-center">
+        <div className="max-w-2xl text-center content-area">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
             {getText(
               'Create Traditional Omani Portraits with AI',
@@ -182,7 +182,7 @@ export default function Home() {
             <button
               onClick={handleGenerateAttempt}
               disabled={isGenerating || (isSignedIn && !hasCredits)}
-              className="w-full mt-6 bg-white text-purple-600 py-4 rounded-2xl font-bold hover:bg-gray-100 disabled:bg-gray-400 disabled:text-gray-600 transition-all transform hover:scale-105"
+              className="w-full mt-6 bg-white text-purple-600 py-4 rounded-2xl font-bold hover:bg-gray-100 disabled:bg-gray-400 disabled:text-gray-600 transition-all transform hover:scale-105 content-btn"
             >
               {isGenerating 
                 ? getText('Generating...', 'جاري الإنشاء...')

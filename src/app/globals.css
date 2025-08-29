@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Scheherazade+New:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Pacifico&family=Kaushan+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lalezar&family=Rakkas&family=Katibeh&family=Reem+Kufi:wght@400;500;600;700&display=swap');
 
 :root {
   --background: #ffffff;
@@ -30,7 +32,8 @@ body {
   direction: rtl;
 }
 
-.font-arabic * {
+/* Only apply Arabic fonts to Arabic content, not navigation */
+.font-arabic .content-area * {
   font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', 'Aref Ruqaa', 'Tahoma', sans-serif !important;
 }
 
@@ -39,20 +42,64 @@ body {
   font-weight: 700;
 }
 
-.font-arabic p, .font-arabic span, .font-arabic div, .font-arabic button, .font-arabic textarea, .font-arabic input {
+.font-arabic p, .font-arabic span, .font-arabic div.content-area, .font-arabic button.content-btn, .font-arabic textarea, .font-arabic input {
   font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', 'Tahoma', sans-serif !important;
 }
 
+/* Logo fonts - fancy and decorative */
 .logo-font {
-  font-family: 'Playfair Display', 'Cormorant Garamond', serif;
-  font-weight: 800;
-  letter-spacing: 0.5px;
+  font-family: 'Great Vibes', 'Dancing Script', 'Kaushan Script', cursive !important;
+  font-weight: 400;
+  letter-spacing: 1px;
+  font-size: 1.8rem !important;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .logo-font-arabic {
-  font-family: 'Aref Ruqaa', 'Amiri', 'Noto Naskh Arabic', serif !important;
-  font-weight: 700;
-  font-size: 1.3em;
+  font-family: 'Rakkas', 'Lalezar', 'Katibeh', 'Reem Kufi', 'Aref Ruqaa', serif !important;
+  font-weight: 400;
+  font-size: 2.2rem !important;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Navigation specific styles */
+.nav-links {
+  font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif !important;
+}
+
+/* RTL Navigation fixes */
+.font-arabic .nav-links {
+  font-family: 'Noto Naskh Arabic', 'Tahoma', sans-serif !important;
+  direction: rtl;
+}
+
+.font-arabic .nav-links a {
+  font-family: 'Noto Naskh Arabic', 'Tahoma', sans-serif !important;
+  padding: 0.5rem 1rem;
+}
+
+/* RTL Header layout fixes */
+[dir="rtl"] .nav-links {
+  flex-direction: row-reverse;
+  gap: 1.5rem;
+}
+
+[dir="rtl"] .language-toggle {
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+/* RTL spacing fixes */
+[dir="rtl"] .hidden.md\\:flex.items-center.nav-links {
+  gap: 1.5rem;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+[dir="rtl"] .nav-links a {
+  margin-left: 0;
+  margin-right: 0;
 }
 
 html {
