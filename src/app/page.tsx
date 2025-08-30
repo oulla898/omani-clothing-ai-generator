@@ -98,8 +98,15 @@ export default function Home() {
       {/* Header */}
       <header className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-200">
         <nav className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="logo-font-arabic bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            هيبة
+          <div className="flex items-center">
+            <Image
+              src="/logo.png"
+              alt="هيبة"
+              width={120}
+              height={60}
+              className="h-12 w-auto"
+              priority
+            />
           </div>
           
           <div className="hidden md:flex items-center space-x-6 nav-links">
