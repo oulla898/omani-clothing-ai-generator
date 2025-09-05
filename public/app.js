@@ -4,11 +4,15 @@ class OmaniAI {
         this.currentLanguage = 'en';
         this.isAuthenticated = false;
         this.userCredits = 0;
+        this.clerk = null;
         this.init();
     }
 
     async init() {
         console.log('🚀 Initializing Omani AI Generator...');
+        
+        // Initialize Clerk first
+        await this.initializeClerk();
         
         // Setup event listeners
         this.setupEventListeners();
@@ -16,10 +20,47 @@ class OmaniAI {
         // Initialize language
         this.updateLanguage();
         
-        // Check authentication status
-        await this.checkAuthStatus();
-        
         console.log('✅ App initialized successfully');
+    }
+
+    async initializeClerk() {
+        try {
+            // Wait for Clerk to be loaded
+            while (!window.Clerk) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+            
+            this.clerk = window.Clerk;
+            await this.clerk.load();
+            
+            // Check initial auth state
+            const session = this.clerk.session;
+            this.isAuthenticated = !!session;
+            this.updateAuthUI(this.isAuthenticated);
+            
+            if (this.isAuthenticated) {
+                await this.loadUserCredits();
+            }
+            
+            // Listen for auth changes
+            this.clerk.addListener(({ session }) => {
+                const wasAuthenticated = this.isAuthenticated;
+                this.isAuthenticated = !!session;
+                
+                if (this.isAuthenticated !== wasAuthenticated) {
+                    this.updateAuthUI(this.isAuthenticated);
+                    if (this.isAuthenticated) {
+                        this.loadUserCredits();
+                    } else {
+                        this.userCredits = 0;
+                        this.updateCreditsDisplay();
+                    }
+                }
+            });
+            
+        } catch (error) {
+            console.error('Failed to initialize Clerk:', error);
+        }
     }
 
     setupEventListeners() {
@@ -97,24 +138,6 @@ class OmaniAI {
     }
 
     // Authentication
-    async checkAuthStatus() {
-        try {
-            const response = await fetch('/api/auth/check');
-            if (response.ok) {
-                const data = await response.json();
-                this.isAuthenticated = data.authenticated;
-                
-                if (this.isAuthenticated) {
-                    this.updateAuthUI(true);
-                    await this.loadUserCredits();
-                }
-            }
-        } catch (error) {
-            console.log('Authentication check failed:', error);
-            this.isAuthenticated = false;
-        }
-    }
-
     handleAuth() {
         if (this.isAuthenticated) {
             this.signOut();
@@ -123,20 +146,32 @@ class OmaniAI {
         }
     }
 
-    signIn() {
-        // Redirect to Clerk sign-in
-        window.location.href = '/api/auth/signin';
+    async signIn() {
+        try {
+            if (this.clerk) {
+                await this.clerk.openSignIn();
+            }
+        } catch (error) {
+            console.error('Sign in failed:', error);
+            this.showMessage('Sign in failed', 'error');
+        }
     }
 
     async signOut() {
         try {
-            await fetch('/api/auth/signout', { method: 'POST' });
-            this.isAuthenticated = false;
-            this.userCredits = 0;
-            this.updateAuthUI(false);
-            this.showMessage('Signed out successfully', 'success');
+            if (this.clerk) {
+                await this.clerk.signOut();
+                this.showMessage(
+                    this.currentLanguage === 'ar' ? 'تم تسجيل الخروج بنجاح' : 'Signed out successfully', 
+                    'success'
+                );
+            }
         } catch (error) {
-            this.showMessage('Sign out failed', 'error');
+            console.error('Sign out failed:', error);
+            this.showMessage(
+                this.currentLanguage === 'ar' ? 'فشل تسجيل الخروج' : 'Sign out failed', 
+                'error'
+            );
         }
     }
 

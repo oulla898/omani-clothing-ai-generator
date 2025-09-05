@@ -10,7 +10,7 @@ export class TranslationService {
 
   static async translateAndEnhance(prompt: string): Promise<string> {
     try {
-      const model = genAI.getGenerativeModel({ model: 'gemini-pro' })
+      const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
       
       const enhancePrompt = this.isArabicText(prompt)
         ? `Translate this Arabic description to English and enhance it for AI image generation of traditional Omani clothing. Focus on details like colors, patterns, fabrics, and traditional elements. Keep it concise but descriptive: "${prompt}"`
