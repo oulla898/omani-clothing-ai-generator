@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omani Clothing AI Generator | مولد الملابس العمانية</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-200 sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo & Brand -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">ع</span>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-gray-900" data-en="Omani Clothing AI" data-ar="مولد الملابس العمانية">Omani Clothing AI</h1>
+                        <p class="text-xs text-gray-500" data-en="AI-powered traditional wear" data-ar="ملابس تقليدية بالذكاء الاصطناعي">AI-powered traditional wear</p>
+                    </div>
+                </div>
+                
+                <!-- Actions -->
+                <div class="flex items-center space-x-3">
+                    <!-- Language Toggle -->
+                    <button id="languageToggle" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition duration-200 text-sm font-medium">
+                        <span id="languageText">عربي</span>
+                    </button>
+                    
+                    <!-- Credits Display -->
+                    <div id="creditsDisplay" class="hidden px-3 py-2 bg-green-100 text-green-700 rounded-lg text-sm font-medium">
+                        <span data-en="Credits:" data-ar="الرصيد:">Credits:</span> 
+                        <span id="creditsCount" class="font-bold">0</span>
+                    </div>
+                    
+                    <!-- Auth Button -->
+                    <button id="authButton" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200 font-medium">
+                        <span data-en="Sign In" data-ar="تسجيل الدخول">Sign In</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Status Messages -->
+        <div id="statusContainer" class="mb-6"></div>
+        
+        <!-- Hero Section -->
+        <section class="text-center mb-12">
+            <div class="max-w-3xl mx-auto">
+                <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                    <span data-en="Generate Beautiful" data-ar="توليد ملابس عمانية">Generate Beautiful</span><br>
+                    <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" data-en="Omani Traditional Clothing" data-ar="تقليدية جميلة">Omani Traditional Clothing</span>
+                </h2>
+                
+                <p class="text-xl text-gray-600 mb-8 leading-relaxed" data-en="Create stunning AI-generated images of traditional Omani clothing. Simply describe what you want in Arabic or English." data-ar="أنشئ صوراً مذهلة للملابس العمانية التقليدية باستخدام الذكاء الاصطناعي. اكتب وصفاً لما تريد بالعربية أو الإنجليزية.">
+                    Create stunning AI-generated images of traditional Omani clothing. Simply describe what you want in Arabic or English.
+                </p>
+                
+                <div class="flex flex-wrap justify-center gap-4 text-sm text-gray-500">
+                    <span class="flex items-center">
+                        <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+                        <span data-en="Free to use" data-ar="مجاني الاستخدام">Free to use</span>
+                    </span>
+                    <span class="flex items-center">
+                        <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+                        <span data-en="Arabic & English" data-ar="عربي وإنجليزي">Arabic & English</span>
+                    </span>
+                    <span class="flex items-center">
+                        <span class="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
+                        <span data-en="High Quality" data-ar="جودة عالية">High Quality</span>
+                    </span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Generation Form -->
+        <section class="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 sm:p-8 mb-8">
+            <form id="generateForm" class="space-y-6">
+                
+                <!-- Person Type Selection -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-3" data-en="Choose Type" data-ar="اختر النوع">Choose Type</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="personType" value="man" class="sr-only peer" checked>
+                            <div class="p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-300 transition duration-200">
+                                <div class="text-2xl mb-2">👨</div>
+                                <span class="text-sm font-medium" data-en="Man" data-ar="رجل">Man</span>
+                            </div>
+                        </label>
+                        
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="personType" value="woman" class="sr-only peer">
+                            <div class="p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-300 transition duration-200">
+                                <div class="text-2xl mb-2">👩</div>
+                                <span class="text-sm font-medium" data-en="Woman" data-ar="امرأة">Woman</span>
+                            </div>
+                        </label>
+                        
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="personType" value="child" class="sr-only peer">
+                            <div class="p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-300 transition duration-200">
+                                <div class="text-2xl mb-2">🧒</div>
+                                <span class="text-sm font-medium" data-en="Child" data-ar="طفل">Child</span>
+                            </div>
+                        </label>
+                        
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="personType" value="family" class="sr-only peer">
+                            <div class="p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-300 transition duration-200">
+                                <div class="text-2xl mb-2">👨‍👩‍👧‍👦</div>
+                                <span class="text-sm font-medium" data-en="Family" data-ar="عائلة">Family</span>
+                            </div>
+                        </label>
+                        
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="personType" value="groom" class="sr-only peer">
+                            <div class="p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-300 transition duration-200">
+                                <div class="text-2xl mb-2">🤵</div>
+                                <span class="text-sm font-medium" data-en="Groom" data-ar="عريس">Groom</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Description Input -->
+                <div>
+                    <label for="description" class="block text-sm font-semibold text-gray-700 mb-2" data-en="Describe Your Vision" data-ar="اكتب وصفك">Describe Your Vision</label>
+                    <textarea 
+                        id="description" 
+                        name="description"
+                        rows="4" 
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-lg" 
+                        placeholder="اكتب وصفاً للملابس العمانية التي تريد توليدها..."
+                        data-placeholder-en="Describe the Omani clothing you want to generate..."
+                        data-placeholder-ar="اكتب وصفاً للملابس العمانية التي تريد توليدها..."
+                    ></textarea>
+                    <p class="mt-2 text-sm text-gray-500" data-en="You can write in Arabic or English. Be specific about colors, patterns, and style." data-ar="يمكنك الكتابة بالعربية أو الإنجليزية. كن محدداً في الألوان والأنماط والطراز.">
+                        You can write in Arabic or English. Be specific about colors, patterns, and style.
+                    </p>
+                </div>
+
+                <!-- Generate Button -->
+                <button 
+                    type="submit" 
+                    id="generateButton"
+                    class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                >
+                    <span id="generateButtonText" data-en="✨ Generate Image" data-ar="✨ توليد الصورة">✨ Generate Image</span>
+                    <span id="generateButtonLoading" class="hidden">
+                        <span class="inline-block animate-spin mr-2">⏳</span>
+                        <span data-en="Generating..." data-ar="جاري التوليد...">Generating...</span>
+                    </span>
+                </button>
+            </form>
+        </section>
+
+        <!-- Generated Image Display -->
+        <section id="imageResult" class="hidden bg-white rounded-2xl shadow-xl border border-gray-200 p-6 sm:p-8 mb-8">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center" data-en="Your Generated Image" data-ar="صورتك المولدة">Your Generated Image</h3>
+            
+            <div class="text-center">
+                <div class="inline-block p-4 bg-gray-50 rounded-2xl">
+                    <img id="generatedImage" src="" alt="Generated Omani clothing" class="max-w-full h-auto rounded-xl shadow-lg max-h-96">
+                </div>
+                
+                <div class="mt-6 flex flex-wrap justify-center gap-3">
+                    <button id="downloadButton" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-medium transition duration-200">
+                        <span data-en="📥 Download" data-ar="📥 تحميل">📥 Download</span>
+                    </button>
+                    <button id="generateAnotherButton" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition duration-200">
+                        <span data-en="🎨 Generate Another" data-ar="🎨 توليد آخر">🎨 Generate Another</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sample Gallery -->
+        <section class="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 sm:p-8">
+            <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center" data-en="Sample Gallery" data-ar="معرض العينات">Sample Gallery</h3>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="text-center">
+                    <div class="bg-gray-100 rounded-xl h-48 flex items-center justify-center mb-3">
+                        <span class="text-gray-400 text-sm" data-en="Sample Image 1" data-ar="صورة نموذجية 1">Sample Image 1</span>
+                    </div>
+                    <p class="text-sm text-gray-600" data-en="Traditional Omani Dishdasha" data-ar="دشداشة عمانية تقليدية">Traditional Omani Dishdasha</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-gray-100 rounded-xl h-48 flex items-center justify-center mb-3">
+                        <span class="text-gray-400 text-sm" data-en="Sample Image 2" data-ar="صورة نموذجية 2">Sample Image 2</span>
+                    </div>
+                    <p class="text-sm text-gray-600" data-en="Elegant Abaya Design" data-ar="تصميم عباءة أنيق">Elegant Abaya Design</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-gray-100 rounded-xl h-48 flex items-center justify-center mb-3">
+                        <span class="text-gray-400 text-sm" data-en="Sample Image 3" data-ar="صورة نموذجية 3">Sample Image 3</span>
+                    </div>
+                    <p class="text-sm text-gray-600" data-en="Wedding Ceremonial Wear" data-ar="ملابس احتفالية للزفاف">Wedding Ceremonial Wear</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 border-t border-gray-200 py-8 mt-12">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-600" data-en="Made with ❤️ for preserving Omani heritage through AI" data-ar="صُنع بـ ❤️ للمحافظة على التراث العماني من خلال الذكاء الاصطناعي">
+                Made with ❤️ for preserving Omani heritage through AI
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="/app.js"></script>
+</body>
+</html>
