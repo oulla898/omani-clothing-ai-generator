@@ -1,7 +1,6 @@
 import { auth, clerkClient } from '@clerk/nextjs/server'
-import { NextRequest } from 'next/server'
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   const { userId, sessionId } = await auth()
   
   if (!userId || !sessionId) {
