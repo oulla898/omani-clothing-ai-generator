@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import Replicate from 'replicate'
 import { CreditsManager } from '@/lib/credits'
 import { TranslationService } from '@/lib/translation'
+import { supabase } from '@/lib/supabase'
 
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
@@ -72,6 +73,27 @@ export async function POST(request: NextRequest) {
       }, { status: 500 })
     }
 
+    const imageUrl = result.output?.[0] || result.output
+
+    // Save generation to database
+    try {
+      const { error: dbError } = await supabase
+        .from('user_generations')
+        .insert({
+          user_id: userId,
+          prompt: prompt,
+          image_url: imageUrl,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        })
+
+      if (dbError) {
+        console.error('Failed to save generation to database:', dbError)
+      }
+    } catch (dbError) {
+      console.error('Database save error:', dbError)
+    }
+
     // Deduct credits
     const deductSuccess = await CreditsManager.deductCredits(userId, 1)
     if (!deductSuccess) {
@@ -83,9 +105,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      image: result.output?.[0] || result.output,
-      remainingCredits,
-      prompt: enhancedPrompt
+      imageUrl: imageUrl,
+      enhancedPrompt: enhancedPrompt,
+      remainingCredits
     })
 
   } catch (error) {

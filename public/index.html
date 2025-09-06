@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omani Clothing AI Generator | مولد الملابس العمانية</title>
+    <title>هيبة | مولد الأزياء العمانية بالذكاء الاصطناعي</title>
     
     <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,224 +15,765 @@
     <!-- Clerk Authentication -->
     <script async crossorigin="anonymous" data-clerk-publishable-key="pk_test_bWVhc3VyZWQtY2hvdy01Ny5jbGVyay5hY2NvdW50cy5kZXYk" src="https://wise-parakeet-29.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" type="text/javascript"></script>
     
-    <!-- Custom Styles -->
-    <link rel="stylesheet" href="/style.css">
+    <style>
+        .font-arabic { font-family: 'Noto Sans Arabic', 'Arial Unicode MS', sans-serif; }
+        .font-english { font-family: 'Inter', 'Segoe UI', sans-serif; }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .sample-image {
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .sample-image:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .floating-action {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+        }
+        
+        .history-modal {
+            display: none;
+        }
+        
+        .history-modal.active {
+            display: flex;
+        }
+        
+        .refined-prompt {
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .refined-prompt.show {
+            display: block;
+        }
+        
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .generation-status {
+            display: none;
+        }
+        
+        .generation-status.active {
+            display: block;
+        }
+    </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-    
-    <!-- Navigation -->
-    <nav class="bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-200 sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-4">
-                <!-- Logo & Brand -->
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-                        <span class="text-white font-bold text-lg">ع</span>
-                    </div>
-                    <div>
-                        <h1 class="font-bold text-gray-900" data-en="Omani Clothing AI" data-ar="مولد الملابس العمانية">Omani Clothing AI</h1>
-                        <p class="text-xs text-gray-500" data-en="AI-powered traditional wear" data-ar="ملابس تقليدية بالذكاء الاصطناعي">AI-powered traditional wear</p>
-                    </div>
+<body class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 font-english">
+
+    <!-- Top Section - Generation Area -->
+    <div class="min-h-screen flex flex-col">
+        
+        <!-- Header -->
+        <header class="glass-effect sticky top-0 z-40 px-4 py-3">
+            <div class="flex items-center justify-between max-w-7xl mx-auto">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <img src="logo.png" alt="Logo" class="w-10 h-10 rounded-full">
                 </div>
                 
-                <!-- Actions -->
-                <div class="flex items-center space-x-3">
+                <!-- Account Area -->
+                <div class="flex items-center space-x-4 space-x-reverse">
                     <!-- Language Toggle -->
-                    <button id="languageToggle" class="px-3 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition duration-200 text-sm font-medium">
-                        <span id="languageText">عربي</span>
+                    <button id="languageToggle" class="px-3 py-2 rounded-full text-sm font-medium bg-white/20 hover:bg-white/30 transition-colors">
+                        <span id="languageText">English</span>
                     </button>
                     
                     <!-- Credits Display -->
-                    <div id="creditsDisplay" class="hidden px-3 py-2 bg-green-100 text-green-700 rounded-lg text-sm font-medium">
-                        <span data-en="Credits:" data-ar="الرصيد:">Credits:</span> 
-                        <span id="creditsCount" class="font-bold">0</span>
+                    <div id="creditsDisplay" class="hidden px-3 py-2 bg-green-100 rounded-full">
+                        <span class="text-sm font-medium text-green-800">
+                            <span data-en="Credits:" data-ar="الرصيد:">الرصيد:</span>
+                            <span id="creditsCount">0</span>
+                        </span>
                     </div>
                     
                     <!-- Auth Button -->
-                    <button id="authButton" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200 font-medium">
-                        <span data-en="Sign In" data-ar="تسجيل الدخول">Sign In</span>
+                    <button id="authButton" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full text-sm font-medium transition-colors">
+                        <span data-en="Sign In" data-ar="تسجيل الدخول">تسجيل الدخول</span>
                     </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Generation Section -->
+        <main class="flex-1 flex items-center justify-center px-4 py-8">
+            <div class="w-full max-w-2xl">
+                
+                <!-- Hero Text -->
+                <div class="text-center mb-8">
+                    <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-4">
+                        <span data-en="Create Traditional" data-ar="أنشئ أزياء">أنشئ أزياء</span><br>
+                        <span class="gradient-bg bg-clip-text text-transparent" data-en="Omani Fashion" data-ar="عمانية تراثية">عمانية تراثية</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-6" data-en="AI that perfects the Misar fold, Bisht elegance, and Khanjar shine" data-ar="ذكاء اصطناعي عماني يضبط لفة المِصر وهيبة البشت ولمعة الخنجر">ذكاء اصطناعي عماني يضبط لفة المِصر وهيبة البشت ولمعة الخنجر</p>
+                </div>
+
+                <!-- Generation Form -->
+                <div class="bg-white/80 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-xl border border-white/20">
+                    
+                    <!-- Description Input -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-3" data-en="Describe your vision:" data-ar="صف رؤيتك:">صف رؤيتك:</label>
+                        <textarea 
+                            id="description" 
+                            rows="4" 
+                            class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none"
+                            data-placeholder-en="Describe the traditional Omani clothing you want to create..."
+                            data-placeholder-ar="صف الأزياء العمانية التراثية التي تريد إنشاءها..."
+                            placeholder="صف الأزياء العمانية التراثية التي تريد إنشاءها..."></textarea>
+                    </div>
+
+                    <!-- Generate Button -->
+                    <button id="generateButton" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-2xl transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg">
+                        <span data-en="✨ Generate Traditional Clothing" data-ar="✨ أنشئ الأزياء التراثية">✨ أنشئ الأزياء التراثية</span>
+                    </button>
+
+                    <!-- Refined Prompt Display (Initially Hidden) -->
+                    <div id="refinedPrompt" class="refined-prompt mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-medium text-blue-800" data-en="🤖 AI Enhanced Prompt:" data-ar="🤖 الوصف المحسن بالذكاء الاصطناعي:">🤖 الوصف المحسن بالذكاء الاصطناعي:</span>
+                            <button id="hideRefinedPrompt" class="text-blue-600 hover:text-blue-800 text-xs">✕</button>
+                        </div>
+                        <p id="refinedPromptText" class="text-sm text-blue-700"></p>
+                    </div>
+
+                    <!-- Generation Status -->
+                    <div id="generationStatus" class="generation-status mt-4 p-4 bg-amber-50 rounded-xl border border-amber-200 text-center">
+                        <div class="animate-spin w-6 h-6 border-2 border-amber-600 border-t-transparent rounded-full mx-auto mb-2"></div>
+                        <p class="text-sm text-amber-700" data-en="Creating your traditional Omani clothing..." data-ar="جارٍ إنشاء أزياءك العمانية التراثية...">جارٍ إنشاء أزياءك العمانية التراثية...</p>
+                    </div>
+
+                    <!-- Generated Image Display -->
+                    <div id="imageResult" class="mt-6 hidden">
+                        <div class="relative">
+                            <img id="generatedImage" src="" alt="Generated Image" class="w-full rounded-2xl shadow-lg">
+                            <button id="downloadImage" class="absolute top-4 right-4 p-2 bg-white/90 hover:bg-white rounded-full shadow-lg transition-colors">
+                                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sample Images Preview -->
+                <div class="mt-8 text-center">
+                    <button id="viewSamplesButton" class="text-indigo-600 hover:text-indigo-800 font-medium" data-en="👇 View Sample Creations" data-ar="👇 شاهد النماذج">👇 شاهد النماذج</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Sample Images Section -->
+    <section id="samplesSection" class="py-16 px-4 bg-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800" data-en="Sample Traditional Creations" data-ar="نماذج من الإبداعات التراثية">نماذج من الإبداعات التراثية</h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <div class="card-hover">
+                    <img src="رجل لابس مصر وبشت.jpg" alt="رجل لابس مصر وبشت" class="sample-image w-full">
+                    <p class="text-center mt-2 text-sm text-gray-600" data-en="Traditional Misar & Bisht" data-ar="مصر وبشت تراثي">مصر وبشت تراثي</p>
+                </div>
+                
+                <div class="card-hover">
+                    <img src="طفل لابس مصر وبشت.jpg" alt="طفل لابس مصر وبشت" class="sample-image w-full">
+                    <p class="text-center mt-2 text-sm text-gray-600" data-en="Child in Traditional Wear" data-ar="طفل بالزي التراثي">طفل بالزي التراثي</p>
+                </div>
+                
+                <div class="card-hover">
+                    <img src="عائلة رحال لابس مصر وبشت والللطفل لابس بس مصر.jpg" alt="عائلة تراثية" class="sample-image w-full">
+                    <p class="text-center mt-2 text-sm text-gray-600" data-en="Traditional Family" data-ar="عائلة تراثية">عائلة تراثية</p>
+                </div>
+                
+                <div class="card-hover">
+                    <img src="معرس بشت وخنجر.jpg" alt="معرس بشت وخنجر" class="sample-image w-full">
+                    <p class="text-center mt-2 text-sm text-gray-600" data-en="Groom with Bisht & Khanjar" data-ar="معرس ببشت وخنجر">معرس ببشت وخنجر</p>
                 </div>
             </div>
         </div>
-    </nav>
+    </section>
 
-    <!-- Main Content -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        <!-- Status Messages -->
-        <div id="statusContainer" class="mb-6"></div>
-        
-        <!-- Hero Section -->
-        <section class="text-center mb-12">
-            <div class="max-w-3xl mx-auto">
-                <h2 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-                    <span data-en="Generate Beautiful" data-ar="توليد ملابس عمانية">Generate Beautiful</span><br>
-                    <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent" data-en="Omani Traditional Clothing" data-ar="تقليدية جميلة">Omani Traditional Clothing</span>
-                </h2>
+    <!-- Features Section -->
+    <section class="py-16 px-4 bg-gray-50">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-gray-800 text-center" data-en="Carefully Designed Features" data-ar="مزايا صُمِّمت بعناية">مزايا صُمِّمت بعناية</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-lg card-hover">
+                    <div class="text-4xl mb-4">🎨</div>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800" data-en="Authentic Details" data-ar="تفاصيل أصيلة">تفاصيل أصيلة</h3>
+                    <p class="text-gray-600 leading-relaxed" data-en="Model fine-tuned for traditional Omani clothing with attention to patterns, colors, and Omani features." data-ar="النموذج صنع للأزياء العُمانية الرجالية مع اهتمام بالنقوش والألوان والملامح العمانية.">النموذج صنع للأزياء العُمانية الرجالية مع اهتمام بالنقوش والألوان والملامح العمانية.</p>
+                </div>
                 
-                <p class="text-xl text-gray-600 mb-8 leading-relaxed" data-en="Create stunning AI-generated images of traditional Omani clothing. Simply describe what you want in Arabic or English." data-ar="أنشئ صوراً مذهلة للملابس العمانية التقليدية باستخدام الذكاء الاصطناعي. اكتب وصفاً لما تريد بالعربية أو الإنجليزية.">
-                    Create stunning AI-generated images of traditional Omani clothing. Simply describe what you want in Arabic or English.
-                </p>
+                <div class="bg-white p-8 rounded-2xl shadow-lg card-hover">
+                    <div class="text-4xl mb-4">🇴🇲</div>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800" data-en="Made in Oman" data-ar="تراثنا في أيدٍ أمينة">تراثنا في أيدٍ أمينة</h3>
+                    <p class="text-gray-600 leading-relaxed" data-en="Developed by an Omani team passionate about preserving the beauty of our traditional attire with cutting-edge technology" data-ar="فريق عُماني يعمل بشغف للحفاظ على رونق لبسنا وتطويره بأحدث التقنيات">فريق عُماني يعمل بشغف للحفاظ على رونق لبسنا وتطويره بأحدث التقنيات</p>
+                </div>
                 
-                <div class="flex flex-wrap justify-center gap-4 text-sm text-gray-500">
-                    <span class="flex items-center">
-                        <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
-                        <span data-en="Free to use" data-ar="مجاني الاستخدام">Free to use</span>
-                    </span>
-                    <span class="flex items-center">
-                        <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
-                        <span data-en="Arabic & English" data-ar="عربي وإنجليزي">Arabic & English</span>
-                    </span>
-                    <span class="flex items-center">
-                        <span class="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
-                        <span data-en="High Quality" data-ar="جودة عالية">High Quality</span>
-                    </span>
+                <div class="bg-white p-8 rounded-2xl shadow-lg card-hover">
+                    <div class="text-4xl mb-4">⏱️</div>
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800" data-en="Fast & Reliable" data-ar="سريع وموثوق">سريع وموثوق</h3>
+                    <p class="text-gray-600 leading-relaxed" data-en="Most results are completed within seconds to under a minute, depending on service load." data-ar="غالبية النتائج تُنجز خلال ثوانٍ إلى أقل من دقيقة، بحسب الضغط على الخدمة.">غالبية النتائج تُنجز خلال ثوانٍ إلى أقل من دقيقة، بحسب الضغط على الخدمة.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Generation Form -->
-        <section class="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 sm:p-8 mb-8">
-            <form id="generateForm" class="space-y-6">
-                
-                <!-- Person Type Selection -->
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-3" data-en="Choose Type" data-ar="اختر النوع">Choose Type</label>
-                    <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                        <label class="relative cursor-pointer">
-                            <input type="radio" name="personType" value="man" class="sr-only peer" checked>
-                            <div class="p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-300 transition duration-200">
-                                <div class="text-2xl mb-2">👨</div>
-                                <span class="text-sm font-medium" data-en="Man" data-ar="رجل">Man</span>
-                            </div>
-                        </label>
-                        
-                        <label class="relative cursor-pointer">
-                            <input type="radio" name="personType" value="woman" class="sr-only peer">
-                            <div class="p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-300 transition duration-200">
-                                <div class="text-2xl mb-2">👩</div>
-                                <span class="text-sm font-medium" data-en="Woman" data-ar="امرأة">Woman</span>
-                            </div>
-                        </label>
-                        
-                        <label class="relative cursor-pointer">
-                            <input type="radio" name="personType" value="child" class="sr-only peer">
-                            <div class="p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-300 transition duration-200">
-                                <div class="text-2xl mb-2">🧒</div>
-                                <span class="text-sm font-medium" data-en="Child" data-ar="طفل">Child</span>
-                            </div>
-                        </label>
-                        
-                        <label class="relative cursor-pointer">
-                            <input type="radio" name="personType" value="family" class="sr-only peer">
-                            <div class="p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-300 transition duration-200">
-                                <div class="text-2xl mb-2">👨‍👩‍👧‍👦</div>
-                                <span class="text-sm font-medium" data-en="Family" data-ar="عائلة">Family</span>
-                            </div>
-                        </label>
-                        
-                        <label class="relative cursor-pointer">
-                            <input type="radio" name="personType" value="groom" class="sr-only peer">
-                            <div class="p-4 text-center border-2 border-gray-200 rounded-xl peer-checked:border-blue-500 peer-checked:bg-blue-50 hover:border-gray-300 transition duration-200">
-                                <div class="text-2xl mb-2">🤵</div>
-                                <span class="text-sm font-medium" data-en="Groom" data-ar="عريس">Groom</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
+    <!-- Floating History Button -->
+    <button id="historyButton" class="floating-action bg-indigo-600 hover:bg-indigo-700 text-white p-4 rounded-full shadow-lg transition-all transform hover:scale-110">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+    </button>
 
-                <!-- Description Input -->
-                <div>
-                    <label for="description" class="block text-sm font-semibold text-gray-700 mb-2" data-en="Describe Your Vision" data-ar="اكتب وصفك">Describe Your Vision</label>
-                    <textarea 
-                        id="description" 
-                        name="description"
-                        rows="4" 
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-lg" 
-                        placeholder="اكتب وصفاً للملابس العمانية التي تريد توليدها..."
-                        data-placeholder-en="Describe the Omani clothing you want to generate..."
-                        data-placeholder-ar="اكتب وصفاً للملابس العمانية التي تريد توليدها..."
-                    ></textarea>
-                    <p class="mt-2 text-sm text-gray-500" data-en="You can write in Arabic or English. Be specific about colors, patterns, and style." data-ar="يمكنك الكتابة بالعربية أو الإنجليزية. كن محدداً في الألوان والأنماط والطراز.">
-                        You can write in Arabic or English. Be specific about colors, patterns, and style.
-                    </p>
-                </div>
-
-                <!-- Generate Button -->
-                <button 
-                    type="submit" 
-                    id="generateButton"
-                    class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl transition duration-200 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
-                >
-                    <span id="generateButtonText" data-en="✨ Generate Image" data-ar="✨ توليد الصورة">✨ Generate Image</span>
-                    <span id="generateButtonLoading" class="hidden">
-                        <span class="inline-block animate-spin mr-2">⏳</span>
-                        <span data-en="Generating..." data-ar="جاري التوليد...">Generating...</span>
-                    </span>
-                </button>
-            </form>
-        </section>
-
-        <!-- Generated Image Display -->
-        <section id="imageResult" class="hidden bg-white rounded-2xl shadow-xl border border-gray-200 p-6 sm:p-8 mb-8">
-            <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center" data-en="Your Generated Image" data-ar="صورتك المولدة">Your Generated Image</h3>
-            
-            <div class="text-center">
-                <div class="inline-block p-4 bg-gray-50 rounded-2xl">
-                    <img id="generatedImage" src="" alt="Generated Omani clothing" class="max-w-full h-auto rounded-xl shadow-lg max-h-96">
-                </div>
-                
-                <div class="mt-6 flex flex-wrap justify-center gap-3">
-                    <button id="downloadButton" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-medium transition duration-200">
-                        <span data-en="📥 Download" data-ar="📥 تحميل">📥 Download</span>
-                    </button>
-                    <button id="generateAnotherButton" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-medium transition duration-200">
-                        <span data-en="🎨 Generate Another" data-ar="🎨 توليد آخر">🎨 Generate Another</span>
+    <!-- History Modal -->
+    <div id="historyModal" class="history-modal fixed inset-0 bg-black/50 backdrop-blur-sm z-50 items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[80vh] overflow-hidden">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xl font-bold text-gray-800" data-en="Your Creation History" data-ar="تاريخ إبداعاتك">تاريخ إبداعاتك</h3>
+                    <button id="closeHistoryModal" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
                     </button>
                 </div>
             </div>
-        </section>
-
-        <!-- Sample Gallery -->
-        <section class="bg-white rounded-2xl shadow-xl border border-gray-200 p-6 sm:p-8">
-            <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center" data-en="Sample Gallery" data-ar="معرض العينات">Sample Gallery</h3>
-            
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="text-center">
-                    <div class="bg-gray-100 rounded-xl h-48 flex items-center justify-center mb-3">
-                        <span class="text-gray-400 text-sm" data-en="Sample Image 1" data-ar="صورة نموذجية 1">Sample Image 1</span>
-                    </div>
-                    <p class="text-sm text-gray-600" data-en="Traditional Omani Dishdasha" data-ar="دشداشة عمانية تقليدية">Traditional Omani Dishdasha</p>
-                </div>
-                
-                <div class="text-center">
-                    <div class="bg-gray-100 rounded-xl h-48 flex items-center justify-center mb-3">
-                        <span class="text-gray-400 text-sm" data-en="Sample Image 2" data-ar="صورة نموذجية 2">Sample Image 2</span>
-                    </div>
-                    <p class="text-sm text-gray-600" data-en="Elegant Abaya Design" data-ar="تصميم عباءة أنيق">Elegant Abaya Design</p>
-                </div>
-                
-                <div class="text-center">
-                    <div class="bg-gray-100 rounded-xl h-48 flex items-center justify-center mb-3">
-                        <span class="text-gray-400 text-sm" data-en="Sample Image 3" data-ar="صورة نموذجية 3">Sample Image 3</span>
-                    </div>
-                    <p class="text-sm text-gray-600" data-en="Wedding Ceremonial Wear" data-ar="ملابس احتفالية للزفاف">Wedding Ceremonial Wear</p>
+            <div class="p-6 overflow-y-auto max-h-[60vh]">
+                <div id="historyGrid" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <!-- History items will be populated here -->
+                    <div class="text-center text-gray-500 col-span-full py-8" data-en="No generations yet. Create your first traditional clothing!" data-ar="لا توجد إبداعات بعد. أنشئ أول أزياءك التراثية!">لا توجد إبداعات بعد. أنشئ أول أزياءك التراثية!</div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </div>
 
     <!-- Footer -->
-    <footer class="bg-gray-50 border-t border-gray-200 py-8 mt-12">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-gray-600" data-en="Made with ❤️ for preserving Omani heritage through AI" data-ar="صُنع بـ ❤️ للمحافظة على التراث العماني من خلال الذكاء الاصطناعي">
-                Made with ❤️ for preserving Omani heritage through AI
-            </p>
+    <footer class="bg-gray-900 text-white py-8 px-4">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-sm opacity-80">© 2025 هيبة — صُنع بحب لتراثنا</p>
         </div>
     </footer>
 
-    <!-- JavaScript -->
-    <script src="/app.js"></script>
+    <!-- Message Display -->
+    <div id="messageContainer" class="fixed top-20 right-4 z-50"></div>
+
+    <!-- Placeholder for Future Gemini AI Messaging -->
+    <div id="aiMessagePlaceholder" class="hidden fixed bottom-20 left-4 right-4 bg-blue-100 border border-blue-300 rounded-2xl p-4 z-40">
+        <div class="flex items-start space-x-3 space-x-reverse">
+            <div class="flex-shrink-0 w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                <span class="text-white text-sm">🤖</span>
+            </div>
+            <div class="flex-1">
+                <p class="text-sm text-blue-800" data-en="AI trained for men's clothing only currently. Stay tuned for updates!" data-ar="الذكاء الاصطناعي مدرب على الملابس الرجالية فقط في الوقت الحالي. ترقب التحديث!">الذكاء الاصطناعي مدرب على الملابس الرجالية فقط في الوقت الحالي. ترقب التحديث!</p>
+            </div>
+            <button class="text-blue-600 hover:text-blue-800">✕</button>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced OmaniAI class with new features
+        class OmaniAI {
+            constructor() {
+                this.currentLanguage = 'ar';
+                this.isAuthenticated = false;
+                this.userCredits = 0;
+                this.clerk = null;
+                this.savedPrompt = '';
+                this.init();
+            }
+
+            async init() {
+                console.log('🚀 Initializing Modern Omani AI Generator...');
+                
+                await this.initializeClerk();
+                this.setupEventListeners();
+                this.updateLanguage();
+                
+                console.log('✅ Modern app initialized successfully');
+            }
+
+            async initializeClerk() {
+                try {
+                    while (!window.Clerk) {
+                        await new Promise(resolve => setTimeout(resolve, 100));
+                    }
+                    
+                    this.clerk = window.Clerk;
+                    await this.clerk.load();
+                    
+                    const session = this.clerk.session;
+                    this.isAuthenticated = !!session;
+                    this.updateAuthUI(this.isAuthenticated);
+                    
+                    if (this.isAuthenticated) {
+                        await this.loadUserCredits();
+                        await this.loadUserHistory();
+                    }
+                    
+                    this.clerk.addListener(({ session }) => {
+                        const wasAuthenticated = this.isAuthenticated;
+                        this.isAuthenticated = !!session;
+                        
+                        if (this.isAuthenticated !== wasAuthenticated) {
+                            this.updateAuthUI(this.isAuthenticated);
+                            if (this.isAuthenticated) {
+                                this.loadUserCredits();
+                                this.loadUserHistory();
+                                // Restore saved prompt if exists
+                                if (this.savedPrompt) {
+                                    document.getElementById('description').value = this.savedPrompt;
+                                    this.savedPrompt = '';
+                                }
+                            } else {
+                                this.userCredits = 0;
+                                this.updateCreditsDisplay();
+                            }
+                        }
+                    });
+                    
+                } catch (error) {
+                    console.error('Failed to initialize Clerk:', error);
+                }
+            }
+
+            setupEventListeners() {
+                // Language toggle
+                document.getElementById('languageToggle')?.addEventListener('click', () => {
+                    this.toggleLanguage();
+                });
+
+                // Auth button
+                document.getElementById('authButton')?.addEventListener('click', () => {
+                    this.handleAuth();
+                });
+
+                // Generate button
+                document.getElementById('generateButton')?.addEventListener('click', () => {
+                    this.handleGenerate();
+                });
+
+                // View samples scroll
+                document.getElementById('viewSamplesButton')?.addEventListener('click', () => {
+                    document.getElementById('samplesSection').scrollIntoView({ behavior: 'smooth' });
+                });
+
+                // History button
+                document.getElementById('historyButton')?.addEventListener('click', () => {
+                    this.openHistoryModal();
+                });
+
+                // Close history modal
+                document.getElementById('closeHistoryModal')?.addEventListener('click', () => {
+                    this.closeHistoryModal();
+                });
+
+                // Hide refined prompt
+                document.getElementById('hideRefinedPrompt')?.addEventListener('click', () => {
+                    this.hideRefinedPrompt();
+                });
+
+                // Download image
+                document.getElementById('downloadImage')?.addEventListener('click', () => {
+                    this.downloadImage();
+                });
+            }
+
+            toggleLanguage() {
+                this.currentLanguage = this.currentLanguage === 'en' ? 'ar' : 'en';
+                this.updateLanguage();
+            }
+
+            updateLanguage() {
+                const html = document.documentElement;
+                const languageText = document.getElementById('languageText');
+                const description = document.getElementById('description');
+
+                if (this.currentLanguage === 'ar') {
+                    html.setAttribute('dir', 'rtl');
+                    html.setAttribute('lang', 'ar');
+                    html.classList.add('font-arabic');
+                    html.classList.remove('font-english');
+                    if (languageText) languageText.textContent = 'English';
+                    
+                    if (description) {
+                        description.placeholder = description.getAttribute('data-placeholder-ar');
+                    }
+                } else {
+                    html.setAttribute('dir', 'ltr');
+                    html.setAttribute('lang', 'en');
+                    html.classList.add('font-english');
+                    html.classList.remove('font-arabic');
+                    if (languageText) languageText.textContent = 'عربي';
+                    
+                    if (description) {
+                        description.placeholder = description.getAttribute('data-placeholder-en');
+                    }
+                }
+
+                document.querySelectorAll('[data-en][data-ar]').forEach(element => {
+                    const text = this.currentLanguage === 'ar' 
+                        ? element.getAttribute('data-ar')
+                        : element.getAttribute('data-en');
+                    element.textContent = text;
+                });
+
+                console.log(`🌐 Language updated to: ${this.currentLanguage}`);
+            }
+
+            // Authentication methods
+            handleAuth() {
+                if (this.isAuthenticated) {
+                    this.signOut();
+                } else {
+                    this.signIn();
+                }
+            }
+
+            async signIn() {
+                try {
+                    if (this.clerk) {
+                        await this.clerk.openSignIn();
+                    }
+                } catch (error) {
+                    console.error('Sign in failed:', error);
+                    this.showMessage('Sign in failed', 'error');
+                }
+            }
+
+            async signOut() {
+                try {
+                    if (this.clerk) {
+                        await this.clerk.signOut();
+                        this.showMessage(
+                            this.currentLanguage === 'ar' ? 'تم تسجيل الخروج بنجاح' : 'Signed out successfully', 
+                            'success'
+                        );
+                    }
+                } catch (error) {
+                    console.error('Sign out failed:', error);
+                    this.showMessage(
+                        this.currentLanguage === 'ar' ? 'فشل تسجيل الخروج' : 'Sign out failed', 
+                        'error'
+                    );
+                }
+            }
+
+            updateAuthUI(authenticated) {
+                const authButton = document.getElementById('authButton');
+                const creditsDisplay = document.getElementById('creditsDisplay');
+
+                if (authenticated) {
+                    authButton.innerHTML = this.currentLanguage === 'ar' 
+                        ? 'تسجيل الخروج' 
+                        : 'Sign Out';
+                    creditsDisplay?.classList.remove('hidden');
+                } else {
+                    authButton.innerHTML = this.currentLanguage === 'ar' 
+                        ? 'تسجيل الدخول' 
+                        : 'Sign In';
+                    creditsDisplay?.classList.add('hidden');
+                }
+            }
+
+            // Credits management
+            async loadUserCredits() {
+                try {
+                    const response = await fetch('/api/credits');
+                    if (response.ok) {
+                        const data = await response.json();
+                        this.userCredits = data.credits;
+                        this.updateCreditsDisplay();
+                    }
+                } catch (error) {
+                    console.error('Failed to load credits:', error);
+                }
+            }
+
+            updateCreditsDisplay() {
+                const creditsCount = document.getElementById('creditsCount');
+                if (creditsCount) {
+                    creditsCount.textContent = this.userCredits;
+                }
+            }
+
+            // Image generation
+            async handleGenerate() {
+                if (!this.isAuthenticated) {
+                    // Save prompt for after login
+                    this.savedPrompt = document.getElementById('description').value;
+                    
+                    this.showMessage(
+                        this.currentLanguage === 'ar' 
+                            ? 'يرجى تسجيل الدخول أولاً' 
+                            : 'Please sign in first',
+                        'warning'
+                    );
+                    await this.signIn();
+                    return;
+                }
+
+                if (this.userCredits <= 0) {
+                    this.showMessage(
+                        this.currentLanguage === 'ar' 
+                            ? 'رصيدك منتهي' 
+                            : 'No credits remaining',
+                        'warning'
+                    );
+                    return;
+                }
+
+                const description = document.getElementById('description').value.trim();
+                if (!description) {
+                    this.showMessage(
+                        this.currentLanguage === 'ar' 
+                            ? 'يرجى إدخال وصف للأزياء' 
+                            : 'Please enter a description',
+                        'warning'
+                    );
+                    return;
+                }
+
+                const prompt = description;
+
+                this.showGenerationStatus(true);
+                this.hideRefinedPrompt();
+                this.hideImageResult();
+
+                try {
+                    const response = await fetch('/api/generate', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        // Show refined prompt
+                        this.showRefinedPrompt(data.enhancedPrompt);
+                        
+                        // Show generated image
+                        this.showImageResult(data.imageUrl);
+                        
+                        // Update credits
+                        this.userCredits = data.remainingCredits;
+                        this.updateCreditsDisplay();
+                        
+                        // Reload history
+                        await this.loadUserHistory();
+                        
+                        this.showMessage(
+                            this.currentLanguage === 'ar' 
+                                ? 'تم إنشاء الصورة بنجاح!' 
+                                : 'Image generated successfully!',
+                            'success'
+                        );
+                    } else {
+                        throw new Error(data.error || 'Generation failed');
+                    }
+                } catch (error) {
+                    console.error('Generation error:', error);
+                    this.showMessage(
+                        this.currentLanguage === 'ar' 
+                            ? 'فشل في إنشاء الصورة' 
+                            : 'Failed to generate image',
+                        'error'
+                    );
+                } finally {
+                    this.showGenerationStatus(false);
+                }
+            }
+
+            showRefinedPrompt(prompt) {
+                const container = document.getElementById('refinedPrompt');
+                const text = document.getElementById('refinedPromptText');
+                
+                if (container && text) {
+                    text.textContent = prompt;
+                    container.classList.add('show');
+                }
+            }
+
+            hideRefinedPrompt() {
+                const container = document.getElementById('refinedPrompt');
+                if (container) {
+                    container.classList.remove('show');
+                }
+            }
+
+            showImageResult(imageUrl) {
+                const container = document.getElementById('imageResult');
+                const image = document.getElementById('generatedImage');
+                
+                if (container && image) {
+                    image.src = imageUrl;
+                    container.classList.remove('hidden');
+                }
+            }
+
+            hideImageResult() {
+                const container = document.getElementById('imageResult');
+                if (container) {
+                    container.classList.add('hidden');
+                }
+            }
+
+            showGenerationStatus(show) {
+                const status = document.getElementById('generationStatus');
+                if (status) {
+                    if (show) {
+                        status.classList.add('active');
+                    } else {
+                        status.classList.remove('active');
+                    }
+                }
+            }
+
+            // History management
+            async loadUserHistory() {
+                if (!this.isAuthenticated) return;
+
+                try {
+                    const response = await fetch('/api/history');
+                    if (response.ok) {
+                        const data = await response.json();
+                        this.updateHistoryGrid(data.generations || []);
+                    }
+                } catch (error) {
+                    console.error('Failed to load history:', error);
+                }
+            }
+
+            updateHistoryGrid(generations) {
+                const grid = document.getElementById('historyGrid');
+                if (!grid) return;
+
+                if (generations.length === 0) {
+                    grid.innerHTML = `
+                        <div class="text-center text-gray-500 col-span-full py-8" data-en="No generations yet. Create your first traditional clothing!" data-ar="لا توجد إبداعات بعد. أنشئ أول أزياءك التراثية!">
+                            ${this.currentLanguage === 'ar' ? 'لا توجد إبداعات بعد. أنشئ أول أزياءك التراثية!' : 'No generations yet. Create your first traditional clothing!'}
+                        </div>
+                    `;
+                    return;
+                }
+
+                grid.innerHTML = generations.map(gen => `
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                        <div class="aspect-square">
+                            <img src="${gen.image_url}" alt="${gen.prompt}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-3">
+                            <p class="text-xs text-gray-600 truncate">${gen.prompt}</p>
+                            <p class="text-xs text-gray-400 mt-1">${new Date(gen.created_at).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            openHistoryModal() {
+                if (!this.isAuthenticated) {
+                    this.showMessage(
+                        this.currentLanguage === 'ar' 
+                            ? 'يرجى تسجيل الدخول لرؤية التاريخ' 
+                            : 'Please sign in to view history',
+                        'warning'
+                    );
+                    return;
+                }
+
+                const modal = document.getElementById('historyModal');
+                if (modal) {
+                    modal.classList.add('active');
+                }
+            }
+
+            closeHistoryModal() {
+                const modal = document.getElementById('historyModal');
+                if (modal) {
+                    modal.classList.remove('active');
+                }
+            }
+
+            // Utility methods
+            downloadImage() {
+                const image = document.getElementById('generatedImage');
+                if (image && image.src) {
+                    const link = document.createElement('a');
+                    link.href = image.src;
+                    link.download = `omani-traditional-clothing-${Date.now()}.webp`;
+                    link.click();
+                }
+            }
+
+            showMessage(message, type = 'info') {
+                const container = document.getElementById('messageContainer');
+                if (!container) return;
+
+                const messageEl = document.createElement('div');
+                const bgColor = {
+                    success: 'bg-green-100 border-green-300 text-green-800',
+                    error: 'bg-red-100 border-red-300 text-red-800',
+                    warning: 'bg-amber-100 border-amber-300 text-amber-800',
+                    info: 'bg-blue-100 border-blue-300 text-blue-800'
+                };
+
+                messageEl.className = `${bgColor[type]} px-4 py-3 rounded-xl border mb-2 transform translate-x-full transition-transform duration-300`;
+                messageEl.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm">${message}</span>
+                        <button onclick="this.parentElement.parentElement.remove()" class="ml-2 text-current opacity-70 hover:opacity-100">✕</button>
+                    </div>
+                `;
+
+                container.appendChild(messageEl);
+
+                // Slide in
+                setTimeout(() => {
+                    messageEl.classList.remove('translate-x-full');
+                }, 10);
+
+                // Auto remove after 5 seconds
+                setTimeout(() => {
+                    if (messageEl.parentNode) {
+                        messageEl.classList.add('translate-x-full');
+                        setTimeout(() => messageEl.remove(), 300);
+                    }
+                }, 5000);
+            }
+        }
+
+        // Initialize the app
+        const app = new OmaniAI();
+    </script>
 </body>
 </html>
