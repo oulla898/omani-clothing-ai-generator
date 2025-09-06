@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import Replicate from 'replicate'
 import { CreditsManager } from '@/lib/credits'
 import { TranslationService } from '@/lib/translation'
+import { NotificationService } from '@/lib/notificationService'
 import { supabase } from '@/lib/supabase'
 
 const replicate = new Replicate({
@@ -35,9 +36,16 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    // Translate and enhance the prompt
-    const enhancedPrompt = await TranslationService.translateAndEnhance(prompt)
+    // Translate/enhance prompt and check for notifications in parallel
+    const [enhancedPrompt, notification] = await Promise.all([
+      TranslationService.translateAndEnhance(prompt),
+      NotificationService.checkPrompt(prompt)
+    ])
+    
     console.log('Enhanced prompt:', enhancedPrompt)
+    if (notification) {
+      console.log('User notification:', notification)
+    }
 
     // Generate image with Replicate
     const prediction = await replicate.predictions.create({
@@ -107,6 +115,7 @@ export async function POST(request: NextRequest) {
       success: true,
       imageUrl: imageUrl,
       enhancedPrompt: enhancedPrompt,
+      notification: notification, // Include notification in response
       remainingCredits
     })
 
