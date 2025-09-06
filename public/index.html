@@ -561,20 +561,38 @@
                 this.hideImageResult();
 
                 try {
-                    const response = await fetch('/api/generate', {
+                    // 1. First, check for notifications immediately
+                    const notificationPromise = fetch('/api/notifications', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt })
+                    }).then(async (response) => {
+                        if (response.ok) {
+                            const data = await response.json();
+                            if (data.notification) {
+                                // Show notification immediately while image is generating
+                                this.showSoftNotification(data.notification);
+                            }
+                        }
+                    }).catch(error => {
+                        console.warn('Notification check failed:', error);
+                    });
+
+                    // 2. Start image generation (this will take longer)
+                    const generatePromise = fetch('/api/generate', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ prompt })
                     });
 
+                    // Execute notification check immediately
+                    notificationPromise;
+
+                    // Wait for image generation
+                    const response = await generatePromise;
                     const data = await response.json();
 
                     if (response.ok) {
-                        // Show soft notification if provided
-                        if (data.notification) {
-                            this.showSoftNotification(data.notification);
-                        }
-                        
                         // Show refined prompt
                         this.showRefinedPrompt(data.enhancedPrompt);
                         
