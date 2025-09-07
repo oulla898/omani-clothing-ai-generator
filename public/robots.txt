@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://omani-clothing-ai-generator.vercel.app/sitemap.xml
