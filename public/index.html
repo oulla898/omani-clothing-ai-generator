@@ -160,6 +160,9 @@
                         <span data-en="Create Traditional" data-ar="أنشئ أزياء">أنشئ أزياء</span><br>
                         <span class="gradient-bg bg-clip-text text-transparent" data-en="Omani Fashion" data-ar="عمانية تراثية">عمانية تراثية</span>
                     </h1>
+                    <div class="flex justify-center mb-4">
+                        <span class="text-sm bg-orange-100 text-orange-600 px-3 py-1 rounded-full font-medium" data-en="Experimental" data-ar="تجريبي">تجريبي</span>
+                    </div>
                     <p class="text-xl text-gray-600 mb-6" data-en="AI that perfects the Misar fold, Bisht elegance, and Khanjar shine" data-ar="ذكاء اصطناعي عماني يضبط لفة المِصر وهيبة البشت ولمعة الخنجر">ذكاء اصطناعي عماني يضبط لفة المِصر وهيبة البشت ولمعة الخنجر</p>
                 </div>
 
@@ -304,6 +307,17 @@
         </div>
     </div>
 
+    <!-- Developer Section - Small Link -->
+    <div class="py-6 px-4 bg-gray-50">
+        <div class="max-w-6xl mx-auto text-center">
+            <button onclick="showDeveloperInfo()" class="text-sm text-gray-600 hover:text-indigo-600 transition-colors cursor-pointer flex items-center justify-center gap-2 mx-auto">
+                <span>👨‍💻</span>
+                <span data-en="About the Developer" data-ar="عن المطور">عن المطور</span>
+                <span class="text-xs">→</span>
+            </button>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-8 px-4">
         <div class="max-w-6xl mx-auto text-center">
@@ -316,6 +330,65 @@
 
     <!-- Soft Notification Popup -->
     <div id="aiMessagePlaceholder" class="hidden fixed bottom-20 left-4 right-4 bg-white/90 backdrop-blur-md border border-blue-200 rounded-2xl p-4 z-40 shadow-xl">
+    </div>
+
+    <!-- Developer Info Modal -->
+    <div id="developerModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 transform transition-all">
+            <div class="flex justify-between items-start mb-4">
+                <h3 class="text-xl font-bold flex items-center gap-2">
+                    <span>👨‍💻</span>
+                    <span data-en="About the Developer" data-ar="عن المطور">عن المطور</span>
+                </h3>
+                <button onclick="hideDeveloperInfo()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="space-y-4 text-sm" id="developerContent">
+                <!-- Arabic Content -->
+                <div class="ar-content">
+                    <p class="leading-relaxed flex items-start gap-2">
+                        <span>🎓</span>
+                        <span>صُنع بحب من طالب في جامعة السلطان قابوس - المعولي</span>
+                    </p>
+                    <p class="leading-relaxed flex items-start gap-2">
+                        <span>🤖</span>
+                        <span>هذا النموذج تجريبي أولي، نعرف حدوده وأخطاءه، لكن نحن في رحلة تطوير مستمرة!</span>
+                    </p>
+                    <p class="leading-relaxed flex items-start gap-2">
+                        <span>🚀</span>
+                        <span>المزيد من التحديثات والتحسينات قادمة... ترقبوا!</span>
+                    </p>
+                    <p class="text-xs opacity-75 flex items-start gap-2 mt-4 p-3 bg-gray-50 rounded-xl">
+                        <span>📧</span>
+                        <span>للملاحظات والاقتراحات: <a href="mailto:oulla898@gmail.com" class="text-indigo-600 hover:underline">oulla898@gmail.com</a></span>
+                    </p>
+                </div>
+                
+                <!-- English Content (hidden by default) -->
+                <div class="en-content hidden">
+                    <p class="leading-relaxed flex items-start gap-2">
+                        <span>🎓</span>
+                        <span>Crafted with passion by an SQU student - Al Maawali</span>
+                    </p>
+                    <p class="leading-relaxed flex items-start gap-2">
+                        <span>🤖</span>
+                        <span>This is our first experimental model. We know its quirks and limitations, but we're on an exciting journey of continuous improvement!</span>
+                    </p>
+                    <p class="leading-relaxed flex items-start gap-2">
+                        <span>🚀</span>
+                        <span>More updates and enhancements coming soon... stay tuned!</span>
+                    </p>
+                    <p class="text-xs opacity-75 flex items-start gap-2 mt-4 p-3 bg-gray-50 rounded-xl">
+                        <span>📧</span>
+                        <span>Feedback & suggestions: <a href="mailto:oulla898@gmail.com" class="text-indigo-600 hover:underline">oulla898@gmail.com</a></span>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -464,6 +537,21 @@
                         : element.getAttribute('data-en');
                     element.textContent = text;
                 });
+
+                // Update developer modal language
+                const modal = document.getElementById('developerModal');
+                if (modal && !modal.classList.contains('hidden')) {
+                    const arabicContent = modal.querySelector('.ar-content');
+                    const englishContent = modal.querySelector('.en-content');
+                    
+                    if (this.currentLanguage === 'ar') {
+                        arabicContent.classList.remove('hidden');
+                        englishContent.classList.add('hidden');
+                    } else {
+                        arabicContent.classList.add('hidden');
+                        englishContent.classList.remove('hidden');
+                    }
+                }
 
                 console.log(`🌐 Language updated to: ${this.currentLanguage}`);
             }
@@ -857,6 +945,44 @@
                 }, 8000);
             }
         }
+
+        // Developer modal functions
+        function showDeveloperInfo() {
+            const modal = document.getElementById('developerModal');
+            const arabicContent = modal.querySelector('.ar-content');
+            const englishContent = modal.querySelector('.en-content');
+            
+            // Show content based on current language
+            const isArabic = document.documentElement.dir === 'rtl';
+            if (isArabic) {
+                arabicContent.classList.remove('hidden');
+                englishContent.classList.add('hidden');
+            } else {
+                arabicContent.classList.add('hidden');
+                englishContent.classList.remove('hidden');
+            }
+            
+            modal.classList.remove('hidden');
+            // Add animation
+            setTimeout(() => {
+                modal.querySelector('.bg-white').style.transform = 'scale(1)';
+            }, 10);
+        }
+
+        function hideDeveloperInfo() {
+            const modal = document.getElementById('developerModal');
+            modal.querySelector('.bg-white').style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        // Close modal on backdrop click
+        document.getElementById('developerModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideDeveloperInfo();
+            }
+        });
 
         // Initialize the app
         const app = new OmaniAI();
