@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Credit Management</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .admin-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .admin-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .admin-header h1 {
+            color: #333;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .admin-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .credit-form {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .quick-amounts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .quick-amount {
+            padding: 10px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .quick-amount:hover {
+            background: #5a6fd8;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .instructions {
+            background: #e7f3ff;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .instructions h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                margin: 0;
+                border-radius: 0;
+                min-height: 100vh;
+            }
+
+            .quick-amounts {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>🔧 Credit Management</h1>
+            <p>Add credits manually after verifying WhatsApp payments</p>
+        </div>
+
+        <div id="message"></div>
+
+        <div class="instructions">
+            <h3>📋 Payment Verification Process</h3>
+            <ol>
+                <li>Customer sends WhatsApp message requesting credits</li>
+                <li>Customer transfers money to Bank Muscat: <strong>96841234567</strong></li>
+                <li>Customer sends transfer receipt via WhatsApp</li>
+                <li>Verify payment and add credits below</li>
+                <li>Confirm credit addition to customer via WhatsApp</li>
+            </ol>
+        </div>
+
+        <form class="credit-form" onsubmit="addCredits(event)">
+            <div class="form-group">
+                <label for="adminKey">Admin Key:</label>
+                <input type="password" id="adminKey" required>
+            </div>
+
+            <div class="form-group">
+                <label for="userId">User ID (from WhatsApp message):</label>
+                <input type="text" id="userId" required placeholder="user_xxx...">
+            </div>
+
+            <div class="form-group">
+                <label for="credits">Credits to Add:</label>
+                <input type="number" id="credits" required min="1" placeholder="20">
+                
+                <div class="quick-amounts">
+                    <button type="button" class="quick-amount" onclick="setCredits(20, 2)">20 Credits<br>2 OMR</button>
+                    <button type="button" class="quick-amount" onclick="setCredits(40, 4)">40 Credits<br>4 OMR</button>
+                    <button type="button" class="quick-amount" onclick="setCredits(100, 10)">100 Credits<br>10 OMR</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Payment Amount (OMR):</label>
+                <input type="number" id="amount" step="0.1" min="0" placeholder="2.0">
+            </div>
+
+            <div class="form-group">
+                <label for="paymentMethod">Payment Method:</label>
+                <select id="paymentMethod">
+                    <option value="whatsapp_bank_transfer">WhatsApp + Bank Transfer</option>
+                    <option value="manual_verification">Manual Verification</option>
+                </select>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                💳 Add Credits
+            </button>
+        </form>
+    </div>
+
+    <script>
+        function setCredits(credits, amount) {
+            document.getElementById('credits').value = credits;
+            document.getElementById('amount').value = amount;
+        }
+
+        function showMessage(text, type) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.innerHTML = `<div class="message ${type}">${text}</div>`;
+            
+            setTimeout(() => {
+                messageDiv.innerHTML = '';
+            }, 5000);
+        }
+
+        async function addCredits(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.textContent;
+            
+            try {
+                submitBtn.disabled = true;
+                submitBtn.textContent = '⏳ Adding Credits...';
+
+                const formData = {
+                    adminKey: document.getElementById('adminKey').value,
+                    userId: document.getElementById('userId').value,
+                    credits: parseInt(document.getElementById('credits').value),
+                    amount: parseFloat(document.getElementById('amount').value),
+                    paymentMethod: document.getElementById('paymentMethod').value
+                };
+
+                const response = await fetch('/api/admin/add-credits', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showMessage(
+                        `✅ ${result.message}<br>New balance: ${result.newBalance} credits`,
+                        'success'
+                    );
+                    
+                    // Clear form except admin key
+                    document.getElementById('userId').value = '';
+                    document.getElementById('credits').value = '';
+                    document.getElementById('amount').value = '';
+                } else {
+                    showMessage(`❌ Error: ${result.error}`, 'error');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('❌ Network error. Please try again.', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }
+        }
+
+        // Save admin key in session storage for convenience
+        document.getElementById('adminKey').addEventListener('input', function() {
+            sessionStorage.setItem('adminKey', this.value);
+        });
+
+        // Restore admin key on page load
+        window.addEventListener('load', function() {
+            const savedKey = sessionStorage.getItem('adminKey');
+            if (savedKey) {
+                document.getElementById('adminKey').value = savedKey;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -100,6 +100,34 @@
             display: block;
         }
         
+        .low-credits-glow {
+            animation: gentle-glow 2s ease-in-out infinite alternate;
+            border: 2px solid rgba(255, 165, 0, 0.6);
+        }
+        
+        @keyframes gentle-glow {
+            from { 
+                box-shadow: 0 0 5px rgba(255, 165, 0, 0.5);
+                background-color: rgba(255, 165, 0, 0.1);
+            }
+            to { 
+                box-shadow: 0 0 15px rgba(255, 165, 0, 0.8);
+                background-color: rgba(255, 165, 0, 0.2);
+            }
+        }
+        
+        .credit-package {
+            transition: all 0.3s ease;
+        }
+        
+        .credit-package:hover {
+            transform: translateY(-2px);
+        }
+        
+        .credits-display:hover {
+            transform: scale(1.05);
+        }
+        
         @keyframes slideDown {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -135,10 +163,11 @@
                     </button>
                     
                     <!-- Credits Display -->
-                    <div id="creditsDisplay" class="hidden px-3 py-2 bg-green-100 rounded-full">
+                    <div id="creditsDisplay" class="hidden px-3 py-2 bg-green-100 rounded-full cursor-pointer hover:bg-green-200 transition-all credits-display" onclick="showCreditModal()">
                         <span class="text-sm font-medium text-green-800">
                             <span data-en="Credits:" data-ar="الرصيد:">الرصيد:</span>
                             <span id="creditsCount">0</span>
+                            <span class="ml-1">💳</span>
                         </span>
                     </div>
                     
@@ -332,6 +361,74 @@
     <div id="aiMessagePlaceholder" class="hidden fixed bottom-20 left-4 right-4 bg-white/90 backdrop-blur-md border border-blue-200 rounded-2xl p-4 z-40 shadow-xl">
     </div>
 
+    <!-- Credit Purchase Modal -->
+    <div id="creditPurchaseModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white/95 backdrop-blur-sm rounded-3xl p-8 max-w-md w-full shadow-2xl transform transition-all">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                    <span>💳</span>
+                    <span data-en="Add Credits" data-ar="شراء رصيد">شراء رصيد</span>
+                </h3>
+                <button onclick="closeCreditModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Credit Packages -->
+            <div class="space-y-3 mb-6">
+                <button onclick="buyCredits(20, 2)" class="credit-package w-full p-4 rounded-xl border-2 border-gray-200 hover:border-blue-400 transition-all flex justify-between items-center hover:shadow-lg">
+                    <div class="text-left">
+                        <span class="font-semibold" data-en="20 Credits" data-ar="٢٠ رصيد">٢٠ رصيد</span>
+                        <p class="text-xs text-gray-500" data-en="20 generations" data-ar="٢٠ صورة">٢٠ صورة</p>
+                    </div>
+                    <span class="font-bold text-blue-600">2 OMR</span>
+                </button>
+                
+                <button onclick="buyCredits(40, 4)" class="credit-package popular w-full p-4 rounded-xl border-2 border-orange-400 bg-orange-50 transition-all flex justify-between items-center hover:shadow-lg relative">
+                    <div class="text-left">
+                        <span class="font-semibold" data-en="40 Credits" data-ar="٤٠ رصيد">٤٠ رصيد</span>
+                        <p class="text-xs text-gray-500" data-en="40 generations" data-ar="٤٠ صورة">٤٠ صورة</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="font-bold text-orange-600">4 OMR</span>
+                        <p class="text-xs text-orange-500" data-en="Popular!" data-ar="الأكثر طلباً!">الأكثر طلباً!</p>
+                    </div>
+                </button>
+                
+                <button onclick="buyCredits(100, 10)" class="credit-package w-full p-4 rounded-xl border-2 border-gray-200 hover:border-green-400 transition-all flex justify-between items-center hover:shadow-lg">
+                    <div class="text-left">
+                        <span class="font-semibold" data-en="100 Credits" data-ar="١٠٠ رصيد">١٠٠ رصيد</span>
+                        <p class="text-xs text-gray-500" data-en="100 generations" data-ar="١٠٠ صورة">١٠٠ صورة</p>
+                    </div>
+                    <span class="font-bold text-green-600">10 OMR</span>
+                </button>
+                
+                <!-- Custom Amount -->
+                <div class="custom-amount border-2 border-dashed border-gray-300 rounded-xl p-4 hover:border-gray-400 transition-all">
+                    <div class="flex gap-3">
+                        <input type="number" id="customAmount" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="0" min="1" max="100">
+                        <button onclick="buyCreditsCustom()" class="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:from-blue-600 hover:to-purple-700 transition-all font-medium">
+                            <span data-en="Buy" data-ar="شراء">شراء</span>
+                        </button>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-2" data-en="Custom amount in OMR" data-ar="مبلغ مخصص بالريال العماني">مبلغ مخصص بالريال العماني</p>
+                </div>
+            </div>
+            
+            <div class="text-center text-sm text-gray-600 mb-4 p-3 bg-blue-50 rounded-xl">
+                <span data-en="💡 1 OMR = 10 Credits = 10 Generations" data-ar="💡 ريال واحد = ١٠ أرصدة = ١٠ صور">
+                    💡 ريال واحد = ١٠ أرصدة = ١٠ صور
+                </span>
+            </div>
+            
+            <button onclick="closeCreditModal()" class="w-full py-3 text-gray-600 hover:text-gray-800 transition-colors">
+                <span data-en="Maybe Later" data-ar="ربما لاحقاً">ربما لاحقاً</span>
+            </button>
+        </div>
+    </div>
+
     <!-- Developer Info Modal -->
     <div id="developerModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-6 transform transition-all">
@@ -388,6 +485,79 @@
                     </p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Credit Purchase Modal -->
+    <div id="creditPurchaseModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white/95 backdrop-blur-sm rounded-3xl p-8 max-w-md w-full shadow-2xl transform transition-all">
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">
+                    <span data-en="Add Credits 💳" data-ar="شراء رصيد 💳">شراء رصيد 💳</span>
+                </h3>
+                <p class="text-gray-600 text-sm">
+                    <span data-en="Choose your credit package" data-ar="اختر باقة الرصيد المناسبة">اختر باقة الرصيد المناسبة</span>
+                </p>
+            </div>
+            
+            <!-- Credit Packages -->
+            <div class="space-y-3 mb-6">
+                <button onclick="buyCredits(20, 2)" class="credit-package w-full p-4 rounded-xl border-2 border-gray-200 hover:border-blue-400 transition-all flex justify-between items-center hover:shadow-lg">
+                    <div class="text-left">
+                        <div class="font-semibold">💫 20 Credits</div>
+                        <div class="text-sm text-gray-600" data-en="20 generations" data-ar="٢٠ تصميم">٢٠ تصميم</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-lg">2 OMR</div>
+                    </div>
+                </button>
+                
+                <button onclick="buyCredits(40, 4)" class="credit-package popular w-full p-4 rounded-xl border-2 border-orange-400 bg-orange-50 transition-all flex justify-between items-center hover:shadow-lg relative">
+                    <div class="absolute -top-2 -right-2 bg-orange-500 text-white text-xs px-2 py-1 rounded-full">
+                        <span data-en="Popular" data-ar="الأكثر طلباً">الأكثر طلباً</span>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold">🔥 40 Credits</div>
+                        <div class="text-sm text-gray-600" data-en="40 generations" data-ar="٤٠ تصميم">٤٠ تصميم</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-lg">4 OMR</div>
+                    </div>
+                </button>
+                
+                <button onclick="buyCredits(100, 10)" class="credit-package w-full p-4 rounded-xl border-2 border-gray-200 hover:border-green-400 transition-all flex justify-between items-center hover:shadow-lg">
+                    <div class="text-left">
+                        <div class="font-semibold">⭐ 100 Credits</div>
+                        <div class="text-sm text-gray-600" data-en="100 generations" data-ar="١٠٠ تصميم">١٠٠ تصميم</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-lg">10 OMR</div>
+                        <div class="text-sm text-green-600" data-en="Best Value" data-ar="أفضل قيمة">أفضل قيمة</div>
+                    </div>
+                </button>
+                
+                <!-- Custom Amount -->
+                <div class="custom-amount border-2 border-gray-200 rounded-xl p-4">
+                    <div class="flex gap-3">
+                        <input type="number" id="customAmount" placeholder="0" min="1" max="100" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <button onclick="buyCreditsCustom()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            <span data-en="Buy" data-ar="شراء">شراء</span>
+                        </button>
+                    </div>
+                    <div class="text-xs text-gray-500 mt-2">
+                        <span data-en="Custom amount in OMR (1 OMR = 10 credits)" data-ar="مبلغ مخصص بالريال العماني (١ ريال = ١٠ أرصدة)">مبلغ مخصص بالريال العماني (١ ريال = ١٠ أرصدة)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center text-sm text-gray-600 mb-4 p-3 bg-blue-50 rounded-xl">
+                <span data-en="💡 Payment via WhatsApp + Bank Transfer" data-ar="💡 الدفع عبر واتساب + تحويل بنكي">💡 الدفع عبر واتساب + تحويل بنكي</span><br>
+                <span data-en="Quick, secure, and trusted!" data-ar="سريع وآمن وموثوق!">سريع وآمن وموثوق!</span>
+            </div>
+            
+            <button onclick="closeCreditModal()" class="w-full py-3 text-gray-600 hover:text-gray-800 transition-colors">
+                <span data-en="Maybe Later" data-ar="ربما لاحقاً">ربما لاحقاً</span>
+            </button>
         </div>
     </div>
 
@@ -651,10 +821,11 @@
                 if (this.userCredits <= 0) {
                     this.showMessage(
                         this.currentLanguage === 'ar' 
-                            ? 'رصيدك منتهي' 
-                            : 'No credits remaining',
+                            ? 'رصيدك منتهي! يرجى شراء رصيد جديد' 
+                            : 'No credits remaining! Please buy credits',
                         'warning'
                     );
+                    setTimeout(() => showCreditModal(), 500);
                     return;
                 }
 
@@ -717,6 +888,13 @@
                         // Update credits
                         this.userCredits = data.remainingCredits;
                         this.updateCreditsDisplay();
+                        
+                        // Check for low credits and show alert
+                        if (this.userCredits <= 5 && this.userCredits > 0) {
+                            setTimeout(() => {
+                                showLowCreditAlert();
+                            }, 2000); // Show alert 2 seconds after successful generation
+                        }
                         
                         // Reload history
                         await this.loadUserHistory();
@@ -981,6 +1159,153 @@
         document.getElementById('developerModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 hideDeveloperInfo();
+            }
+        });
+
+        // Credit Purchase Functions
+        function showCreditModal() {
+            const modal = document.getElementById('creditPurchaseModal');
+            const arabicContent = modal.querySelector('.ar-content');
+            const englishContent = modal.querySelector('.en-content');
+            
+            modal.classList.remove('hidden');
+            // Add animation
+            setTimeout(() => {
+                modal.querySelector('.bg-white\\/95').style.transform = 'scale(1)';
+            }, 10);
+        }
+
+        function closeCreditModal() {
+            const modal = document.getElementById('creditPurchaseModal');
+            modal.querySelector('.bg-white\\/95').style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        function buyCredits(credits, omr) {
+            const userId = window.app?.clerk?.user?.id || 'unknown-user';
+            const userEmail = window.app?.clerk?.user?.primaryEmailAddress?.emailAddress || 'no-email';
+            const isArabic = document.documentElement.dir === 'rtl';
+            
+            // Create WhatsApp message based on language
+            let message;
+            if (isArabic) {
+                message = `السلام عليكم! أريد شراء رصيد لتطبيق هيبة للذكاء الاصطناعي%0A%0Aالمبلغ: ${omr} ريال عماني (${credits} رصيد)%0Aمعرف المستخدم: ${userId}%0A%0Aسأحول إلى:%0A96041234%0ABank Muscat - AL MAALA AL MAAWALI%0A%0Aسأشارك إيصال التحويل معك بعد الدفع%0A%0Aشكراً لك!`;
+            } else {
+                message = `Hello! I want to buy credits for Heiba AI app%0A%0AAmount: ${omr} OMR (${credits} credits)%0AUser ID: ${userId}%0A%0ATransfer to:%0A96041234%0ABank Muscat - AL MAALA AL MAAWALI%0A%0AI will share the transfer receipt after payment%0A%0AThank you!`;
+            }
+            
+            const whatsappUrl = `https://wa.me/96896041234?text=${message}`;
+            window.open(whatsappUrl, '_blank');
+            closeCreditModal();
+            
+            // Show confirmation message
+            if (window.app) {
+                window.app.showMessage(
+                    isArabic 
+                        ? 'تم فتح واتساب! أكمل التحويل وشارك الإيصال' 
+                        : 'WhatsApp opened! Complete transfer and share receipt',
+                    'success'
+                );
+            }
+        }
+
+        function buyCreditsCustom() {
+            const customAmount = document.getElementById('customAmount').value;
+            if (customAmount && customAmount > 0 && customAmount <= 100) {
+                const credits = Math.floor(customAmount * 10);
+                buyCredits(credits, customAmount);
+            } else {
+                if (window.app) {
+                    const isArabic = document.documentElement.dir === 'rtl';
+                    window.app.showMessage(
+                        isArabic 
+                            ? 'يرجى إدخال مبلغ صحيح (١-١٠٠ ريال)' 
+                            : 'Please enter a valid amount (1-100 OMR)',
+                        'warning'
+                    );
+                }
+            }
+        }
+
+        function showCreditModal() {
+            const modal = document.getElementById('creditPurchaseModal');
+            const isArabic = document.documentElement.dir === 'rtl';
+            
+            // Update modal content based on language
+            modal.classList.remove('hidden');
+            
+            // Add animation
+            setTimeout(() => {
+                const modalContent = modal.querySelector('.bg-white\\/95');
+                if (modalContent) {
+                    modalContent.style.transform = 'scale(1)';
+                }
+            }, 10);
+        }
+
+        // Smart credit alerts
+        function checkCreditsAndNotify() {
+            if (window.app && window.app.userCredits <= 0) {
+                showCreditModal();
+            } else if (window.app && window.app.userCredits <= 3) {
+                showLowCreditAlert();
+            }
+        }
+
+        function showLowCreditAlert() {
+            // Gentle orange glow on credit counter
+            const creditsDisplay = document.getElementById('creditsDisplay');
+            if (creditsDisplay) {
+                creditsDisplay.classList.add('low-credits-glow');
+                
+                // Remove glow after 5 seconds
+                setTimeout(() => {
+                    creditsDisplay.classList.remove('low-credits-glow');
+                }, 5000);
+            }
+        }
+
+        function buyCreditsCustom() {
+            const customAmount = document.getElementById('customAmount').value;
+            if (customAmount && customAmount > 0 && customAmount <= 100) {
+                const credits = Math.floor(customAmount * 10);
+                buyCredits(credits, customAmount);
+            } else {
+                alert(window.app?.currentLanguage === 'ar'
+                    ? 'يرجى إدخال مبلغ صحيح (١-١٠٠ ريال)'
+                    : 'Please enter a valid amount (1-100 OMR)');
+            }
+        }
+
+        // Smart credit alerts
+        function checkCreditsAndNotify() {
+            const userCredits = window.app?.userCredits || 0;
+            
+            if (userCredits <= 0) {
+                setTimeout(() => showCreditModal(), 1000);
+            } else if (userCredits <= 3) {
+                showLowCreditAlert();
+            }
+        }
+
+        function showLowCreditAlert() {
+            const creditDisplay = document.getElementById('creditsDisplay');
+            if (creditDisplay) {
+                creditDisplay.classList.add('low-credits-glow');
+                
+                // Remove glow after 10 seconds
+                setTimeout(() => {
+                    creditDisplay.classList.remove('low-credits-glow');
+                }, 10000);
+            }
+        }
+
+        // Close credit modal on backdrop click
+        document.getElementById('creditPurchaseModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeCreditModal();
             }
         });
 
