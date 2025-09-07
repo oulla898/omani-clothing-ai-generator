@@ -517,11 +517,33 @@
             async init() {
                 console.log('🚀 Initializing Modern Omani AI Generator...');
                 
+                // Create browser session ID for non-authenticated users
+                this.createBrowserSession();
+                
                 await this.initializeClerk();
                 this.setupEventListeners();
                 this.updateLanguage();
                 
                 console.log('✅ Modern app initialized successfully');
+            }
+
+            createBrowserSession() {
+                // Create a persistent browser session ID
+                if (!localStorage.getItem('heiba-session-id')) {
+                    const sessionId = 'session-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+                    localStorage.setItem('heiba-session-id', sessionId);
+                    localStorage.setItem('heiba-session-created', new Date().toISOString());
+                }
+                
+                // Store basic session info
+                window.heibaSession = {
+                    id: localStorage.getItem('heiba-session-id'),
+                    created: localStorage.getItem('heiba-session-created'),
+                    userAgent: navigator.userAgent.substr(0, 50), // First 50 chars
+                    timestamp: Date.now()
+                };
+                
+                console.log('Browser session created:', window.heibaSession.id);
             }
 
             async initializeClerk() {
@@ -535,6 +557,18 @@
                     
                     const session = this.clerk.session;
                     this.isAuthenticated = !!session;
+                    
+                    // Store user info globally for easier access
+                    if (this.isAuthenticated && this.clerk.user) {
+                        window.heibaUser = {
+                            id: this.clerk.user.id || this.clerk.user.externalId,
+                            email: this.clerk.user.primaryEmailAddress?.emailAddress || 
+                                   this.clerk.user.emailAddresses?.[0]?.emailAddress,
+                            name: this.clerk.user.fullName || this.clerk.user.firstName
+                        };
+                        console.log('User authenticated:', window.heibaUser);
+                    }
+                    
                     this.updateAuthUI(this.isAuthenticated);
                     
                     if (this.isAuthenticated) {
@@ -545,6 +579,19 @@
                     this.clerk.addListener(({ session }) => {
                         const wasAuthenticated = this.isAuthenticated;
                         this.isAuthenticated = !!session;
+                        
+                        // Update global user info
+                        if (this.isAuthenticated && this.clerk.user) {
+                            window.heibaUser = {
+                                id: this.clerk.user.id || this.clerk.user.externalId,
+                                email: this.clerk.user.primaryEmailAddress?.emailAddress || 
+                                       this.clerk.user.emailAddresses?.[0]?.emailAddress,
+                                name: this.clerk.user.fullName || this.clerk.user.firstName
+                            };
+                            console.log('User updated:', window.heibaUser);
+                        } else {
+                            window.heibaUser = null;
+                        }
                         
                         if (this.isAuthenticated !== wasAuthenticated) {
                             this.updateAuthUI(this.isAuthenticated);
@@ -1125,8 +1172,45 @@
         }
 
         function buyCredits(credits, omr) {
-            const userId = window.app?.clerk?.user?.id || 'unknown-user';
-            const userEmail = window.app?.clerk?.user?.primaryEmailAddress?.emailAddress || 'no-email';
+            // Try multiple ways to get user information
+            let userId = 'unknown-user';
+            let userEmail = 'no-email';
+            
+            // Method 1: Try global heibaUser (authenticated user)
+            if (window.heibaUser) {
+                userId = window.heibaUser.id || userId;
+                userEmail = window.heibaUser.email || userEmail;
+            }
+            
+            // Method 2: Try window.app.clerk
+            if ((userId === 'unknown-user' || userEmail === 'no-email') && window.app?.clerk?.user) {
+                userId = window.app.clerk.user.id || window.app.clerk.user.externalId || userId;
+                userEmail = window.app.clerk.user.primaryEmailAddress?.emailAddress || 
+                           window.app.clerk.user.emailAddresses?.[0]?.emailAddress || userEmail;
+            }
+            
+            // Method 3: Try direct Clerk access
+            if ((userId === 'unknown-user' || userEmail === 'no-email') && window.Clerk?.user) {
+                userId = window.Clerk.user.id || window.Clerk.user.externalId || userId;
+                userEmail = window.Clerk.user.primaryEmailAddress?.emailAddress || 
+                           window.Clerk.user.emailAddresses?.[0]?.emailAddress || userEmail;
+            }
+            
+            // Method 4: Use browser session ID as fallback
+            if (userId === 'unknown-user' && window.heibaSession) {
+                userId = window.heibaSession.id;
+            }
+            
+            // Method 5: Generate a browser-based ID if still unknown (last resort)
+            if (userId === 'unknown-user') {
+                let browserId = localStorage.getItem('heiba-browser-id');
+                if (!browserId) {
+                    browserId = 'browser-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+                    localStorage.setItem('heiba-browser-id', browserId);
+                }
+                userId = browserId;
+            }
+            
             const isArabic = document.documentElement.dir === 'rtl';
             
             // Create WhatsApp message based on language
@@ -1136,6 +1220,15 @@
             } else {
                 message = `Hello! I'd like to buy credits for Heiba AI%0A%0AAmount: ${omr} OMR (${credits} credits)%0AUser ID: ${userId}%0AEmail: ${userEmail}%0A%0AI will transfer to:%0A96041234%0ABank Muscat - AL MAALA AL MAAWALI%0A%0AI'll share the transfer receipt with you after payment%0A%0AThank you!`;
             }
+            
+            console.log('User Info Debug:', { 
+                userId, 
+                userEmail, 
+                isArabic, 
+                heibaUser: window.heibaUser,
+                heibaSession: window.heibaSession,
+                clerkUser: window.Clerk?.user
+            });
             
             const whatsappUrl = `https://wa.me/96896041234?text=${message}`;
             window.open(whatsappUrl, '_blank');
