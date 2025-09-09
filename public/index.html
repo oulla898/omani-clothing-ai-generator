@@ -200,7 +200,15 @@
                     
                     <!-- Description Input -->
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-3" data-en="Describe your vision:" data-ar="صف رؤيتك:">صف رؤيتك:</label>
+                        <div class="flex items-center justify-between mb-3">
+                            <label class="block text-sm font-medium text-gray-700" data-en="Describe your vision:" data-ar="صف رؤيتك:">صف رؤيتك:</label>
+                            <button 
+                                id="suggestionButton" 
+                                onclick="showSuggestionPopup()" 
+                                class="text-xs bg-gradient-to-r from-amber-500 to-orange-600 text-white px-3 py-1 rounded-full hover:from-amber-600 hover:to-orange-700 transition-all transform hover:scale-105 shadow-sm">
+                                <span data-en="💡 Suggestion" data-ar="💡 اقتراح">💡 اقتراح</span>
+                            </button>
+                        </div>
                         <textarea 
                             id="description" 
                             rows="4" 
@@ -318,13 +326,23 @@
     <div id="historyModal" class="history-modal fixed inset-0 bg-black/50 backdrop-blur-sm z-50 items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[80vh] overflow-hidden">
             <div class="p-6 border-b border-gray-200">
-                <div class="flex items-center justify-between">
+                <div class="flex items-center justify-between mb-3">
                     <h3 class="text-xl font-bold text-gray-800" data-en="Your Creation History" data-ar="تاريخ إبداعاتك">تاريخ إبداعاتك</h3>
                     <button id="closeHistoryModal" class="text-gray-500 hover:text-gray-700">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
+                </div>
+                
+                <!-- Safety Warning -->
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-center">
+                    <div class="flex items-center justify-center gap-2 text-amber-700">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+                        </svg>
+                        <span class="text-xs font-medium" data-en="⚠️ Images are automatically deleted after 1 hour for security" data-ar="⚠️ تُحذف الصور تلقائياً بعد ساعة واحدة للأمان">⚠️ تُحذف الصور تلقائياً بعد ساعة واحدة للأمان</span>
+                    </div>
                 </div>
             </div>
             <div class="p-6 overflow-y-auto max-h-[60vh]">
@@ -422,6 +440,43 @@
         </div>
     </div>
 
+    <!-- Prompt Suggestion Modal -->
+    <div id="suggestionModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white/95 backdrop-blur-sm rounded-3xl p-6 max-w-lg w-full shadow-2xl transform transition-all">
+            <div class="text-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">
+                    <span data-en="💡 Suggested Prompt" data-ar="💡 اقتراح ملهم">💡 اقتراح ملهم</span>
+                </h3>
+                <p class="text-gray-600 text-sm">
+                    <span data-en="Try this dramatic warrior prompt" data-ar="جرب هذا الاقتراح الملحمي">جرب هذا الاقتراح الملحمي</span>
+                </p>
+            </div>
+            
+            <!-- Warrior Prompt -->
+            <div class="bg-gradient-to-br from-amber-50 to-orange-100 border-2 border-amber-300 rounded-2xl p-4 mb-4">
+                <div class="text-sm text-amber-800 font-medium mb-2">
+                    <span data-en="🗡️ Omani Warrior" data-ar="🗡️ محارب عُماني">🗡️ محارب عُماني</span>
+                </div>
+                <p class="text-amber-900 leading-relaxed font-arabic" id="warriorPromptText">
+                    محارب عُماني يحمل ندوب المعارك، ملطخ بالتراب والعرق، يلوّح بالأسلحة العُمانية التقليدية في مشهد درامي مليء بالحركة، تتناثر فيه الشرر والدخان، مع إضاءة ملحمية.
+                </p>
+            </div>
+            
+            <div class="flex gap-3">
+                <button 
+                    onclick="useSuggestedPrompt()" 
+                    class="flex-1 py-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white rounded-xl font-medium hover:from-amber-700 hover:to-orange-700 transition-all transform hover:scale-105">
+                    <span data-en="✨ Use This Prompt" data-ar="✨ استخدم هذا الاقتراح">✨ استخدم هذا الاقتراح</span>
+                </button>
+                <button 
+                    onclick="closeSuggestionModal()" 
+                    class="px-4 py-3 text-gray-600 hover:text-gray-800 transition-colors">
+                    <span data-en="Cancel" data-ar="إلغاء">إلغاء</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Credit Purchase Modal -->
     <div id="creditPurchaseModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white/95 backdrop-blur-sm rounded-3xl p-6 max-w-md w-full shadow-2xl transform transition-all max-h-[90vh] overflow-y-auto">
@@ -510,6 +565,7 @@
                 this.isAuthenticated = false;
                 this.userCredits = 0;
                 this.clerk = null;
+                this.currentUser = null;
                 this.savedPrompt = '';
                 this.init();
             }
@@ -558,8 +614,12 @@
                     const session = this.clerk.session;
                     this.isAuthenticated = !!session;
                     
+                    // Show loading state first
+                    this.showCreditsLoading();
+                    
                     // Store user info globally for easier access
                     if (this.isAuthenticated && this.clerk.user) {
+                        this.currentUser = this.clerk.user;
                         window.heibaUser = {
                             id: this.clerk.user.id || this.clerk.user.externalId,
                             email: this.clerk.user.primaryEmailAddress?.emailAddress || 
@@ -567,21 +627,21 @@
                             name: this.clerk.user.fullName || this.clerk.user.firstName
                         };
                         console.log('User authenticated:', window.heibaUser);
-                    }
-                    
-                    this.updateAuthUI(this.isAuthenticated);
-                    
-                    if (this.isAuthenticated) {
+                        
+                        // Load credits BEFORE updating UI
                         await this.loadUserCredits();
                         await this.loadUserHistory();
                     }
                     
-                    this.clerk.addListener(({ session }) => {
+                    this.updateAuthUI(this.isAuthenticated);
+                    
+                    this.clerk.addListener(async ({ session }) => {
                         const wasAuthenticated = this.isAuthenticated;
                         this.isAuthenticated = !!session;
                         
                         // Update global user info
                         if (this.isAuthenticated && this.clerk.user) {
+                            this.currentUser = this.clerk.user;
                             window.heibaUser = {
                                 id: this.clerk.user.id || this.clerk.user.externalId,
                                 email: this.clerk.user.primaryEmailAddress?.emailAddress || 
@@ -590,14 +650,16 @@
                             };
                             console.log('User updated:', window.heibaUser);
                         } else {
+                            this.currentUser = null;
                             window.heibaUser = null;
                         }
                         
                         if (this.isAuthenticated !== wasAuthenticated) {
                             this.updateAuthUI(this.isAuthenticated);
                             if (this.isAuthenticated) {
-                                this.loadUserCredits();
-                                this.loadUserHistory();
+                                this.showCreditsLoading();
+                                await this.loadUserCredits();
+                                await this.loadUserHistory();
                                 // Restore saved prompt if exists
                                 if (this.savedPrompt) {
                                     document.getElementById('description').value = this.savedPrompt;
@@ -612,6 +674,8 @@
                     
                 } catch (error) {
                     console.error('Failed to initialize Clerk:', error);
+                    this.userCredits = 0;
+                    this.updateCreditsDisplay();
                 }
             }
 
@@ -769,25 +833,65 @@
                 }
             }
 
+            // Show loading state for credits
+            showCreditsLoading() {
+                const creditsCount = document.getElementById('creditsCount');
+                const creditsDisplay = document.getElementById('creditsDisplay');
+                if (creditsCount && creditsDisplay) {
+                    creditsCount.textContent = '...';
+                    creditsDisplay.style.opacity = '0.6';
+                }
+            }
+
             // Credits management
             async loadUserCredits() {
+                if (!this.currentUser?.id && !window.heibaUser?.id) {
+                    console.log('No user ID available for credit fetch');
+                    this.userCredits = 0;
+                    this.updateCreditsDisplay();
+                    return;
+                }
+
                 try {
-                    const response = await fetch('/api/credits');
+                    const response = await fetch('/api/credits', {
+                        headers: {
+                            'Authorization': `Bearer ${await this.clerk?.session?.getToken()}`,
+                        }
+                    });
+                    
                     if (response.ok) {
                         const data = await response.json();
-                        this.userCredits = data.credits;
-                        this.updateCreditsDisplay();
+                        this.userCredits = data.credits || 0;
+                        console.log('Credits loaded successfully:', this.userCredits);
+                    } else {
+                        console.error('Failed to fetch credits:', response.status);
+                        this.userCredits = 0;
                     }
                 } catch (error) {
-                    console.error('Failed to load credits:', error);
+                    console.error('Error fetching credits:', error);
+                    this.userCredits = 0;
                 }
+                
+                // Always update display after fetch (success or failure)
+                this.updateCreditsDisplay();
             }
 
             updateCreditsDisplay() {
                 const creditsCount = document.getElementById('creditsCount');
-                if (creditsCount) {
-                    creditsCount.textContent = this.userCredits;
+                const creditsDisplay = document.getElementById('creditsDisplay');
+                if (creditsCount && creditsDisplay) {
+                    creditsCount.textContent = this.userCredits.toString();
+                    creditsDisplay.style.opacity = '1'; // Remove loading opacity
+                    
+                    // Add glow effect if low credits
+                    if (this.userCredits <= 3) {
+                        creditsDisplay.classList.add('low-credits-glow');
+                    } else {
+                        creditsDisplay.classList.remove('low-credits-glow');
+                    }
                 }
+                
+                window.userCredits = this.userCredits; // Keep global sync
             }
 
             // Image generation
@@ -983,13 +1087,53 @@
                 }
 
                 grid.innerHTML = generations.map(gen => `
-                    <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                        <div class="aspect-square">
+                    <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all group">
+                        <div class="aspect-square relative">
                             <img src="${gen.image_url}" alt="${gen.prompt}" class="w-full h-full object-cover">
+                            
+                            <!-- Action Buttons Overlay -->
+                            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                <button 
+                                    onclick="downloadHistoryImage('${gen.image_url}', '${gen.id}')" 
+                                    class="p-2 bg-white/90 hover:bg-white rounded-full transition-colors" 
+                                    title="${this.currentLanguage === 'ar' ? 'تحميل الصورة' : 'Download Image'}">
+                                    <svg class="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                    </svg>
+                                </button>
+                                <button 
+                                    onclick="copyPromptToClipboard('${gen.prompt.replace(/'/g, "\\'")}', '${gen.id}')" 
+                                    class="p-2 bg-white/90 hover:bg-white rounded-full transition-colors" 
+                                    title="${this.currentLanguage === 'ar' ? 'نسخ الوصف' : 'Copy Prompt'}">
+                                    <svg class="w-4 h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                    </svg>
+                                </button>
+                                <button 
+                                    onclick="deleteHistoryImage('${gen.id}')" 
+                                    class="p-2 bg-red-500/90 hover:bg-red-500 rounded-full transition-colors" 
+                                    title="${this.currentLanguage === 'ar' ? 'حذف الصورة' : 'Delete Image'}">
+                                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
+                        
                         <div class="p-3">
-                            <p class="text-xs text-gray-600 truncate">${gen.prompt}</p>
-                            <p class="text-xs text-gray-400 mt-1">${new Date(gen.created_at).toLocaleDateString()}</p>
+                            <p class="text-xs text-gray-600 truncate cursor-pointer hover:text-gray-800" onclick="copyPromptToClipboard('${gen.prompt.replace(/'/g, "\\'")}', '${gen.id}')" title="${this.currentLanguage === 'ar' ? 'اضغط لنسخ الوصف' : 'Click to copy prompt'}">${gen.prompt}</p>
+                            <div class="flex items-center justify-between mt-2">
+                                <p class="text-xs text-gray-400">${new Date(gen.created_at).toLocaleDateString()}</p>
+                                <div class="flex gap-1">
+                                    <button onclick="copyPromptToClipboard('${gen.prompt.replace(/'/g, "\\'")}', '${gen.id}')" class="text-xs text-blue-600 hover:text-blue-800 transition-colors">
+                                        ${this.currentLanguage === 'ar' ? 'نسخ' : 'Copy'}
+                                    </button>
+                                    <span class="text-xs text-gray-300">•</span>
+                                    <button onclick="downloadHistoryImage('${gen.image_url}', '${gen.id}')" class="text-xs text-green-600 hover:text-green-800 transition-colors">
+                                        ${this.currentLanguage === 'ar' ? 'تحميل' : 'Download'}
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `).join('');
@@ -1319,8 +1463,206 @@
             }
         });
 
+        // Prompt Suggestion Functions
+        function showSuggestionPopup() {
+            const modal = document.getElementById('suggestionModal');
+            modal.classList.remove('hidden');
+            
+            // Add animation
+            setTimeout(() => {
+                const modalContent = modal.querySelector('.bg-white\\/95');
+                if (modalContent) {
+                    modalContent.style.transform = 'scale(1)';
+                }
+            }, 10);
+        }
+
+        function closeSuggestionModal() {
+            const modal = document.getElementById('suggestionModal');
+            const modalContent = modal.querySelector('.bg-white\\/95');
+            if (modalContent) {
+                modalContent.style.transform = 'scale(0.95)';
+            }
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        function useSuggestedPrompt() {
+            const promptText = "محارب عُماني يحمل ندوب المعارك، ملطخ بالتراب والعرق، يلوّح بالأسلحة العُمانية التقليدية في مشهد درامي مليء بالحركة، تتناثر فيه الشرر والدخان، مع إضاءة ملحمية.";
+            const descriptionTextarea = document.getElementById('description');
+            
+            if (descriptionTextarea) {
+                descriptionTextarea.value = promptText;
+                descriptionTextarea.focus();
+                
+                // Add a subtle highlight animation
+                descriptionTextarea.style.borderColor = '#f59e0b';
+                descriptionTextarea.style.boxShadow = '0 0 0 3px rgba(245, 158, 11, 0.1)';
+                
+                setTimeout(() => {
+                    descriptionTextarea.style.borderColor = '';
+                    descriptionTextarea.style.boxShadow = '';
+                }, 2000);
+            }
+            
+            closeSuggestionModal();
+            
+            // Show success message
+            if (window.app) {
+                window.app.showMessage(
+                    document.documentElement.dir === 'rtl' 
+                        ? 'تم إدراج الاقتراح! يمكنك التعديل عليه أو الإنشاء مباشرة' 
+                        : 'Suggestion added! You can modify it or generate directly',
+                    'success'
+                );
+            }
+        }
+
+        // Close suggestion modal on backdrop click
+        document.getElementById('suggestionModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSuggestionModal();
+            }
+        });
+
+        // History Management Functions
+        function copyPromptToClipboard(prompt, imageId) {
+            navigator.clipboard.writeText(prompt).then(() => {
+                // Show success feedback
+                if (window.app) {
+                    const isArabic = document.documentElement.dir === 'rtl';
+                    window.app.showMessage(
+                        isArabic ? 'تم نسخ الوصف إلى الحافظة!' : 'Prompt copied to clipboard!',
+                        'success'
+                    );
+                }
+                
+                // Visual feedback - highlight the copied item briefly
+                const gridItem = document.querySelector(`[onclick*="${imageId}"]`)?.closest('.group');
+                if (gridItem) {
+                    gridItem.style.transform = 'scale(1.02)';
+                    gridItem.style.boxShadow = '0 0 20px rgba(59, 130, 246, 0.3)';
+                    setTimeout(() => {
+                        gridItem.style.transform = '';
+                        gridItem.style.boxShadow = '';
+                    }, 500);
+                }
+            }).catch(err => {
+                console.error('Failed to copy prompt:', err);
+                if (window.app) {
+                    const isArabic = document.documentElement.dir === 'rtl';
+                    window.app.showMessage(
+                        isArabic ? 'فشل في نسخ الوصف' : 'Failed to copy prompt',
+                        'error'
+                    );
+                }
+            });
+        }
+
+        function downloadHistoryImage(imageUrl, imageId) {
+            try {
+                const link = document.createElement('a');
+                link.href = imageUrl;
+                link.download = `heiba-omani-clothing-${imageId}-${Date.now()}.webp`;
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Show success feedback
+                if (window.app) {
+                    const isArabic = document.documentElement.dir === 'rtl';
+                    window.app.showMessage(
+                        isArabic ? 'بدأ تحميل الصورة!' : 'Image download started!',
+                        'success'
+                    );
+                }
+                
+                // Visual feedback
+                const gridItem = document.querySelector(`[onclick*="${imageId}"]`)?.closest('.group');
+                if (gridItem) {
+                    gridItem.style.transform = 'scale(1.02)';
+                    gridItem.style.boxShadow = '0 0 20px rgba(34, 197, 94, 0.3)';
+                    setTimeout(() => {
+                        gridItem.style.transform = '';
+                        gridItem.style.boxShadow = '';
+                    }, 500);
+                }
+            } catch (error) {
+                console.error('Failed to download image:', error);
+                if (window.app) {
+                    const isArabic = document.documentElement.dir === 'rtl';
+                    window.app.showMessage(
+                        isArabic ? 'فشل في تحميل الصورة' : 'Failed to download image',
+                        'error'
+                    );
+                }
+            }
+        }
+
+        async function deleteHistoryImage(imageId) {
+            const isArabic = document.documentElement.dir === 'rtl';
+            
+            // Confirm deletion
+            const confirmMessage = isArabic 
+                ? 'هل أنت متأكد من حذف هذه الصورة؟ لا يمكن التراجع عن هذا الإجراء.'
+                : 'Are you sure you want to delete this image? This action cannot be undone.';
+                
+            if (!confirm(confirmMessage)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/history/${imageId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${window.app?.clerk?.session?.getToken()}`,
+                    }
+                });
+                
+                if (response.ok) {
+                    // Remove from UI immediately
+                    const gridItem = document.querySelector(`[onclick*="${imageId}"]`)?.closest('.group');
+                    if (gridItem) {
+                        gridItem.style.transform = 'scale(0.8)';
+                        gridItem.style.opacity = '0';
+                        setTimeout(() => {
+                            gridItem.remove();
+                        }, 300);
+                    }
+                    
+                    // Show success message
+                    if (window.app) {
+                        window.app.showMessage(
+                            isArabic ? 'تم حذف الصورة بنجاح' : 'Image deleted successfully',
+                            'success'
+                        );
+                    }
+                    
+                    // Reload history after a delay to sync with server
+                    setTimeout(() => {
+                        if (window.app) {
+                            window.app.loadUserHistory();
+                        }
+                    }, 1000);
+                } else {
+                    throw new Error('Failed to delete image');
+                }
+            } catch (error) {
+                console.error('Failed to delete image:', error);
+                if (window.app) {
+                    window.app.showMessage(
+                        isArabic ? 'فشل في حذف الصورة' : 'Failed to delete image',
+                        'error'
+                    );
+                }
+            }
+        }
+
         // Initialize the app
         const app = new OmaniAI();
+        window.app = app;
     </script>
 </body>
 </html>
