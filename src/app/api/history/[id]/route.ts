@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase'
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { userId } = await auth()
@@ -13,7 +13,8 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const imageId = params.id
+    const resolvedParams = await params
+    const imageId = resolvedParams.id
 
     if (!imageId) {
       return NextResponse.json({ error: 'Image ID required' }, { status: 400 })
