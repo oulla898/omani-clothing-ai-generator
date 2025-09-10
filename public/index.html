@@ -497,44 +497,58 @@
                         <div class="text-xs text-gray-600" data-en="20 generations" data-ar="٢٠ تصميم">٢٠ تصميم</div>
                     </div>
                     <div class="text-right">
-                        <div class="font-bold text-blue-600">2 OMR</div>
+                        <div class="font-bold text-blue-600">2 <span data-en="OMR" data-ar="ريال">ريال</span></div>
                     </div>
                 </button>
                 
-                <button onclick="buyCredits(40, 4)" class="credit-package popular w-full p-3 rounded-lg border-2 border-orange-400 bg-orange-50 transition-all flex justify-between items-center hover:shadow-md relative">
+                <button onclick="buyCredits(50, 4)" class="credit-package popular w-full p-3 rounded-lg border-2 border-orange-400 bg-orange-50 transition-all flex justify-between items-center hover:shadow-md relative">
                     <div class="absolute -top-1 -right-1 bg-orange-500 text-white text-xs px-1 py-0.5 rounded-full">
-                        <span data-en="Popular" data-ar="الأكثر طلباً">الأكثر طلباً</span>
+                        <span data-en="Best Value" data-ar="أفضل قيمة">أفضل قيمة</span>
                     </div>
                     <div class="text-left">
-                        <div class="font-semibold text-sm">🔥 40 Credits</div>
-                        <div class="text-xs text-gray-600" data-en="40 generations" data-ar="٤٠ تصميم">٤٠ تصميم</div>
+                        <div class="font-semibold text-sm">🔥 50 Credits</div>
+                        <div class="text-xs text-gray-600" data-en="50 generations" data-ar="٥٠ تصميم">٥٠ تصميم</div>
                     </div>
                     <div class="text-right">
-                        <div class="font-bold text-orange-600">4 OMR</div>
+                        <div class="font-bold text-orange-600">4 <span data-en="OMR" data-ar="ريال">ريال</span></div>
+                        <div class="text-xs text-orange-600" data-en="25% bonus!" data-ar="٢٥٪ مكافأة!">٢٥٪ مكافأة!</div>
                     </div>
                 </button>
                 
-                <button onclick="buyCredits(100, 10)" class="credit-package w-full p-3 rounded-lg border-2 border-gray-200 hover:border-green-400 transition-all flex justify-between items-center hover:shadow-md">
+                <button onclick="buyCredits(120, 10)" class="credit-package w-full p-3 rounded-lg border-2 border-gray-200 hover:border-green-400 transition-all flex justify-between items-center hover:shadow-md">
                     <div class="text-left">
-                        <div class="font-semibold text-sm">⭐ 100 Credits</div>
-                        <div class="text-xs text-gray-600" data-en="100 generations" data-ar="١٠٠ تصميم">١٠٠ تصميم</div>
+                        <div class="font-semibold text-sm">⭐ 120 Credits</div>
+                        <div class="text-xs text-gray-600" data-en="120 generations" data-ar="١٢٠ تصميم">١٢٠ تصميم</div>
                     </div>
                     <div class="text-right">
-                        <div class="font-bold text-green-600">10 OMR</div>
-                        <div class="text-xs text-green-600" data-en="Best Value" data-ar="أفضل قيمة">أفضل قيمة</div>
+                        <div class="font-bold text-green-600">10 <span data-en="OMR" data-ar="ريال">ريال</span></div>
+                        <div class="text-xs text-green-600" data-en="Maximum savings" data-ar="أقصى توفير">أقصى توفير</div>
                     </div>
                 </button>
                 
                 <!-- Custom Amount -->
-                <div class="custom-amount border-2 border-gray-200 rounded-lg p-3">
-                    <div class="flex gap-2">
-                        <input type="number" id="customAmount" placeholder="0" min="1" max="100" class="flex-1 px-2 py-1 border border-gray-300 rounded text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
-                        <button onclick="buyCreditsCustom()" class="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700 transition-colors">
+                <div class="custom-amount border-2 border-dashed border-gray-300 rounded-lg p-3 bg-gray-50">
+                    <div class="text-center mb-2">
+                        <div class="text-sm font-medium text-gray-700" data-en="💡 Custom Amount" data-ar="💡 مبلغ مخصص">💡 مبلغ مخصص</div>
+                        <div class="text-xs text-gray-500" data-en="Minimum 0.5 OMR = 5 credits" data-ar="أقل مبلغ 0.5 ريال = 5 أرصدة">أقل مبلغ 0.5 ريال = 5 أرصدة</div>
+                    </div>
+                    <div class="flex gap-2 items-center">
+                        <input 
+                            type="number" 
+                            id="customAmount" 
+                            placeholder="5" 
+                            min="0.5" 
+                            max="100" 
+                            step="0.5"
+                            class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm text-center focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-200"
+                        >
+                        <span class="text-sm text-gray-600 font-medium" data-en="OMR" data-ar="ريال">ريال</span>
+                        <button onclick="buyCreditsCustom()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-medium rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105">
                             <span data-en="Buy" data-ar="شراء">شراء</span>
                         </button>
                     </div>
-                    <div class="text-xs text-gray-500 mt-1">
-                        <span data-en="Custom amount in OMR (1 OMR = 10 credits)" data-ar="مبلغ مخصص بالريال العماني (١ ريال = ١٠ أرصدة)">مبلغ مخصص بالريال العماني (١ ريال = ١٠ أرصدة)</span>
+                    <div class="text-xs text-gray-500 mt-2 text-center">
+                        <span data-en="1 OMR = 10 credits" data-ar="1 ريال = 10 أرصدة">1 ريال = 10 أرصدة</span>
                     </div>
                 </div>
             </div>
@@ -1390,8 +1404,8 @@
         }
 
         function buyCreditsCustom() {
-            const customAmount = document.getElementById('customAmount').value;
-            if (customAmount && customAmount > 0 && customAmount <= 100) {
+            const customAmount = parseFloat(document.getElementById('customAmount').value);
+            if (customAmount && customAmount >= 0.5 && customAmount <= 100) {
                 const credits = Math.floor(customAmount * 10);
                 buyCredits(credits, customAmount);
             } else {
@@ -1399,8 +1413,8 @@
                     const isArabic = document.documentElement.dir === 'rtl';
                     window.app.showMessage(
                         isArabic 
-                            ? 'يرجى إدخال مبلغ صحيح (١-١٠٠ ريال)' 
-                            : 'Please enter a valid amount (1-100 OMR)',
+                            ? 'يرجى إدخال مبلغ صحيح (0.5-100 ريال)' 
+                            : 'Please enter a valid amount (0.5-100 OMR)',
                         'warning'
                     );
                 }

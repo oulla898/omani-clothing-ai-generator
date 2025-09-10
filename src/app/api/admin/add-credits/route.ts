@@ -27,9 +27,9 @@ export async function POST(request: NextRequest) {
 
     // Add credits to user
     const { data: userData, error: userError } = await supabase
-      .from('users')
+      .from('user_credits')
       .select('credits')
-      .eq('clerk_user_id', userId)
+      .eq('user_id', userId)
       .single();
 
     if (userError) {
@@ -42,9 +42,9 @@ export async function POST(request: NextRequest) {
     const newCredits = userData.credits + credits;
 
     const { error: updateError } = await supabase
-      .from('users')
+      .from('user_credits')
       .update({ credits: newCredits })
-      .eq('clerk_user_id', userId);
+      .eq('user_id', userId);
 
     if (updateError) {
       throw updateError;

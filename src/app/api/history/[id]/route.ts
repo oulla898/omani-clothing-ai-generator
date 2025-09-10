@@ -1,33 +1,12 @@
 import { auth } from '@clerk/nextjs/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
-import { rateLimiters } from '@/lib/rateLimit'
 
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
   try {
-    // Apply rate limiting for delete operations
-    const rateLimitResult = await new Promise<boolean>((resolve) => {
-      rateLimiters.general(request as any, {
-        status: (code: number) => ({
-          json: (data: any) => {
-            resolve(false);
-            return NextResponse.json(data, { status: code });
-          }
-        }),
-        setHeader: () => {},
-      } as any, () => resolve(true));
-    });
-
-    if (!rateLimitResult) {
-      return NextResponse.json({ 
-        error: 'Rate limit exceeded for delete operations.',
-        retryAfter: 60 // 1 minute
-      }, { status: 429 });
-    }
-
     const { userId } = await auth()
     
     if (!userId) {
