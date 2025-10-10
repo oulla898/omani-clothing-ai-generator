@@ -6,6 +6,9 @@ class OmaniAI {
         this.sessionReady = false;
         this.userCredits = 0;
         this.clerk = null;
+        this.generationHistory = []; // Track generation timestamps for rate limiting
+        this.maxGenerationsPerMinute = 10;
+        this.isGenerating = false; // Prevent concurrent generations
         this.init();
     }
 
@@ -223,6 +226,31 @@ class OmaniAI {
         }
     }
 
+    // Rate Limiting
+    checkRateLimit() {
+        const now = Date.now();
+        const oneMinuteAgo = now - 60000;
+        
+        // Clean up old timestamps (older than 60 seconds)
+        this.generationHistory = this.generationHistory.filter(timestamp => timestamp > oneMinuteAgo);
+        
+        // Check if user exceeded rate limit
+        if (this.generationHistory.length >= this.maxGenerationsPerMinute) {
+            const oldestTimestamp = this.generationHistory[0];
+            const waitTime = Math.ceil((oldestTimestamp + 60000 - now) / 1000);
+            return {
+                allowed: false,
+                waitTime: waitTime
+            };
+        }
+        
+        return { allowed: true, waitTime: 0 };
+    }
+
+    recordGeneration() {
+        this.generationHistory.push(Date.now());
+    }
+
     // Image Generation
     async handleGenerate() {
         if (!this.isAuthenticated) {
@@ -240,6 +268,29 @@ class OmaniAI {
                 this.currentLanguage === 'ar' 
                     ? 'جاري تحميل الحساب...' 
                     : 'Loading account...',
+                'warning'
+            );
+            return;
+        }
+
+        // Check if already generating
+        if (this.isGenerating) {
+            this.showMessage(
+                this.currentLanguage === 'ar' 
+                    ? 'جاري التوليد... يرجى الانتظار' 
+                    : 'Generation in progress... Please wait',
+                'warning'
+            );
+            return;
+        }
+
+        // Check rate limit
+        const rateCheck = this.checkRateLimit();
+        if (!rateCheck.allowed) {
+            this.showMessage(
+                this.currentLanguage === 'ar' 
+                    ? `لقد تجاوزت الحد الأقصى. يرجى الانتظار ${rateCheck.waitTime} ثانية` 
+                    : `Rate limit exceeded. Please wait ${rateCheck.waitTime} seconds`,
                 'warning'
             );
             return;
@@ -272,6 +323,8 @@ class OmaniAI {
         // Create prompt
         const prompt = `${personType} wearing ${description}`;
 
+        // Mark generation as in progress
+        this.isGenerating = true;
         this.setLoading(true);
         
         try {
@@ -283,14 +336,29 @@ class OmaniAI {
                 body: JSON.stringify({ prompt }),
             });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
             const data = await response.json();
 
-            if (data.success && data.image) {
-                this.displayGeneratedImage(data.image);
+            // Handle rate limit from server
+            if (response.status === 429 || data.rateLimitExceeded) {
+                const waitTime = data.waitTime || 60;
+                this.showMessage(
+                    this.currentLanguage === 'ar' 
+                        ? `لقد تجاوزت الحد الأقصى. يرجى الانتظار ${waitTime} ثانية` 
+                        : `Rate limit exceeded. Please wait ${waitTime} seconds`,
+                    'warning'
+                );
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error(data.error || `HTTP error! status: ${response.status}`);
+            }
+
+            if (data.success && data.imageUrl) {
+                // Record successful generation for rate limiting
+                this.recordGeneration();
+                
+                this.displayGeneratedImage(data.imageUrl);
                 this.userCredits = data.remainingCredits;
                 this.updateCreditsDisplay();
                 this.showMessage(
@@ -312,6 +380,7 @@ class OmaniAI {
                 'error'
             );
         } finally {
+            this.isGenerating = false;
             this.setLoading(false);
         }
     }

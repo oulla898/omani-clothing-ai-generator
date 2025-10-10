@@ -4,6 +4,7 @@ import Replicate from 'replicate'
 import { CreditsManager } from '@/lib/credits'
 import { TranslationService } from '@/lib/translation'
 import { supabase } from '@/lib/supabase'
+import { imageGenerationLimiter } from '@/lib/rateLimiter'
 
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
@@ -15,6 +16,18 @@ export async function POST(request: NextRequest) {
     const { userId } = await auth()
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // Check rate limit
+    const rateLimitCheck = imageGenerationLimiter.check(userId)
+    if (!rateLimitCheck.allowed) {
+      const waitTime = Math.ceil((rateLimitCheck.resetTime - Date.now()) / 1000)
+      return NextResponse.json({ 
+        error: `Rate limit exceeded. Please wait ${waitTime} seconds before trying again.`,
+        success: false,
+        rateLimitExceeded: true,
+        waitTime: waitTime
+      }, { status: 429 })
     }
 
     // Check credits
