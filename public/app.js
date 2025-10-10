@@ -3,6 +3,7 @@ class OmaniAI {
     constructor() {
         this.currentLanguage = 'en';
         this.isAuthenticated = false;
+        this.sessionReady = false;
         this.userCredits = 0;
         this.clerk = null;
         this.init();
@@ -36,6 +37,7 @@ class OmaniAI {
             // Check initial auth state
             const session = this.clerk.session;
             this.isAuthenticated = !!session;
+            this.sessionReady = !!session;
             this.updateAuthUI(this.isAuthenticated);
             
             if (this.isAuthenticated) {
@@ -50,8 +52,16 @@ class OmaniAI {
                 if (this.isAuthenticated !== wasAuthenticated) {
                     this.updateAuthUI(this.isAuthenticated);
                     if (this.isAuthenticated) {
-                        this.loadUserCredits();
+                        // Mark session as not ready until credits are loaded
+                        this.sessionReady = false;
+                        this.loadUserCredits().then(() => {
+                            // Small delay to ensure session is propagated to server
+                            setTimeout(() => {
+                                this.sessionReady = true;
+                            }, 500);
+                        });
                     } else {
+                        this.sessionReady = false;
                         this.userCredits = 0;
                         this.updateCreditsDisplay();
                     }
@@ -220,6 +230,16 @@ class OmaniAI {
                 this.currentLanguage === 'ar' 
                     ? 'يرجى تسجيل الدخول أولاً' 
                     : 'Please sign in first',
+                'warning'
+            );
+            return;
+        }
+
+        if (!this.sessionReady) {
+            this.showMessage(
+                this.currentLanguage === 'ar' 
+                    ? 'جاري تحميل الحساب...' 
+                    : 'Loading account...',
                 'warning'
             );
             return;
