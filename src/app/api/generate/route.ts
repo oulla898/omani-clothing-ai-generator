@@ -58,9 +58,9 @@ export async function POST(request: NextRequest) {
     if (aspect_ratio === "custom" && options?.customWidth && options?.customHeight) {
       aspect_ratio = `${options.customWidth}:${options.customHeight}`;
     }
-    let go_fast = options?.mode === "fast";
-    let num_inference_steps = go_fast ? 14 : 28;
-    let output_format = options?.outputFormat || "webp";
+    const go_fast = options?.mode === "fast";
+    const num_inference_steps = go_fast ? 14 : 28;
+    const output_format = options?.outputFormat || "webp";
 
     // Generate image with Replicate
     const prediction = await replicate.predictions.create({
