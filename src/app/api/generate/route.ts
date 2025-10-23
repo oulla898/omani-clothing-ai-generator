@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    const { prompt } = await request.json()
+    const { prompt, options } = await request.json()
 
     if (!prompt) {
       return NextResponse.json({ 
@@ -53,23 +53,32 @@ export async function POST(request: NextRequest) {
     
     console.log('Enhanced prompt:', enhancedPrompt)
 
+    // Advanced options logic
+    let aspect_ratio = options?.aspectRatio || "1:1";
+    if (aspect_ratio === "custom" && options?.customWidth && options?.customHeight) {
+      aspect_ratio = `${options.customWidth}:${options.customHeight}`;
+    }
+    let go_fast = options?.mode === "fast";
+    let num_inference_steps = go_fast ? 14 : 28;
+    let output_format = options?.outputFormat || "webp";
+
     // Generate image with Replicate
     const prediction = await replicate.predictions.create({
       version: '16fe80f481f289b423395181cb81f78a3e88018962e689157dcfeba15f149e2a',
       input: {
         prompt: enhancedPrompt,
         model: "dev",
-        go_fast: false,
+        go_fast,
         lora_scale: 1,
         megapixels: "1",
         num_outputs: 1,
-        aspect_ratio: "1:1",
-        output_format: "webp",
+        aspect_ratio,
+        output_format,
         guidance_scale: 3,
         output_quality: 80,
         prompt_strength: 0.8,
         extra_lora_scale: 1,
-        num_inference_steps: 28,
+        num_inference_steps,
       },
     })
 
