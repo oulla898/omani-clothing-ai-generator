@@ -74,7 +74,7 @@ REFINED PROMPT:`
 
   static createSafeFallback(prompt: string): string {
     // Clean and sanitize the prompt
-    let cleanPrompt = this.sanitizePrompt(prompt)
+    const cleanPrompt = this.sanitizePrompt(prompt)
     
     // If Arabic text, provide a safe English fallback
     if (this.isArabicText(cleanPrompt)) {
