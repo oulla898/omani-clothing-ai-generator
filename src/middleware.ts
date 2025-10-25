@@ -7,9 +7,8 @@ const isProtectedRoute = createRouteMatcher([
 ])
 
 export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) {
-    await auth.protect()
-  }
+  // Let API routes handle their own authentication
+  // This prevents middleware from interfering with API requests
 })
 
 export const config = {

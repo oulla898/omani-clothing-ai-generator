@@ -161,12 +161,31 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Generation error:', error)
+    
+    // Provide more specific error messages
+    let errorMessage = 'Internal server error';
+    let statusCode = 500;
+    
+    if (error instanceof Error) {
+      if (error.message.includes('Unauthorized') || error.message.includes('auth')) {
+        errorMessage = 'Authentication failed';
+        statusCode = 401;
+      } else if (error.message.includes('rate limit')) {
+        errorMessage = 'Rate limit exceeded';
+        statusCode = 429;
+      } else if (error.message.includes('credits')) {
+        errorMessage = 'Insufficient credits';
+        statusCode = 400;
+      }
+    }
+    
     return NextResponse.json(
       { 
-        error: 'Internal server error',
-        success: false 
+        error: errorMessage,
+        success: false,
+        details: process.env.NODE_ENV === 'development' ? (error instanceof Error ? error.message : String(error)) : undefined
       },
-      { status: 500 }
+      { status: statusCode }
     )
   }
 }
