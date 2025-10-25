@@ -44,6 +44,8 @@ class OmaniAI {
             this.updateAuthUI(this.isAuthenticated);
             
             if (this.isAuthenticated) {
+                // Wait for session to be fully ready before loading credits
+                await this.waitForSessionReady();
                 await this.loadUserCredits();
             }
             
@@ -55,14 +57,14 @@ class OmaniAI {
                 if (this.isAuthenticated !== wasAuthenticated) {
                     this.updateAuthUI(this.isAuthenticated);
                     if (this.isAuthenticated) {
-                        // Mark session as not ready until credits are loaded
+                        // Mark session as not ready until fully established
                         this.sessionReady = false;
-                        this.loadUserCredits().then(() => {
-                            // Small delay to ensure session is propagated to server
-                            setTimeout(() => {
-                                this.sessionReady = true;
-                            }, 500);
-                        });
+                        this.updateDebugInfo();
+                        
+                        // Force a session refresh to avoid stuck state
+                        await this.refreshSession();
+                        await this.waitForSessionReady();
+                        await this.loadUserCredits();
                     } else {
                         this.sessionReady = false;
                         this.userCredits = 0;
@@ -74,6 +76,46 @@ class OmaniAI {
         } catch (error) {
             console.error('Failed to initialize Clerk:', error);
         }
+    }
+
+    async waitForSessionReady() {
+        // Wait for session to be fully established on both client and server
+        let attempts = 0;
+        const maxAttempts = 15; // Increased attempts
+        
+        this.logDebug('Starting session readiness check...', 'info');
+        
+        while (attempts < maxAttempts) {
+            try {
+                // Test if session is ready by making a test API call
+                const response = await fetch('/api/auth/check', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                this.logDebug(`Session check attempt ${attempts + 1}: ${response.status}`, 'info');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    this.logDebug(`Session check response: ${JSON.stringify(data)}`, 'info');
+                    this.sessionReady = true;
+                    console.log('✅ Session is ready');
+                    this.updateDebugInfo();
+                    return;
+                }
+            } catch (error) {
+                this.logDebug(`Session check attempt ${attempts + 1} failed: ${error.message}`, 'error');
+            }
+            
+            // Wait before retry (increased delay)
+            await new Promise(resolve => setTimeout(resolve, 300));
+            attempts++;
+        }
+        
+        // If all attempts failed, still mark as ready but log warning
+        console.warn('Session readiness check failed, proceeding anyway');
+        this.sessionReady = true;
+        this.updateDebugInfo();
     }
 
     setupEventListeners() {
@@ -264,13 +306,21 @@ class OmaniAI {
         }
 
         if (!this.sessionReady) {
-            this.showMessage(
-                this.currentLanguage === 'ar' 
-                    ? 'جاري تحميل الحساب...' 
-                    : 'Loading account...',
-                'warning'
-            );
-            return;
+            this.logDebug('Session not ready, attempting recovery...', 'warning');
+            
+            // Try to recover the session
+            await this.attemptSessionRecovery();
+            
+            if (!this.sessionReady) {
+                this.logDebug('Session recovery failed, showing user message', 'error');
+                this.showMessage(
+                    this.currentLanguage === 'ar' 
+                        ? 'جاري تحميل الحساب... يرجى المحاولة مرة أخرى' 
+                        : 'Loading account... Please try again',
+                    'warning'
+                );
+                return;
+            }
         }
 
         // Check if already generating
@@ -337,6 +387,21 @@ class OmaniAI {
             });
 
             const data = await response.json();
+
+            // Handle session not ready error with retry
+            if (response.status === 401 && data.code === 'AUTH_PENDING' && data.retry) {
+                this.logDebug('Session not ready, retrying in 1 second...', 'warning');
+                this.showMessage(
+                    this.currentLanguage === 'ar' 
+                        ? 'جاري تحضير الحساب...' 
+                        : 'Preparing account...',
+                    'info'
+                );
+                
+                // Wait and retry once
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                return this.handleGenerate();
+            }
 
             // Handle rate limit from server
             if (response.status === 429 || data.rateLimitExceeded) {

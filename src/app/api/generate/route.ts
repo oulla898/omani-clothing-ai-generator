@@ -12,10 +12,36 @@ const replicate = new Replicate({
 
 export async function POST(request: NextRequest) {
   try {
-    // Check authentication
-    const { userId } = await auth()
+    // Enhanced logging for debugging
+    const cookies = request.headers.get('cookie');
+    console.log('Request cookies:', cookies);
+
+    // Check authentication with retry logic for session propagation
+    let { userId, sessionId } = await auth();
+    console.log('Clerk userId:', userId, 'sessionId:', sessionId);
+
     if (!userId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      // Wait 500ms and retry once in case of session propagation delay
+      console.log('No userId found, retrying after delay...');
+      await new Promise(resolve => setTimeout(resolve, 500));
+      const retryAuth = await auth();
+      userId = retryAuth.userId;
+      sessionId = retryAuth.sessionId;
+      console.log('Retry auth result:', { userId, sessionId });
+      
+      if (!userId) {
+        console.error('No userId found even after retry - this indicates a session propagation issue');
+        console.error('Request headers:', Object.fromEntries(request.headers.entries()));
+        return NextResponse.json(
+          { 
+            error: 'Session not ready', 
+            code: 'AUTH_PENDING',
+            retry: true,
+            message: 'Please wait a moment and try again'
+          }, 
+          { status: 401 }
+        );
+      }
     }
 
     // Check rate limit
