@@ -1083,9 +1083,15 @@
 
                 try {
                     // 1. First, check for notifications immediately
+                    // Get session token for API calls
+                    const token = this.clerk?.session ? await this.clerk.session.getToken() : null;
+                    
                     const notificationPromise = fetch('/api/notifications', {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            ...(token && { 'Authorization': `Bearer ${token}` })
+                        },
                         body: JSON.stringify({ prompt })
                     }).then(async (response) => {
                         if (response.ok) {
@@ -1102,7 +1108,10 @@
                     // 2. Start image generation (this will take longer)
                     const generatePromise = fetch('/api/generate', {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
+                        headers: { 
+                            'Content-Type': 'application/json',
+                            ...(token && { 'Authorization': `Bearer ${token}` })
+                        },
                         body: JSON.stringify({ prompt, options })
                     });
 
