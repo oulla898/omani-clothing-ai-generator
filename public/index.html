@@ -1729,9 +1729,9 @@
             // Create WhatsApp message based on language
             let message;
             if (isArabic) {
-                message = `السلام عليكم! أريد شراء رصيد لتطبيق هيبة للذكاء الاصطناعي%0A%0Aالمبلغ: ${omr} ريال عماني (${credits} رصيد)%0Aمعرف المستخدم: ${userId}`;
+                message = `السلام عليكم! أريد شراء رصيد لتطبيق هيبة للذكاء الاصطناعي%0A%0Aالمبلغ: ${omr} ريال عماني (${credits} رصيد)%0Aمعرف المستخدم: ${userId}%0A%0Aسأحول إلى:%0A96041234 - Bank Muscat%0AAL MAALA AL MAAWALI%0A%0Aسأشارك إيصال التحويل معك بعد الدفع%0A%0Aشكراً لك!`;
             } else {
-                message = `Hello! I'd like to buy credits for Heiba AI%0A%0AAmount: ${omr} OMR (${credits} credits)%0AUser ID: ${userId}`;
+                message = `Hello! I'd like to buy credits for Heiba AI%0A%0AAmount: ${omr} OMR (${credits} credits)%0AUser ID: ${userId}%0A%0AI will transfer to:%0A96041234 - Bank Muscat%0AAL MAALA AL MAAWALI%0A%0AI'll share the transfer receipt with you after payment%0A%0AThank you!`;
             }
             
             // Bulletproof WhatsApp opener
