@@ -9,10 +9,21 @@
         gtag('js', new Date());
 
         gtag('config', 'AW-11097953181');
-    </script>
-    <!-- Event snippet for Contact conversion page -->
-    <script>
-        gtag('event', 'conversion', {'send_to': 'AW-11097953181/TffgCOGE_4wYEJ2n9asp'});
+
+        // Google Ads conversion helper
+        function gtag_report_conversion(url) {
+            const callback = function () {
+                if (typeof url !== 'undefined') {
+                    window.location = url;
+                }
+            };
+            gtag('event', 'conversion', {
+                send_to: 'AW-11097953181/TffgCOGE_4wYEJ2n9asp',
+                event_callback: callback,
+            });
+            return false;
+        }
+        window.gtag_report_conversion = gtag_report_conversion;
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1910,17 +1921,6 @@
             } else {
                 message = `Hello! I'd like to buy credits for Heiba AI%0A%0AAmount: ${omr} OMR (${credits} credits)%0AUser ID: ${userId}%0A%0AI will transfer to:%0A${CONTACT_INFO.bankAccount} - Bank Muscat%0AAL MAALA AL MAAWALI%0A%0AI'll share the transfer receipt with you after payment%0A%0AThank you!`;
             }
-
-            // Fire Google Ads conversion event when user engages WhatsApp CTA
-            try {
-                if (typeof gtag === 'function') {
-                    gtag('event', 'conversion', {
-                        send_to: 'AW-11097953181/TffgCOGE_4wYEJ2n9asp'
-                    });
-                }
-            } catch (err) {
-                console.warn('gtag conversion event failed:', err);
-            }
             
             // Bulletproof WhatsApp opener
             const phoneNumber = CONTACT_INFO.phoneWithCountry;
@@ -1928,6 +1928,11 @@
             // Detect platform
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
             
+            // Report conversion when user clicks WhatsApp
+            if (typeof window.gtag_report_conversion === 'function') {
+                window.gtag_report_conversion();
+            }
+
             if (isMobile) {
                 // Mobile: Use wa.me (opens app directly)
                 window.location.href = `https://wa.me/${phoneNumber}?text=${message}`;
