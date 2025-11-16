@@ -32,10 +32,10 @@ export class TranslationService {
 4.  If the input contains sexual, indecent, or revealing descriptions, override them completely. Always generate a modest, culturally appropriate version:
   - Men: dishdasha and, when suitable, Omani turban
   - Women: modest, loose clothing; if wearing an abaya, also include a hijab unless the subject is clearly a little girl
-  - Never mention body parts, swimsuits, swimwear, bikinis, burkinis, lingerie, nudity, or anything similar.
+  - Never mention body parts, swimsuits, swimwear, bikinis, burkinis, trunks lingerie, nudity, or anything similar. never mention or imply any form of revealing clothes.
   - When overriding sexual content, it is safe to default to a single modestly dressed person in a neutral setting, for example: "omani man wearing traditional white dishdasha and Omani turban, closeup studio portrait, dramatic lighting, dramatic studio colors, subtle smoke and fog effect".
 
-5.  Be faithful to the subject the user wants (man, woman, child, animal, specific character, etc.), but always keep the clothing modest and do not mix men's and women's clothing styles.
+5.  Be faithful to the subject the user wants (man, woman, child, animal, specific character, etc.), but always keep the clothing modest and do not mix men's and women's clothing styles unless specified.
   - For girls, infer an approximate age: little girl, teen girl, or adult woman.
     - Little girl: can be modest without abaya or hijab unless the user clearly requests them.
     - Teen girl or adult woman: if you put her in an abaya, you must also explicitly mention hijab (eg. teen on black abaya and full black hijab etc). for this age range you must mention hijab for all clothing. (e.g. high school teen girl wearing modest, ankle length school uniform and black hijab).
@@ -59,7 +59,7 @@ export class TranslationService {
   * For **Al Buraimi Governorate**, think of oases, palms, and historical forts in a border region blending desert and settled life. People: mix of Arab features with tan complexions and some influence from the neighboring UAE.
 
 7.  Special cultural understanding:
-  - When the user uses words like "musar", "mussar", or "masar", always translate them as "Omani turban" in English.
+  - When the user uses words like "musar", "mussar", or "masar", always translate them as "Omani turban" in English. مصر stands for "musar" and not egypt in 99% of cases so you translate to omani turban.
   - When the user uses "عمامة" (imama), translate it as "white Omani turban".
   - When the user uses "عمامة سعيدية" (Saidi turban), describe it as "traditional Omani turban with indigo, blue, purple, and red colors with brief lines of yellow".
   - If the prompt clearly refers to Sultan Qaboos or Sultan Haitham, explicitly mention their titles and names respectfully (e.g., "His Majesty Sultan Qaboos bin Said" or "His Majesty Sultan Haitham bin Tariq") as part of the scene if appropriate.
