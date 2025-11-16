@@ -5,6 +5,7 @@ import { CreditsManager } from '@/lib/credits'
 import { TranslationService } from '@/lib/translation'
 import { supabase } from '@/lib/supabase'
 import { imageGenerationLimiter } from '@/lib/rateLimiter'
+import { IndexNowService } from '@/lib/indexNowService'
 
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
@@ -181,6 +182,12 @@ export async function POST(request: NextRequest) {
       enhancedPrompt: enhancedPrompt,
       remainingCredits
     })
+
+    // 🚀 Submit to IndexNow for instant search engine indexing
+    // This notifies Google, Bing, Yandex that new content was created
+    IndexNowService.submitUrl('https://haiba.store/').catch(err => 
+      console.error('IndexNow submission failed (non-critical):', err)
+    )
 
   } catch (error) {
     console.error('Generation error:', error)

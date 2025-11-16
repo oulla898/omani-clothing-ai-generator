@@ -1,9 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    <url>
-        <loc>https://omani-clothing-ai-generator.vercel.app</loc>
-        <lastmod>2025-01-07</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-    </url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Homepage -->
+  <url>
+    <loc>https://haiba.store/</loc>
+    <lastmod>2024-11-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://haiba.store/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://haiba.store/" />
+  </url>
+  
+  <!-- History Page -->
+  <url>
+    <loc>https://haiba.store/history</loc>
+    <lastmod>2024-11-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://haiba.store/history" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://haiba.store/history" />
+  </url>
+  
+  <!-- Pricing Page -->
+  <url>
+    <loc>https://haiba.store/pricing</loc>
+    <lastmod>2024-11-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://haiba.store/pricing" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://haiba.store/pricing" />
+  </url>
 </urlset>
