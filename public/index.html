@@ -180,27 +180,27 @@
         </header>
 
         <!-- Main Generation Section -->
-        <main class="flex-1 flex items-center justify-center px-4 py-8">
+        <main class="flex-1 flex items-center justify-center px-4 py-4 md:py-6">
             <div class="w-full max-w-2xl">
                 
                 <!-- Hero Text -->
-                <div class="text-center mb-8">
-                    <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-4">
+                <div class="text-center mb-6">
+                    <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-3">
                         <span data-en="Create Traditional" data-ar="أنشئ أزياء">أنشئ أزياء</span><br>
                         <span class="gradient-bg bg-clip-text text-transparent" data-en="Omani Fashion" data-ar="عمانية تراثية">عمانية تراثية</span>
                     </h1>
-                    <div class="flex justify-center mb-4">
-                        <span class="text-sm bg-orange-100 text-orange-600 px-3 py-1 rounded-full font-medium" data-en="Experimental" data-ar="تجريبي">تجريبي</span>
+                    <div class="flex justify-center mb-3">
+                        <span class="text-xs bg-orange-100 text-orange-600 px-3 py-1 rounded-full font-medium" data-en="Experimental" data-ar="تجريبي">تجريبي</span>
                     </div>
-                    <p class="text-xl text-gray-600 mb-6" data-en="AI that perfects the Misar fold, Bisht elegance, and Khanjar shine" data-ar="ذكاء اصطناعي عماني يضبط لفة المِصر وهيبة البشت">ذكاء اصطناعي عماني يضبط لفة المِصر وهيبة البشت ولمعة الخنجر</p>
+                    <p class="text-base md:text-lg text-gray-600 leading-relaxed px-4" data-en="AI that perfects the Misar fold and Bisht elegance. Describe in text, get an image ✨" data-ar="ذكاء اصطناعي يضبط لفة المِصر وهيبة البشت • صِف بالكلام واحصل على صورة ✨">ذكاء اصطناعي يضبط لفة المِصر وهيبة البشت • صِف بالكلام واحصل على صورة ✨</p>
                 </div>
 
                 <!-- Generation Form -->
-                <div class="bg-white/80 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-xl border border-white/20">
+                <div class="bg-white/80 backdrop-blur-md rounded-3xl p-4 md:p-6 shadow-xl border border-white/20">
                     
                     <!-- Description Input -->
-                    <div class="mb-6">
-                        <div class="flex items-center justify-between mb-3">
+                    <div class="mb-4">
+                        <div class="flex items-center justify-between mb-2">
                             <label class="block text-sm font-medium text-gray-700" data-en="Describe your vision:" data-ar="صف رؤيتك:">صف رؤيتك:</label>
                             <button 
                                 id="suggestionButton" 
@@ -211,24 +211,24 @@
                         </div>
                         <textarea 
                             id="description" 
-                            rows="4" 
-                            class="w-full px-4 py-3 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none"
+                            rows="3" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-2xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 resize-none text-sm"
                             data-placeholder-en="Describe the traditional Omani clothing you want to create..."
                             data-placeholder-ar="صف الأزياء العمانية التراثية التي تريد إنشاءها..."
                             placeholder="صف الأزياء العمانية التراثية التي تريد إنشاءها..."></textarea>
                     </div>
 
                     <!-- Advanced Options (Collapsible) -->
-                    <div class="mb-6">
+                    <div class="mb-3">
                         <button 
                             id="toggleAdvancedOptions" 
                             onclick="toggleAdvancedOptions()" 
-                            class="flex items-center justify-between w-full px-4 py-3 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors text-left">
+                            class="flex items-center justify-between w-full px-3 py-2 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors text-left">
                             <div class="flex items-center gap-2">
-                                <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
                                 </svg>
-                                <span class="text-sm font-medium text-gray-700" data-en="Advanced Options" data-ar="خيارات متقدمة">خيارات متقدمة</span>
+                                <span class="text-xs font-medium text-gray-700" data-en="Advanced Options" data-ar="خيارات متقدمة">خيارات متقدمة</span>
                             </div>
                             <svg id="advancedOptionsChevron" class="w-4 h-4 text-gray-500 transition-transform transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
@@ -236,7 +236,7 @@
                         </button>
                         
                         <!-- Collapsible Options Panel -->
-                        <div id="advancedOptionsPanel" class="hidden mt-3 p-4 bg-gray-50 rounded-xl border border-gray-200 space-y-4">
+                        <div id="advancedOptionsPanel" class="hidden mt-2 p-3 bg-gray-50 rounded-xl border border-gray-200 space-y-3">
                             
                             <!-- Speed vs Quality Toggle -->
                             <div class="space-y-2">
@@ -341,8 +341,11 @@
                     </div>
 
                     <!-- Generate Button -->
-                    <button id="generateButton" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-2xl transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg">
-                        <span data-en="✨ Generate Traditional Clothing" data-ar="✨ أنشئ الأزياء التراثية">✨ أنشئ الأزياء التراثية</span>
+                    <button id="generateButton" class="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-2xl transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-lg relative overflow-hidden">
+                        <span id="generateButtonText" data-en="✨ Generate Traditional Clothing" data-ar="✨ أنشئ الأزياء التراثية">✨ أنشئ الأزياء التراثية</span>
+                        <span id="generateButtonLoading" class="hidden">
+                            <span data-en="⏳ Generating..." data-ar="⏳ جارٍ الإنشاء...">⏳ جارٍ الإنشاء...</span>
+                        </span>
                     </button>
 
                     <!-- Refined Prompt Display (Initially Hidden) -->
@@ -386,26 +389,8 @@
         <div class="max-w-6xl mx-auto">
             <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800" data-en="Sample Traditional Creations" data-ar="نماذج من الإبداعات التراثية">نماذج من الإبداعات التراثية</h2>
             
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                <div class="card-hover">
-                    <img src="رجل لابس مصر وبشت.jpg" alt="رجل لابس مصر وبشت" class="sample-image w-full">
-                    <p class="text-center mt-2 text-sm text-gray-600" data-en="Traditional Misar & Bisht" data-ar="مصر وبشت تراثي">مصر وبشت تراثي</p>
-                </div>
-                
-                <div class="card-hover">
-                    <img src="طفل لابس مصر وبشت.jpg" alt="طفل لابس مصر وبشت" class="sample-image w-full">
-                    <p class="text-center mt-2 text-sm text-gray-600" data-en="Child in Traditional Wear" data-ar="طفل بالزي التراثي">طفل بالزي التراثي</p>
-                </div>
-                
-                <div class="card-hover">
-                    <img src="عائلة رحال لابس مصر وبشت والللطفل لابس بس مصر.jpg" alt="عائلة تراثية" class="sample-image w-full">
-                    <p class="text-center mt-2 text-sm text-gray-600" data-en="Traditional Family" data-ar="عائلة تراثية">عائلة تراثية</p>
-                </div>
-                
-                <div class="card-hover">
-                    <img src="معرس بشت وخنجر.jpg" alt="معرس بشت وخنجر" class="sample-image w-full">
-                    <p class="text-center mt-2 text-sm text-gray-600" data-en="Groom with Bisht & Khanjar" data-ar="معرس ببشت وخنجر">معرس ببشت وخنجر</p>
-                </div>
+            <div id="sampleImagesGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <!-- Sample images will be randomly generated here -->
             </div>
         </div>
     </section>
@@ -535,7 +520,7 @@
                     </p>
                     <p class="text-xs opacity-75 flex items-start gap-2 mt-4 p-3 bg-gray-50 rounded-xl">
                         <span>📧</span>
-                        <span>للملاحظات والاقتراحات: <a href="mailto:oulla898@gmail.com" class="text-indigo-600 hover:underline">oulla898@gmail.com</a></span>
+                        <span>للملاحظات والاقتراحات: <a href="mailto:haiba.auth@gmail.com" class="text-indigo-600 hover:underline">haiba.auth@gmail.com</a></span>
                     </p>
                 </div>
                 
@@ -555,7 +540,7 @@
                     </p>
                     <p class="text-xs opacity-75 flex items-start gap-2 mt-4 p-3 bg-gray-50 rounded-xl">
                         <span>📧</span>
-                        <span>Feedback & suggestions: <a href="mailto:oulla898@gmail.com" class="text-indigo-600 hover:underline">oulla898@gmail.com</a></span>
+                        <span>Feedback & suggestions: <a href="mailto:haiba.auth@gmail.com" class="text-indigo-600 hover:underline">haiba.auth@gmail.com</a></span>
                     </p>
                 </div>
             </div>
@@ -750,8 +735,8 @@
                         </div>
                         <div class="flex items-start gap-2">
                             <div class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">3</div>
-                            <div class="text-sm text-gray-700">
-                                <span data-en="Transfer to: 96041234 (Bank Muscat)" data-ar="حوّل إلى: 96041234 (بنك مسقط)">حوّل إلى: 96041234 (بنك مسقط)</span>
+                            <div class="text-sm text-gray-700" id="transferInstruction">
+                                <span data-en="Transfer to: 77310987 (Bank Muscat)" data-ar="حوّل إلى: 77310987 (بنك مسقط)">حوّل إلى: 77310987 (بنك مسقط)</span>
                             </div>
                         </div>
                         <div class="flex items-start gap-2">
@@ -782,6 +767,14 @@
     </div>
 
     <script>
+        // Global Contact Information
+        const CONTACT_INFO = {
+            phone: '77310987',
+            phoneWithCountry: '96877310987',
+            email: 'haiba.auth@gmail.com',
+            bankAccount: '77310987'
+        };
+
         // Enhanced OmaniAI class with new features
         class OmaniAI {
             constructor() {
@@ -790,7 +783,6 @@
                 this.userCredits = 0;
                 this.clerk = null;
                 this.currentUser = null;
-                this.savedPrompt = '';
                 this.init();
             }
 
@@ -800,11 +792,155 @@
                 // Create browser session ID for non-authenticated users
                 this.createBrowserSession();
                 
+                // Restore saved prompt from localStorage if exists
+                this.restoreSavedPrompt();
+                
                 await this.initializeClerk();
                 this.setupEventListeners();
                 this.updateLanguage();
+                this.loadRandomSampleImages();
                 
                 console.log('✅ Modern app initialized successfully');
+            }
+
+            restoreSavedPrompt() {
+                try {
+                    const savedPrompt = localStorage.getItem('heiba-pending-prompt');
+                    console.log('🔍 Checking for saved prompt:', savedPrompt);
+                    
+                    if (savedPrompt) {
+                        const textarea = document.getElementById('description');
+                        console.log('📝 Textarea element:', textarea);
+                        
+                        if (textarea) {
+                            textarea.value = savedPrompt;
+                            console.log('✅ Restored saved prompt:', savedPrompt);
+                            
+                            // Show user feedback
+                            this.showMessage(
+                                this.currentLanguage === 'ar' 
+                                    ? '✅ تم استرجاع النص الذي كتبته' 
+                                    : '✅ Your text has been restored',
+                                'success'
+                            );
+                        } else {
+                            console.warn('⚠️ Textarea not found!');
+                        }
+                        
+                        // Clear it from storage after restoring
+                        localStorage.removeItem('heiba-pending-prompt');
+                        console.log('🗑️ Cleared saved prompt from storage');
+                    } else {
+                        console.log('ℹ️ No saved prompt found');
+                    }
+                } catch (error) {
+                    console.error('❌ Error restoring prompt:', error);
+                }
+            }
+
+            savePromptToStorage() {
+                try {
+                    const textarea = document.getElementById('description');
+                    const prompt = textarea?.value?.trim();
+                    
+                    console.log('💾 Attempting to save prompt...');
+                    console.log('📝 Textarea element:', textarea);
+                    console.log('📄 Prompt value:', prompt);
+                    
+                    if (prompt) {
+                        localStorage.setItem('heiba-pending-prompt', prompt);
+                        console.log('✅ Saved prompt to localStorage:', prompt);
+                        console.log('🔍 Verification - stored value:', localStorage.getItem('heiba-pending-prompt'));
+                        
+                        // Show user feedback
+                        this.showMessage(
+                            this.currentLanguage === 'ar' 
+                                ? '💾 تم حفظ النص مؤقتاً' 
+                                : '💾 Text saved temporarily',
+                            'info'
+                        );
+                    } else {
+                        console.log('⚠️ No prompt to save (empty or whitespace)');
+                    }
+                } catch (error) {
+                    console.error('❌ Error saving prompt:', error);
+                }
+            }
+
+            loadRandomSampleImages() {
+                // All available sample images with descriptions
+                const sampleImages = [
+                    {
+                        src: 'black.webp',
+                        descAr: 'رجل يبتسم بلباس عماني داكن',
+                        descEn: 'Smiling man in dark Omani attire'
+                    },
+                    {
+                        src: 'child bisht musar dishdasha.jpg',
+                        descAr: 'طفل لابس دشداشة ومصر',
+                        descEn: 'Child in dishdasha and musar'
+                    },
+                    {
+                        src: 'man quran.jpg',
+                        descAr: 'رجل يقرأ القرآن',
+                        descEn: 'Man reading Quran'
+                    },
+                    {
+                        src: 'man wadi palm.webp',
+                        descAr: 'رجل في وادٍ ونخيل',
+                        descEn: 'Man in wadi with palms'
+                    },
+                    {
+                        src: 'musar and blue dishdasha.webp',
+                        descAr: 'رجل يرتدي دشداشة زرقاء ومصر',
+                        descEn: 'Man in blue dishdasha and musar'
+                    },
+                    {
+                        src: 'night man moon.png',
+                        descAr: 'رجل يتأمل تحت القمر',
+                        descEn: 'Man gazing under the moon'
+                    },
+                    {
+                        src: 'old in office 2.jpg',
+                        descAr: 'رجل مسن في مكتبة',
+                        descEn: 'Elder man in library'
+                    },
+                    {
+                        src: 'qahwa3.jpg',
+                        descAr: 'رجل يتقهوى',
+                        descEn: 'Man enjoying qahwa'
+                    },
+                    {
+                        src: 'رجل لابس مصر وبشت.jpg',
+                        descAr: 'رجل يرتدي البشت والمصر',
+                        descEn: 'Man wearing bisht and musar'
+                    }
+                ];
+
+                // Shuffle array and pick 4 random images
+                const shuffled = [...sampleImages].sort(() => Math.random() - 0.5);
+                const selected = shuffled.slice(0, 4);
+
+                // Get the grid container
+                const grid = document.getElementById('sampleImagesGrid');
+                if (!grid) return;
+
+                // Clear existing content
+                grid.innerHTML = '';
+
+                // Add selected images to grid
+                selected.forEach(img => {
+                    const div = document.createElement('div');
+                    div.className = 'card-hover';
+                    div.innerHTML = `
+                        <img src="${img.src}" alt="${img.descAr}" class="sample-image w-full">
+                        <p class="text-center mt-2 text-sm text-gray-600" data-en="${img.descEn}" data-ar="${img.descAr}">${img.descAr}</p>
+                    `;
+                    grid.appendChild(div);
+                });
+
+                // Update language for new elements
+                this.updateLanguage();
             }
 
             createBrowserSession() {
@@ -884,11 +1020,8 @@
                                 this.showCreditsLoading();
                                 await this.loadUserCredits();
                                 await this.loadUserHistory();
-                                // Restore saved prompt if exists
-                                if (this.savedPrompt) {
-                                    document.getElementById('description').value = this.savedPrompt;
-                                    this.savedPrompt = '';
-                                }
+                                // Restore saved prompt if exists (in case auth completes without page reload)
+                                this.restoreSavedPrompt();
                             } else {
                                 this.userCredits = 0;
                                 this.updateCreditsDisplay();
@@ -1007,6 +1140,8 @@
                 if (this.isAuthenticated) {
                     this.signOut();
                 } else {
+                    // Save prompt before signing in
+                    this.savePromptToStorage();
                     this.signIn();
                 }
             }
@@ -1121,8 +1256,8 @@
             // Image generation
             async handleGenerate() {
                 if (!this.isAuthenticated) {
-                    // Save prompt for after login
-                    this.savedPrompt = document.getElementById('description').value;
+                    // Save prompt to localStorage before redirecting to sign in
+                    this.savePromptToStorage();
                     
                     this.showMessage(
                         this.currentLanguage === 'ar' 
@@ -1163,6 +1298,23 @@
                 if (options.aspectRatio === 'custom') {
                     options.customWidth = advancedOptions.customWidth || 512;
                     options.customHeight = advancedOptions.customHeight || 512;
+                }
+
+                // Button feedback - change state immediately
+                const generateBtn = document.getElementById('generateButton');
+                const btnText = document.getElementById('generateButtonText');
+                const btnLoading = document.getElementById('generateButtonLoading');
+                
+                if (generateBtn && btnText && btnLoading) {
+                    generateBtn.disabled = true;
+                    generateBtn.classList.add('opacity-75', 'cursor-not-allowed');
+                    btnText.classList.add('hidden');
+                    btnLoading.classList.remove('hidden');
+                    
+                    // Add vibration feedback if supported
+                    if (navigator.vibrate) {
+                        navigator.vibrate([50, 30, 50]); // Short vibration pattern
+                    }
                 }
 
                 this.showGenerationStatus(true);
@@ -1250,6 +1402,18 @@
                     );
                 } finally {
                     this.showGenerationStatus(false);
+                    
+                    // Restore button state
+                    const generateBtn = document.getElementById('generateButton');
+                    const btnText = document.getElementById('generateButtonText');
+                    const btnLoading = document.getElementById('generateButtonLoading');
+                    
+                    if (generateBtn && btnText && btnLoading) {
+                        generateBtn.disabled = false;
+                        generateBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                        btnText.classList.remove('hidden');
+                        btnLoading.classList.add('hidden');
+                    }
                 }
             }
 
@@ -1729,13 +1893,13 @@
             // Create WhatsApp message based on language
             let message;
             if (isArabic) {
-                message = `السلام عليكم! أريد شراء رصيد لتطبيق هيبة للذكاء الاصطناعي%0A%0Aالمبلغ: ${omr} ريال عماني (${credits} رصيد)%0Aمعرف المستخدم: ${userId}%0A%0Aسأحول إلى:%0A96041234 - Bank Muscat%0AAL MAALA AL MAAWALI%0A%0Aسأشارك إيصال التحويل معك بعد الدفع%0A%0Aشكراً لك!`;
+                message = `السلام عليكم! أريد شراء رصيد لتطبيق هيبة للذكاء الاصطناعي%0A%0Aالمبلغ: ${omr} ريال عماني (${credits} رصيد)%0Aمعرف المستخدم: ${userId}%0A%0Aسأحول إلى:%0A${CONTACT_INFO.bankAccount} - Bank Muscat%0AAL MAALA AL MAAWALI%0A%0Aسأشارك إيصال التحويل معك بعد الدفع%0A%0Aشكراً لك!`;
             } else {
-                message = `Hello! I'd like to buy credits for Heiba AI%0A%0AAmount: ${omr} OMR (${credits} credits)%0AUser ID: ${userId}%0A%0AI will transfer to:%0A96041234 - Bank Muscat%0AAL MAALA AL MAAWALI%0A%0AI'll share the transfer receipt with you after payment%0A%0AThank you!`;
+                message = `Hello! I'd like to buy credits for Heiba AI%0A%0AAmount: ${omr} OMR (${credits} credits)%0AUser ID: ${userId}%0A%0AI will transfer to:%0A${CONTACT_INFO.bankAccount} - Bank Muscat%0AAL MAALA AL MAAWALI%0A%0AI'll share the transfer receipt with you after payment%0A%0AThank you!`;
             }
             
             // Bulletproof WhatsApp opener
-            const phoneNumber = '96896041234';
+            const phoneNumber = CONTACT_INFO.phoneWithCountry;
             
             // Detect platform
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);

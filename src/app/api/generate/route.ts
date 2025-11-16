@@ -111,9 +111,9 @@ export async function POST(request: NextRequest) {
     const num_inference_steps = go_fast ? 14 : 28;
     const output_format = options?.outputFormat || "webp";
 
-    // Generate image with Replicate
+    // Generate image with Replicate - Updated to new model version
     const prediction = await replicate.predictions.create({
-      version: '16fe80f481f289b423395181cb81f78a3e88018962e689157dcfeba15f149e2a',
+      version: '428aa12661bfddd60ccb1ee98f5e645c0245d8469796db1a7779994bbc1a8e13',
       input: {
         prompt: enhancedPrompt,
         model: "dev",
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
         aspect_ratio,
         output_format,
         guidance_scale: 3,
-        output_quality: 80,
+        output_quality: 100,
         prompt_strength: 0.8,
         extra_lora_scale: 1,
         num_inference_steps,
