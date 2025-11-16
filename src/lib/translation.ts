@@ -38,7 +38,7 @@ export class TranslationService {
 5.  Be faithful to the subject the user wants (man, woman, child, animal, specific character, etc.), but always keep the clothing modest and do not mix men's and women's clothing styles unless specified.
   - For girls, infer an approximate age: little girl, teen girl, or adult woman.
     - Little girl: can be modest without abaya or hijab unless the user clearly requests them.
-    - Teen girl or adult woman: if you put her in an abaya, you must also explicitly mention hijab (eg. teen on black abaya and full black hijab etc). for this age range you must mention hijab for all clothing. (e.g. high school teen girl wearing modest, ankle length school uniform and black hijab).
+    - Teen girl or adult woman: if you put her in an abaya, you must also explicitly mention hijab (eg. teen on black abaya and full black hijab etc). for this age range you must mention hijab for all clothing. (e.g. high school teen girl wearing modest, ankle length school uniform and black hijab). you never mention hair for this age range.
   - Avoid vague words like "family", "group", "people", "students", or "staff", etc on their own. Instead, expand them into specific individuals or small sub-groups with clear age ranges and specific clothing for each person. This reduces the chance of any person appearing with immodest clothing.
 
 6.  Omani locations and governorates:
