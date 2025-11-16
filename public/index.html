@@ -1910,6 +1910,17 @@
             } else {
                 message = `Hello! I'd like to buy credits for Heiba AI%0A%0AAmount: ${omr} OMR (${credits} credits)%0AUser ID: ${userId}%0A%0AI will transfer to:%0A${CONTACT_INFO.bankAccount} - Bank Muscat%0AAL MAALA AL MAAWALI%0A%0AI'll share the transfer receipt with you after payment%0A%0AThank you!`;
             }
+
+            // Fire Google Ads conversion event when user engages WhatsApp CTA
+            try {
+                if (typeof gtag === 'function') {
+                    gtag('event', 'conversion', {
+                        send_to: 'AW-11097953181/TffgCOGE_4wYEJ2n9asp'
+                    });
+                }
+            } catch (err) {
+                console.warn('gtag conversion event failed:', err);
+            }
             
             // Bulletproof WhatsApp opener
             const phoneNumber = CONTACT_INFO.phoneWithCountry;
