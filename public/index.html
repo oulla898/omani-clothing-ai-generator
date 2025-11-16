@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11097953181"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'AW-11097953181');
+    </script>
+    <!-- Event snippet for Contact conversion page -->
+    <script>
+        gtag('event', 'conversion', {'send_to': 'AW-11097953181/TffgCOGE_4wYEJ2n9asp'});
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>هيبة | مولد الأزياء العمانية بالذكاء الاصطناعي</title>
@@ -988,16 +1001,6 @@
                         };
                         console.log('User authenticated:', window.heibaUser);
                         
-                        // Track Google Ads sign-up/login conversion
-                        if (typeof gtag !== 'undefined') {
-                            gtag('event', 'sign_up', {
-                                'method': 'Clerk',
-                                'event_category': 'User Engagement',
-                                'event_label': 'User Sign In/Up'
-                            });
-                            console.log('✅ Google Ads: Sign-up tracked');
-                        }
-                        
                         // Load credits BEFORE updating UI
                         await this.loadUserCredits();
                         await this.loadUserHistory();
@@ -1392,18 +1395,6 @@
                         
                         // Reload history
                         await this.loadUserHistory();
-                        
-                        // Track Google Ads conversion
-                        if (typeof gtag !== 'undefined') {
-                            gtag('event', 'conversion', {
-                                'send_to': 'AW-11097953181',
-                                'event_category': 'Image Generation',
-                                'event_label': 'Image Created Successfully',
-                                'value': 1.0,
-                                'currency': 'OMR'
-                            });
-                            console.log('✅ Google Ads: Image generation tracked');
-                        }
                         
                         this.showMessage(
                             this.currentLanguage === 'ar' 
@@ -2129,16 +2120,6 @@
 
         function downloadHistoryImage(imageUrl, prompt) {
             try {
-                // Track Google Ads download event
-                if (typeof gtag !== 'undefined') {
-                    gtag('event', 'download', {
-                        'event_category': 'User Engagement',
-                        'event_label': 'Image Downloaded',
-                        'value': 1
-                    });
-                    console.log('✅ Google Ads: Download tracked');
-                }
-                
                 // Use the global download function
                 window.downloadImageByUrl(imageUrl, prompt);
                 
