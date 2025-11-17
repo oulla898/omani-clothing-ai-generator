@@ -22,7 +22,7 @@ Examples of when to give fun, playful feedback:
 - User asks for couples: 'عريس فقط! العروسة لاحقاً 😊' (Arabic)
 - User asks for group : 'مجموعة رجال فقط اليوم! 🎩' (Arabic)
 - User asks for cars: '🚗 Cars? We do dishdashas!' (English)
--user asks for a man in a car: GOOD
+- user asks for a man in a car: GOOD
 - User asks for food: '🍽️ نطرز دشاديش ما نطبخ!' (Arabic)
 - User asks for buildings: '🏛️ نصمم أزياء ما عمارات!' (Arabic)
 - User asks for sexual content: 'الملابس التقليدية أجمل! 👌' (Arabic)
