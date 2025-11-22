@@ -19,18 +19,15 @@ export class IndexNowService {
    */
   static async submitUrl(url: string): Promise<void> {
     try {
-      console.log('🚀 IndexNow: Submitting URL:', url)
-
       // Validate URL
       if (!url.startsWith(SITE_URL)) {
-        console.warn('⚠️ IndexNow: URL must start with', SITE_URL)
         return
       }
 
       // Submit to all search engines in parallel
       const promises = SEARCH_ENGINES.map(async (engine) => {
         try {
-          const response = await fetch(
+          await fetch(
             `${engine}?url=${encodeURIComponent(url)}&key=${INDEXNOW_KEY}`,
             {
               method: 'GET',
@@ -39,23 +36,14 @@ export class IndexNowService {
               },
             }
           )
-
-          if (response.status === 200) {
-            console.log(`✅ IndexNow: Success on ${engine}`)
-          } else if (response.status === 202) {
-            console.log(`⏳ IndexNow: Accepted (validation pending) on ${engine}`)
-          } else {
-            console.warn(`⚠️ IndexNow: Status ${response.status} from ${engine}`)
-          }
         } catch (error) {
-          console.error(`❌ IndexNow: Error with ${engine}:`, error)
+          // Silent fail - search engine indexing is not critical
         }
       })
 
       await Promise.all(promises)
-      console.log('🎉 IndexNow: Submission complete')
     } catch (error) {
-      console.error('❌ IndexNow: Failed to submit URL:', error)
+      // Silent fail - search engine indexing is not critical
     }
   }
 
@@ -64,12 +52,9 @@ export class IndexNowService {
    */
   static async submitBatch(urls: string[]): Promise<void> {
     try {
-      console.log(`🚀 IndexNow: Submitting ${urls.length} URLs in batch`)
-
       // Validate all URLs
       const validUrls = urls.filter((url) => url.startsWith(SITE_URL))
       if (validUrls.length === 0) {
-        console.warn('⚠️ IndexNow: No valid URLs to submit')
         return
       }
 
@@ -85,7 +70,7 @@ export class IndexNowService {
       // Submit to all search engines
       const promises = SEARCH_ENGINES.map(async (engine) => {
         try {
-          const response = await fetch(engine, {
+          await fetch(engine, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json; charset=utf-8',
@@ -93,23 +78,14 @@ export class IndexNowService {
             },
             body,
           })
-
-          if (response.status === 200) {
-            console.log(`✅ IndexNow: Batch success on ${engine}`)
-          } else if (response.status === 202) {
-            console.log(`⏳ IndexNow: Batch accepted on ${engine}`)
-          } else {
-            console.warn(`⚠️ IndexNow: Batch status ${response.status} from ${engine}`)
-          }
         } catch (error) {
-          console.error(`❌ IndexNow: Batch error with ${engine}:`, error)
+          // Silent fail - search engine indexing is not critical
         }
       })
 
       await Promise.all(promises)
-      console.log('🎉 IndexNow: Batch submission complete')
     } catch (error) {
-      console.error('❌ IndexNow: Failed to submit batch:', error)
+      // Silent fail - search engine indexing is not critical
     }
   }
 

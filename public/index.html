@@ -54,7 +54,7 @@
     <link rel="canonical" href="https://omani-clothing-ai-generator.vercel.app">
     
     <!-- Favicon -->
-    <link rel="icon" href="/logo.png" type="image/png"
+    <link rel="icon" href="/logo.png" type="image/png">
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -207,6 +207,13 @@
         <main class="flex-1 flex items-center justify-center px-4 py-4 md:py-6">
             <div class="w-full max-w-2xl">
                 
+                <!-- Free Trial Banner (Pre-Login Only) -->
+                <div id="freeTrialBanner" class="hidden mb-6 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 rounded-2xl p-4 text-center shadow-lg">
+                    <div class="text-lg font-bold text-green-800 mb-1" data-en="Try for Free!" data-ar="جرّب مجاناً!">جرّب مجاناً!</div>
+                    <div class="text-sm text-green-700 mb-2" data-en="Get 3 free credits when you sign up 🎁" data-ar="احصل على 3 أرصدة مجانية عند التسجيل 🎁">احصل على 3 أرصدة مجانية عند التسجيل 🎁</div>
+                    <div class="text-xs text-green-600" data-en="No card details required" data-ar="لا نطلب بيانات بطاقتك أبداً">لا نطلب بيانات بطاقتك أبداً</div>
+                </div>
+
                 <!-- Hero Text -->
                 <div class="text-center mb-6">
                     <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-3">
@@ -485,8 +492,185 @@
         </div>
     </div>
 
+    <!-- FAQ Section -->
+    <section class="py-16 px-4 bg-white">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">
+                <span data-en="Frequently Asked Questions" data-ar="أسئلة شائعة">أسئلة شائعة</span>
+            </h2>
+            
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <details class="group bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors">
+                    <summary class="cursor-pointer font-semibold text-gray-800 flex justify-between items-center">
+                        <span data-en="Are you a registered company?" data-ar="هل أنتم مؤسسة مسجلة؟">هل أنتم مؤسسة مسجلة؟</span>
+                        <svg class="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </summary>
+                    <p class="mt-3 text-gray-600 leading-relaxed">
+                        <span data-en="Yes! We are officially registered with the Ministry of Commerce and Industry, Commercial Registration No. 1622252" data-ar="أكيد! مسجلين رسمياً في وزارة التجارة والصناعة بالسجل التجاري رقم 1622252">أكيد! مسجلين رسمياً في وزارة التجارة والصناعة بالسجل التجاري رقم 1622252</span>
+                    </p>
+                </details>
+
+                <!-- FAQ Item 2 -->
+                <details class="group bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors">
+                    <summary class="cursor-pointer font-semibold text-gray-800 flex justify-between items-center">
+                        <span data-en="How long does image generation take?" data-ar="كم يستغرق توليد الصورة؟">كم يستغرق توليد الصورة؟</span>
+                        <svg class="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </summary>
+                    <p class="mt-3 text-gray-600 leading-relaxed">
+                        <span data-en="Most images are ready within 10-30 seconds, depending on server load" data-ar="معظم الصور تنتهي خلال ١٠-٣٠ ثانية، على حسب الضغط على السيرفر">معظم الصور تنتهي خلال ١٠-٣٠ ثانية، على حسب الضغط على السيرفر</span>
+                    </p>
+                </details>
+
+                <!-- FAQ Item 3 -->
+                <details class="group bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors">
+                    <summary class="cursor-pointer font-semibold text-gray-800 flex justify-between items-center">
+                        <span data-en="Do credits expire?" data-ar="هل الرصيد له تاريخ انتهاء؟">هل الرصيد له تاريخ انتهاء؟</span>
+                        <svg class="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </summary>
+                    <p class="mt-3 text-gray-600 leading-relaxed">
+                        <span data-en="Never! Your credits stay with you forever. Use them whenever you want" data-ar="لا أبداً! رصيدك يبقى معاك إلى الأبد، استخدمه متى تبغى">لا أبداً! رصيدك يبقى معاك إلى الأبد، استخدمه متى تبغى</span>
+                    </p>
+                </details>
+
+                <!-- FAQ Item 4 -->
+                <details class="group bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors">
+                    <summary class="cursor-pointer font-semibold text-gray-800 flex justify-between items-center">
+                        <span data-en="Can I use the images commercially?" data-ar="هل أقدر أستخدم الصور تجارياً؟">هل أقدر أستخدم الصور تجارياً؟</span>
+                        <svg class="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </summary>
+                    <p class="mt-3 text-gray-600 leading-relaxed">
+                        <span data-en="Yes! All images you generate are yours. Use them however you want - commercially or personally" data-ar="أكيد! كل الصور اللي تطلعها ملكك، استخدمها زي ما تبغى - تجارياً أو شخصياً">أكيد! كل الصور اللي تطلعها ملكك، استخدمها زي ما تبغى - تجارياً أو شخصياً</span>
+                    </p>
+                </details>
+
+                <!-- FAQ Item 5 -->
+                <details class="group bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors">
+                    <summary class="cursor-pointer font-semibold text-gray-800 flex justify-between items-center">
+                        <span data-en="How do I get a refund if I'm not satisfied?" data-ar="كيف أسترجع فلوسي إذا ما عجبتني الصورة؟">كيف أسترجع فلوسي إذا ما عجبتني الصورة؟</span>
+                        <svg class="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </summary>
+                    <p class="mt-3 text-gray-600 leading-relaxed">
+                        <span data-en="Easy! Share the image and prompt with us on WhatsApp and we'll refund you - no questions asked" data-ar="سهلة! شاركنا الصورة والطلب على الواتساب ونرجع لك قيمتها بدون أسئلة">سهلة! شاركنا الصورة والطلب على الواتساب ونرجع لك قيمتها بدون أسئلة</span>
+                    </p>
+                </details>
+
+                <!-- FAQ Item 6 -->
+                <details class="group bg-gray-50 rounded-xl p-4 hover:bg-gray-100 transition-colors">
+                    <summary class="cursor-pointer font-semibold text-gray-800 flex justify-between items-center">
+                        <span data-en="How does payment work?" data-ar="كيف طريقة الدفع؟">كيف طريقة الدفع؟</span>
+                        <svg class="w-5 h-5 text-gray-500 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                        </svg>
+                    </summary>
+                    <p class="mt-3 text-gray-600 leading-relaxed">
+                        <span data-en="Transfer by phone number (77310987) under AL MAALA AL MAAWALI and send us the receipt on WhatsApp. Your credits will be added within 24 hours" data-ar="تحويل برقم الهاتف (77310987) باسم AL MAALA AL MAAWALI وترسل لنا الإيصال على الواتساب. خلال ٢٤ ساعة يضاف رصيدك">تحويل برقم الهاتف (77310987) باسم AL MAALA AL MAAWALI وترسل لنا الإيصال على الواتساب. خلال ٢٤ ساعة يضاف رصيدك</span>
+                    </p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Share Section -->
+    <section class="py-16 px-4 bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-8">
+                <div class="text-5xl mb-4">💚</div>
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
+                    <span data-en="Like what you see?" data-ar="عجبك الموقع؟">عجبك الموقع؟</span>
+                </h2>
+                <p class="text-xl text-gray-700 font-medium mb-2">
+                    <span data-en="Share it with your friends!" data-ar="شاركه مع ربعك!">شاركه مع ربعك!</span>
+                </p>
+                <p class="text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                    <span data-en="Help us preserve our heritage by sharing" data-ar="ساعدنا في الحفاظ على تراثنا عن طريق المشاركة">ساعدنا في الحفاظ على تراثنا عن طريق المشاركة</span>
+                </p>
+            </div>
+
+            <!-- Share Message Box -->
+            <div class="bg-white rounded-2xl p-6 shadow-lg border-2 border-green-200 mb-6 max-w-2xl mx-auto">
+                <div class="text-center mb-4">
+                    <p class="text-gray-700 font-medium mb-3">
+                        <span data-en="Best AI for drawing the Misar - Share now!" data-ar="أحسن ذكاء اصطناعي يرسم المِصر — شارك الحين!">أحسن ذكاء اصطناعي يرسم المِصر — شارك الحين!</span>
+                    </p>
+                </div>
+
+                <!-- Share Buttons -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <!-- WhatsApp Share -->
+                    <button onclick="shareOnWhatsApp()" class="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-xl hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105 shadow-md">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                        </svg>
+                        <span data-en="WhatsApp" data-ar="واتساب">واتساب</span>
+                    </button>
+
+                    <!-- General Share -->
+                    <button onclick="shareGeneral()" class="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white font-semibold rounded-xl hover:from-blue-600 hover:to-blue-700 transition-all transform hover:scale-105 shadow-md">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                        </svg>
+                        <span data-en="Share" data-ar="مشاركة">مشاركة</span>
+                    </button>
+
+                    <!-- Copy Link -->
+                    <button onclick="copyWebsiteLink()" class="flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white font-semibold rounded-xl hover:from-purple-600 hover:to-purple-700 transition-all transform hover:scale-105 shadow-md">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                        </svg>
+                        <span data-en="Copy Link" data-ar="انسخ الرابط">انسخ الرابط</span>
+                    </button>
+                </div>
+
+                <!-- Website Link Display -->
+                <div class="mt-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                    <div class="flex items-center justify-center gap-2 text-sm text-gray-600">
+                        <span class="font-mono text-blue-600 font-semibold">www.haiba.store</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appreciation Message -->
+            <div class="text-center">
+                <p class="text-gray-600 text-sm">
+                    <span data-en="Every share helps us preserve Omani heritage 🇴🇲" data-ar="كل مشاركة تساعدنا في الحفاظ على التراث العماني 🇴🇲">كل مشاركة تساعدنا في الحفاظ على التراث العماني 🇴🇲</span>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enterprise Section -->
+    <section class="py-16 px-4 bg-gradient-to-br from-indigo-50 to-purple-50">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-block p-2 bg-indigo-100 rounded-full mb-4">
+                <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                </svg>
+            </div>
+            <h2 class="text-3xl md:text-4xl font-bold mb-4 text-gray-800">
+                <span data-en="For Businesses & Organizations" data-ar="للشركات والمؤسسات">للشركات والمؤسسات</span>
+            </h2>
+            <p class="text-lg text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed">
+                <span data-en="Need high volume or custom solutions? We offer special packages for businesses with dedicated support and custom pricing" data-ar="تحتاج كميات كبيرة أو حلول مخصصة؟ نوفر باقات خاصة للشركات مع دعم مخصص وأسعار تنافسية">تحتاج كميات كبيرة أو حلول مخصصة؟ نوفر باقات خاصة للشركات مع دعم مخصص وأسعار تنافسية</span>
+            </p>
+            <button onclick="showEnterpriseContact()" class="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:from-indigo-700 hover:to-purple-700 transition-all transform hover:scale-105 shadow-lg">
+                <span data-en="Contact Us for Enterprise" data-ar="تواصل معنا">تواصل معنا</span>
+            </button>
+        </div>
+    </section>
+
     <!-- Developer Section - Small Link -->
-    <div class="py-6 px-4 bg-gray-50">
+    <div class="py-6 px-4 bg-gray-50 border-t border-gray-200">
         <div class="max-w-6xl mx-auto text-center">
             <button onclick="showDeveloperInfo()" class="text-sm text-gray-600 hover:text-indigo-600 transition-colors cursor-pointer flex items-center justify-center gap-2 mx-auto">
                 <span>👨‍💻</span>
@@ -497,9 +681,65 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-8 px-4">
-        <div class="max-w-6xl mx-auto text-center">
-            <p class="text-sm opacity-80">© 2025 هيبة — صُنع بحب لتراثنا</p>
+    <footer class="bg-gray-900 text-white py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <!-- Social & Contact -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <!-- Contact Info -->
+                <div class="text-center md:text-left">
+                    <h3 class="text-lg font-bold mb-4">
+                        <span data-en="Contact Us" data-ar="تواصل معنا">تواصل معنا</span>
+                    </h3>
+                    <div class="space-y-2 text-gray-300 text-sm">
+                        <a href="https://wa.me/96877310987" target="_blank" class="flex items-center justify-center md:justify-start gap-2 hover:text-green-400 transition-colors">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                            </svg>
+                            <span>77310987</span>
+                        </a>
+                        <a href="mailto:haiba.auth@gmail.com" class="flex items-center justify-center md:justify-start gap-2 hover:text-blue-400 transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                            </svg>
+                            <span>haiba.auth@gmail.com</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Social Media -->
+                <div class="text-center">
+                    <h3 class="text-lg font-bold mb-4">
+                        <span data-en="Follow Us" data-ar="تابعنا">تابعنا</span>
+                    </h3>
+                    <div class="flex justify-center gap-4">
+                        <a href="https://www.instagram.com/haiba_auth/" target="_blank" class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center hover:scale-110 transition-transform">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Legal Info -->
+                <div class="text-center md:text-right">
+                    <h3 class="text-lg font-bold mb-4">
+                        <span data-en="Legal" data-ar="معلومات قانونية">معلومات قانونية</span>
+                    </h3>
+                    <div class="text-gray-300 text-sm space-y-1">
+                        <p>
+                            <span data-en="CR No." data-ar="س.ت">س.ت</span>: 1622252
+                        </p>
+                        <p class="text-xs text-gray-400">
+                            <span data-en="Ministry of Commerce & Industry" data-ar="وزارة التجارة والصناعة">وزارة التجارة والصناعة</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-800 pt-6 text-center">
+                <p class="text-sm text-gray-400">© 2025 هيبة — صُنع بحب لتراثنا</p>
+            </div>
         </div>
     </footer>
 
@@ -610,83 +850,107 @@
 
     <!-- Credit Purchase Modal -->
     <div id="creditPurchaseModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white/95 backdrop-blur-sm rounded-3xl p-6 max-w-md w-full shadow-2xl transform transition-all max-h-[90vh] overflow-hidden">
-            <!-- Swipeable Container -->
-            <div id="modalContainer" class="relative transition-transform duration-300 ease-out" style="transform: translateX(0);">
-                
-                <!-- Page 1: Credit Packages -->
-                <div id="page1" class="w-full">
-                    <div class="text-center mb-4">
-                        <h3 class="text-xl font-bold text-gray-800 mb-1">
-                            <span data-en="Add Credits 💳" data-ar="شراء رصيد 💳">شراء رصيد 💳</span>
-                        </h3>
-                        <p class="text-gray-600 text-xs">
-                            <span data-en="Choose your credit package" data-ar="اختر باقة الرصيد المناسبة">اختر باقة الرصيد المناسبة</span>
-                        </p>
-                    </div>
+        <div class="bg-white/95 backdrop-blur-sm rounded-3xl max-w-md w-full shadow-2xl transform transition-all max-h-[90vh] flex flex-col overflow-hidden">
+            <!-- Modal Content - Scrollable -->
+            <div class="overflow-y-auto overflow-x-hidden p-6 flex-1">
+                <!-- Swipeable Container -->
+                <div id="modalContainer" class="relative transition-transform duration-300 ease-out" style="transform: translateX(0);">
+                    
+                    <!-- Page 1: Credit Packages -->
+                    <div id="page1" class="w-full">
+                        <div class="text-center mb-4">
+                            <h3 class="text-xl font-bold text-gray-800 mb-1">
+                                <span data-en="Add Credits 💳" data-ar="شراء رصيد 💳">شراء رصيد 💳</span>
+                            </h3>
+                            <p class="text-gray-600 text-xs">
+                                <span data-en="Choose your credit package" data-ar="اختر باقة الرصيد المناسبة">اختر باقة الرصيد المناسبة</span>
+                            </p>
+                        </div>
             
+            <!-- Refund Guarantee Badge -->
+            <div class="mb-4 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 rounded-xl p-3 text-center">
+                <div class="text-sm font-bold text-green-800 mb-1">
+                    <span data-en="💯 Satisfaction Guarantee" data-ar="💯 ضمان الرضا">💯 ضمان الرضا</span>
+                </div>
+                <div class="text-xs text-green-700 leading-relaxed">
+                    <span data-en="If you're not happy with an image, share it with us and we'll refund you—no questions asked" data-ar="اذا ما عجبتك صورة، شاركنا الصورة والوصف ونرد قيمتها بدون أسئلة">اذا ما عجبتك صورة، شاركنا الصورة والوصف ونرد قيمتها بدون أسئلة</span>
+                </div>
+            </div>
+
             <!-- Credit Packages -->
             <div class="space-y-2 mb-4">
-                <button onclick="buyCredits(20, 2)" class="credit-package w-full p-3 rounded-lg border-2 border-gray-200 hover:border-blue-400 transition-all flex justify-between items-center hover:shadow-md">
+                <!-- Starter Plan -->
+                <button onclick="buyCredits(1, 0.1)" class="credit-package w-full p-3 rounded-lg border-2 border-gray-200 hover:border-purple-400 transition-all flex justify-between items-center hover:shadow-md">
                     <div class="text-left">
-                        <div class="font-semibold text-sm">💫 20 Credits</div>
-                        <div class="text-xs text-gray-600" data-en="20 generations" data-ar="٢٠ تصميم">٢٠ تصميم</div>
+                        <div class="font-semibold text-sm">
+                            <span data-en="✨ Starter" data-ar="✨ تجريبي">✨ تجريبي</span>
+                        </div>
+                        <div class="text-xs text-gray-600">
+                            <span data-en="Risk-free trial" data-ar="بدون مخاطرة — جرّب بـ100 بيسة بس">بدون مخاطرة — جرّب بـ100 بيسة بس</span>
+                        </div>
                     </div>
                     <div class="text-right">
-                        <div class="font-bold text-blue-600">2 <span data-en="OMR" data-ar="ريال">ريال</span></div>
+                        <div class="font-bold text-purple-600">
+                            <span data-en="100 Baisa" data-ar="100 بيسة">100 بيسة</span>
+                        </div>
+                        <div class="text-xs text-gray-500">1 <span data-en="credit" data-ar="رصيد">رصيد</span></div>
                     </div>
                 </button>
                 
-                <button onclick="buyCredits(50, 4)" class="credit-package popular w-full p-3 rounded-lg border-2 border-orange-400 bg-orange-50 transition-all flex justify-between items-center hover:shadow-md relative">
-                    <div class="absolute -top-1 -right-1 bg-orange-500 text-white text-xs px-1 py-0.5 rounded-full">
-                        <span data-en="Best Value" data-ar="أفضل قيمة">أفضل قيمة</span>
-                    </div>
+                <!-- Basic Plan -->
+                <button onclick="buyCredits(10, 1)" class="credit-package w-full p-3 rounded-lg border-2 border-gray-200 hover:border-blue-400 transition-all flex justify-between items-center hover:shadow-md">
                     <div class="text-left">
-                        <div class="font-semibold text-sm">🔥 50 Credits</div>
-                        <div class="text-xs text-gray-600" data-en="50 generations" data-ar="٥٠ تصميم">٥٠ تصميم</div>
+                        <div class="font-semibold text-sm">
+                            <span data-en="💫 Basic" data-ar="💫 أساسي">💫 أساسي</span>
+                        </div>
+                        <div class="text-xs text-gray-600">
+                            <span data-en="Perfect for personal use" data-ar="مناسب للاستخدام الشخصي">مناسب للاستخدام الشخصي</span>
+                        </div>
                     </div>
                     <div class="text-right">
-                        <div class="font-bold text-orange-600">4 <span data-en="OMR" data-ar="ريال">ريال</span></div>
-                        <div class="text-xs text-orange-600" data-en="25% bonus!" data-ar="٢٥٪ مكافأة!">٢٥٪ مكافأة!</div>
+                        <div class="font-bold text-blue-600">1 <span data-en="OMR" data-ar="ريال">ريال</span></div>
+                        <div class="text-xs text-gray-500">10 <span data-en="credits" data-ar="أرصدة">أرصدة</span></div>
                     </div>
                 </button>
                 
-                <button onclick="buyCredits(120, 10)" class="credit-package w-full p-3 rounded-lg border-2 border-gray-200 hover:border-green-400 transition-all flex justify-between items-center hover:shadow-md">
+                <!-- Pro Plan (Popular) -->
+                <button onclick="buyCredits(25, 2)" class="credit-package popular w-full p-3 rounded-lg border-2 border-orange-400 bg-orange-50 transition-all flex justify-between items-center hover:shadow-md relative">
+                    <div class="absolute -top-2 -right-2 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xs px-2 py-1 rounded-full shadow-lg">
+                        <span data-en="🔥 Most Popular" data-ar="🔥 الأكثر طلباً">🔥 الأكثر طلباً</span>
+                    </div>
                     <div class="text-left">
-                        <div class="font-semibold text-sm">⭐ 120 Credits</div>
-                        <div class="text-xs text-gray-600" data-en="120 generations" data-ar="١٢٠ تصميم">١٢٠ تصميم</div>
+                        <div class="font-semibold text-sm">
+                            <span data-en="⚡ Pro" data-ar="⚡ احترافي">⚡ احترافي</span>
+                        </div>
+                        <div class="text-xs text-orange-700">
+                            <span data-en="Best value for creators" data-ar="أفضل قيمة للمبدعين">أفضل قيمة للمبدعين</span>
+                        </div>
                     </div>
                     <div class="text-right">
-                        <div class="font-bold text-green-600">10 <span data-en="OMR" data-ar="ريال">ريال</span></div>
-                        <div class="text-xs text-green-600" data-en="Maximum savings" data-ar="أقصى توفير">أقصى توفير</div>
+                        <div class="font-bold text-orange-600">2 <span data-en="OMR" data-ar="ريال">ريال</span></div>
+                        <div class="text-xs text-orange-600 font-medium">25 <span data-en="credits" data-ar="رصيد">رصيد</span></div>
                     </div>
                 </button>
                 
-                <!-- Custom Amount -->
-                <div class="custom-amount border-2 border-dashed border-gray-300 rounded-lg p-3 bg-gray-50">
-                    <div class="text-center mb-2">
-                        <div class="text-sm font-medium text-gray-700" data-en="💡 Custom Amount" data-ar="💡 مبلغ مخصص">💡 مبلغ مخصص</div>
-                        <div class="text-xs text-gray-500" data-en="Minimum 0.5 OMR = 5 credits" data-ar="أقل مبلغ 0.5 ريال = 5 أرصدة">أقل مبلغ 0.5 ريال = 5 أرصدة</div>
+                <!-- Enterprise Plan -->
+                <button onclick="showEnterpriseContact()" class="credit-package w-full p-3 rounded-lg border-2 border-indigo-300 bg-indigo-50 transition-all flex justify-between items-center hover:shadow-md">
+                    <div class="text-left">
+                        <div class="font-semibold text-sm">
+                            <span data-en="🏢 Enterprise" data-ar="🏢 للشركات">🏢 للشركات</span>
+                        </div>
+                        <div class="text-xs text-indigo-700">
+                            <span data-en="For businesses & organizations" data-ar="للشركات والمؤسسات">للشركات والمؤسسات</span>
+                        </div>
                     </div>
-                    <div class="flex gap-2 items-center">
-                        <input 
-                            type="number" 
-                            id="customAmount" 
-                            placeholder="5" 
-                            min="0.5" 
-                            max="100" 
-                            step="0.5"
-                            class="flex-1 px-3 py-2 border border-gray-300 rounded-lg text-sm text-center focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-200"
-                        >
-                        <span class="text-sm text-gray-600 font-medium" data-en="OMR" data-ar="ريال">ريال</span>
-                        <button onclick="buyCreditsCustom()" class="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white text-sm font-medium rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all transform hover:scale-105">
-                            <span data-en="Buy" data-ar="شراء">شراء</span>
-                        </button>
+                    <div class="text-right">
+                        <div class="font-bold text-indigo-600 text-sm">
+                            <span data-en="Contact us" data-ar="تواصل معنا">تواصل معنا</span>
+                        </div>
+                        <div class="text-xs text-indigo-500">
+                            <span data-en="Custom pricing" data-ar="أسعار خاصة">أسعار خاصة</span>
+                        </div>
                     </div>
-                    <div class="text-xs text-gray-500 mt-2 text-center">
-                        <span data-en="1 OMR = 10 credits" data-ar="1 ريال = 10 أرصدة">1 ريال = 10 أرصدة</span>
-                    </div>
-                </div>
+                </button>
             </div>
             
             <!-- Safety Information -->
@@ -706,87 +970,303 @@
                     </div>
                 </div>
                 
-                <!-- Page 2: WhatsApp Instructions -->
+                <!-- Page 2: Simple Payment Instructions -->
                 <div id="page2" class="w-full absolute top-0 left-full px-6">
-                    <div class="text-center mb-4">
-                        <div class="text-3xl mb-2">🎉</div>
-                        <h3 class="text-xl font-bold text-gray-800 mb-1">
-                            <span data-en="Almost Done!" data-ar="أوشكت على الانتهاء!">أوشكت على الانتهاء!</span>
-                        </h3>
-                        <p class="text-gray-600 text-sm">
-                            <span data-en="Contact us on WhatsApp to complete" data-ar="تواصل معنا على واتساب لإتمام الشراء">تواصل معنا على واتساب لإتمام الشراء</span>
-                        </p>
-                    </div>
-                    
-                    <!-- Selected Package Info -->
-                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-4 mb-4 border border-blue-200">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <div class="text-sm text-gray-600" data-en="Package:" data-ar="الباقة:">الباقة:</div>
-                                <div class="text-xl font-bold text-blue-600" id="selectedCredits">50 Credits</div>
-                            </div>
-                            <div class="text-right">
-                                <div class="text-sm text-gray-600" data-en="Price:" data-ar="السعر:">السعر:</div>
-                                <div class="text-xl font-bold text-purple-600" id="selectedPrice">4 <span data-en="OMR" data-ar="ريال">ريال</span></div>
-                            </div>
+                    <!-- Header with Package -->
+                    <div class="text-center mb-5">
+                        <div class="inline-block px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl mb-2">
+                            <span class="text-lg font-bold" id="selectedPrice">2 ریال</span>
+                            <span class="text-sm opacity-90 mx-1">•</span>
+                            <span class="text-sm" id="selectedCredits">25 <span data-en="credits" data-ar="رصيد">رصيد</span></span>
                         </div>
                     </div>
-                    
-                    <!-- User ID (Copyable) -->
-                    <div class="bg-white rounded-xl p-3 mb-4 border-2 border-dashed border-gray-300">
-                        <div class="text-xs text-gray-600 mb-1" data-en="Your User ID (share with us):" data-ar="معرف المستخدم (شاركه معنا):">معرف المستخدم (شاركه معنا):</div>
-                        <div class="flex items-center gap-2">
-                            <input type="text" id="userIdDisplay" readonly class="flex-1 text-sm font-mono bg-gray-50 px-2 py-1 rounded border border-gray-200" value="Loading...">
-                            <button onclick="copyUserId()" class="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600 transition-colors">
+
+                    <!-- Main Transfer Box - Big & Clear -->
+                    <div class="mb-5 p-5 bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl border-3 border-green-400 shadow-lg">
+                        <div class="text-center mb-4">
+                            <div class="text-2xl font-bold text-green-800 mb-1">
+                                <span data-en="Transfer To:" data-ar="حوّل إلى:">حوّل إلى:</span>
+                            </div>
+                            <div class="text-sm text-green-700 mb-3 font-semibold">
+                                <span data-en="Phone Transfer - AL MAALA AL MAAWALI" data-ar="تحويل برقم الهاتف - باسم AL MAALA AL MAAWALI">تحويل برقم الهاتف - باسم AL MAALA AL MAAWALI</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Big Bank Number -->
+                        <button onclick="copyBankNumber()" class="w-full py-4 bg-white border-2 border-green-500 rounded-xl hover:bg-green-50 transition-all group mb-3">
+                            <div class="text-3xl font-bold text-green-700 mb-1 tracking-wider" id="displayBankNumber">77310987</div>
+                            <div class="text-xs text-green-600 flex items-center justify-center gap-1">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                </svg>
+                                <span data-en="Tap to copy" data-ar="اضغط للنسخ">اضغط للنسخ</span>
+                            </div>
+                        </button>
+
+                        <div class="text-center text-xs text-green-700 font-medium">
+                            <span data-en="Then send receipt + your ID on WhatsApp" data-ar="بعدين أرسل الإيصال + معرّفك على واتساب">بعدين أرسل الإيصال + معرّفك على واتساب</span>
+                        </div>
+                    </div>
+
+                    <!-- Your ID Box -->
+                    <div class="mb-4 p-4 bg-blue-50 rounded-xl border-2 border-blue-300">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-bold text-blue-800">
+                                <span data-en="Your ID:" data-ar="معرّفك:">معرّفك:</span>
+                            </span>
+                            <button onclick="copyUserId()" class="flex items-center gap-1 px-3 py-1 bg-blue-600 text-white text-xs rounded-lg hover:bg-blue-700 transition-colors">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                </svg>
                                 <span data-en="Copy" data-ar="نسخ">نسخ</span>
                             </button>
                         </div>
-                    </div>
-                    
-                    <!-- Instructions -->
-                    <div class="space-y-2 mb-4">
-                        <div class="flex items-start gap-2">
-                            <div class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">1</div>
-                            <div class="text-sm text-gray-700">
-                                <span data-en="Click 'Open WhatsApp' below" data-ar="اضغط 'فتح واتساب' بالأسفل">اضغط 'فتح واتساب' بالأسفل</span>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-2">
-                            <div class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">2</div>
-                            <div class="text-sm text-gray-700">
-                                <span data-en="Share your User ID with us" data-ar="شارك معرف المستخدم معنا">شارك معرف المستخدم معنا</span>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-2">
-                            <div class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">3</div>
-                            <div class="text-sm text-gray-700" id="transferInstruction">
-                                <span data-en="Transfer to: 77310987 (Bank Muscat)" data-ar="حوّل إلى: 77310987 (بنك مسقط)">حوّل إلى: 77310987 (بنك مسقط)</span>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-2">
-                            <div class="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0">4</div>
-                            <div class="text-sm text-gray-700">
-                                <span data-en="Send receipt & get credits within 24h! ✅" data-ar="أرسل الإيصال لتحصل على الرصيد خلال ٢٤ ساعة ✅">أرسل الإيصال لتحصل على الرصيد خلال ٢٤ ساعة ✅</span>
-                            </div>
+                        <code id="userIdDisplay" class="block text-xs font-mono text-gray-700 bg-white px-3 py-2 rounded border border-blue-200 break-all">Loading...</code>
+                        <div class="text-xs text-blue-600 mt-2 text-center">
+                            <span data-en="Share this ID when you contact us" data-ar="شارك هذا المعرّف عند التواصل">شارك هذا المعرّف عند التواصل</span>
                         </div>
                     </div>
-                    
-                    <!-- WhatsApp Button -->
-                    <button onclick="openWhatsAppForPurchase()" class="w-full py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-bold rounded-xl hover:from-green-600 hover:to-green-700 transition-all transform hover:scale-105 shadow-lg mb-3">
-                        <div class="flex items-center justify-center gap-2">
+
+                    <!-- Contact Options -->
+                    <div class="mb-4 space-y-2">
+                        <!-- WhatsApp Button -->
+                        <button onclick="openWhatsAppForPurchase()" class="w-full py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-bold rounded-xl hover:from-green-600 hover:to-green-700 transition-all shadow-lg flex items-center justify-center gap-2">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
                             </svg>
-                            <span data-en="Open WhatsApp" data-ar="فتح واتساب">فتح واتساب</span>
+                            <span data-en="Contact on WhatsApp" data-ar="تواصل عبر واتساب">تواصل عبر واتساب</span>
+                        </button>
+
+                        <!-- Direct Contact Info -->
+                        <div class="p-3 bg-gray-50 rounded-lg border border-gray-200 text-center">
+                            <div class="text-xs text-gray-600 mb-1">
+                                <span data-en="Or contact directly:" data-ar="أو تواصل مباشرة:">أو تواصل مباشرة:</span>
+                            </div>
+                            <a href="tel:96877310987" class="text-blue-600 font-bold text-sm hover:text-blue-800">77310987</a>
                         </div>
-                    </button>
+
+                        <!-- Callback Option -->
+                        <details class="group">
+                            <summary class="cursor-pointer p-3 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors text-center border border-purple-200">
+                                <span class="text-sm text-purple-700 font-medium">
+                                    <span data-en="📞 Request callback" data-ar="📞 تحب نتواصل معك؟">📞 تحب نتواصل معك؟</span>
+                                </span>
+                            </summary>
+                            <div class="mt-2 p-3 bg-purple-50 rounded-lg border border-purple-200 space-y-2">
+                                <input type="tel" id="callbackContact" placeholder="96877310987" class="w-full px-3 py-2 border border-purple-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-400">
+                                <textarea id="callbackNotes" rows="2" placeholder="ملاحظات (اختياري)" class="w-full px-3 py-2 border border-purple-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-purple-400 resize-none"></textarea>
+                                <button onclick="submitCallbackRequest()" class="w-full py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 transition-colors">
+                                    <span data-en="Send Request" data-ar="أرسل الطلب">أرسل الطلب</span>
+                                </button>
+                            </div>
+                        </details>
+                    </div>
                     
                     <!-- Back Button -->
-                    <button onclick="goBackToPackages()" class="w-full py-2 text-gray-600 hover:text-gray-800 transition-colors text-sm">
-                        <span data-en="← Back to Packages" data-ar="← العودة للباقات">← العودة للباقات</span>
+                    <button onclick="goBackToPackages()" class="w-full py-2 text-gray-400 hover:text-gray-600 transition-colors text-sm">
+                        <span data-en="← Back to packages" data-ar="← العودة">← العودة</span>
                     </button>
                 </div>
             </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Exit-Intent Discount Popup -->
+    <div id="exitDiscountModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl transform transition-all p-6">
+            <div class="text-center mb-4">
+                <div class="text-4xl mb-2">🥺</div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">
+                    <span data-en="Wait, wait... before you go!" data-ar="لحظة لحظة.. قبل لا تروح!">لحظة لحظة.. قبل لا تروح!</span>
+                </h3>
+                <p class="text-lg text-orange-600 font-bold">
+                    <span data-en="Special 50% discount just for you!" data-ar="خصم خاص لك — 50٪ على أي باقة!">خصم خاص لك — 50٪ على أي باقة!</span>
+                </p>
+            </div>
+
+            <!-- Discounted Packages -->
+            <div class="space-y-2 mb-4">
+                <!-- Starter - 50 Baisa -->
+                <button onclick="buyCreditsWithDiscount(1, 0.05)" class="w-full p-3 rounded-lg border-2 border-orange-300 bg-orange-50 hover:bg-orange-100 transition-all flex justify-between items-center relative">
+                    <div class="absolute -top-2 -left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">50% OFF</div>
+                    <div class="text-left">
+                        <div class="font-semibold text-sm line-through text-gray-400">
+                            <span>100 بيسة</span>
+                        </div>
+                        <div class="font-bold text-lg text-orange-600">
+                            <span data-en="50 Baisa" data-ar="50 بيسة">50 بيسة</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-xs text-gray-600">1 <span data-en="credit" data-ar="رصيد">رصيد</span></div>
+                    </div>
+                </button>
+
+                <!-- Basic - 500 Baisa -->
+                <button onclick="buyCreditsWithDiscount(10, 0.5)" class="w-full p-3 rounded-lg border-2 border-orange-300 bg-orange-50 hover:bg-orange-100 transition-all flex justify-between items-center relative">
+                    <div class="absolute -top-2 -left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">50% OFF</div>
+                    <div class="text-left">
+                        <div class="font-semibold text-sm line-through text-gray-400">1 <span>ريال</span></div>
+                        <div class="font-bold text-lg text-orange-600">
+                            <span data-en="500 Baisa" data-ar="500 بيسة">500 بيسة</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-xs text-gray-600">10 <span data-en="credits" data-ar="أرصدة">أرصدة</span></div>
+                    </div>
+                </button>
+
+                <!-- Pro - 1 OMR -->
+                <button onclick="buyCreditsWithDiscount(25, 1)" class="w-full p-3 rounded-lg border-2 border-orange-400 bg-gradient-to-r from-orange-50 to-red-50 hover:from-orange-100 hover:to-red-100 transition-all flex justify-between items-center relative">
+                    <div class="absolute -top-2 -left-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">50% OFF</div>
+                    <div class="text-left">
+                        <div class="font-semibold text-sm line-through text-gray-400">2 <span>ريال</span></div>
+                        <div class="font-bold text-lg text-orange-600">
+                            1 <span data-en="OMR" data-ar="ريال">ريال</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-xs text-orange-600 font-bold">25 <span data-en="credits" data-ar="رصيد">رصيد</span></div>
+                    </div>
+                </button>
+            </div>
+
+            <button onclick="acceptDiscount()" class="w-full py-3 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold rounded-xl hover:from-orange-600 hover:to-red-600 transition-all transform hover:scale-105 shadow-lg mb-3">
+                <span data-en="Claim My Discount!" data-ar="استفيد من العرض!">استفيد من العرض!</span>
+            </button>
+
+            <button onclick="closeExitDiscount()" class="w-full py-2 text-gray-500 hover:text-gray-700 transition-colors text-sm">
+                <span data-en="No thanks, I'll pay full price" data-ar="لا شكراً، سأدفع السعر الكامل">لا شكراً، سأدفع السعر الكامل</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Enterprise Contact Modal -->
+    <div id="enterpriseModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[60] flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl transform transition-all scale-95 p-6 md:p-8 relative">
+            <!-- Close Button -->
+            <button onclick="closeEnterpriseModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <div class="text-4xl mb-2">🏢</div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-1">
+                    <span data-en="Enterprise Solutions" data-ar="حلول الشركات">حلول الشركات</span>
+                </h2>
+                <p class="text-sm text-gray-600">
+                    <span data-en="Custom AI solutions for your business" data-ar="حلول ذكاء اصطناعي مخصصة لعملك">حلول ذكاء اصطناعي مخصصة لعملك</span>
+                </p>
+            </div>
+
+            <!-- Services Offered -->
+            <div class="mb-4 space-y-2">
+                <div class="p-3 bg-blue-50 rounded-lg border border-blue-200">
+                    <div class="flex items-start gap-2">
+                        <div class="text-xl">🎨</div>
+                        <div>
+                            <h3 class="font-semibold text-sm text-gray-800">
+                                <span data-en="White Labeling" data-ar="علامتك التجارية الخاصة">علامتك التجارية الخاصة</span>
+                            </h3>
+                            <p class="text-xs text-gray-600">
+                                <span data-en="Custom branding" data-ar="خصص بعلامتك">خصص بعلامتك</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-purple-50 rounded-lg border border-purple-200">
+                    <div class="flex items-start gap-2">
+                        <div class="text-xl">⚙️</div>
+                        <div>
+                            <h3 class="font-semibold text-sm text-gray-800">
+                                <span data-en="Custom Features" data-ar="مميزات مخصصة">مميزات مخصصة</span>
+                            </h3>
+                            <p class="text-xs text-gray-600">
+                                <span data-en="Tailored to your needs" data-ar="حسب احتياجاتك">حسب احتياجاتك</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-green-50 rounded-lg border border-green-200">
+                    <div class="flex items-start gap-2">
+                        <div class="text-xl">🎯</div>
+                        <div>
+                            <h3 class="font-semibold text-sm text-gray-800">
+                                <span data-en="Dedicated Support" data-ar="دعم مخصص">دعم مخصص</span>
+                            </h3>
+                            <p class="text-xs text-gray-600">
+                                <span data-en="Priority support" data-ar="دعم ذو أولوية">دعم ذو أولوية</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-3 bg-orange-50 rounded-lg border border-orange-200">
+                    <div class="flex items-start gap-2">
+                        <div class="text-xl">💰</div>
+                        <div>
+                            <h3 class="font-semibold text-sm text-gray-800">
+                                <span data-en="Bulk Pricing" data-ar="أسعار للكميات الكبيرة">أسعار للكميات الكبيرة</span>
+                            </h3>
+                            <p class="text-xs text-gray-600">
+                                <span data-en="Special rates" data-ar="أسعار خاصة">أسعار خاصة</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="mb-4 p-3 bg-gradient-to-br from-indigo-50 to-blue-50 rounded-lg border border-indigo-200">
+                <h3 class="font-semibold text-indigo-800 mb-2 text-center text-sm">
+                    <span data-en="Contact Us" data-ar="تواصل معنا">تواصل معنا</span>
+                </h3>
+                
+                <div class="space-y-1.5 text-xs">
+                    <a href="tel:96877310987" class="flex items-center gap-2 p-1.5 hover:bg-white/50 rounded transition-colors">
+                        <svg class="w-4 h-4 text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20 10.999h2C22 5.869 18.127 2 12.99 2v2C17.052 4 20 6.943 20 10.999z"/>
+                            <path d="M13 8c2.103 0 3 .897 3 3h2c0-3.225-1.775-5-5-5v2zm3.422 5.443a1.001 1.001 0 0 0-1.391.043l-2.393 2.461c-.576-.11-1.734-.471-2.926-1.66-1.192-1.193-1.553-2.354-1.66-2.926l2.459-2.394a1 1 0 0 0 .043-1.391L6.859 3.513a1 1 0 0 0-1.391-.087l-2.17 1.861a1 1 0 0 0-.29.649c-.015.25-.301 6.172 4.291 10.766C11.305 20.707 16.323 21 17.705 21c.202 0 .326-.006.359-.008a.992.992 0 0 0 .648-.291l1.86-2.171a.997.997 0 0 0-.086-1.391l-4.064-3.696z"/>
+                        </svg>
+                        <div class="font-semibold text-gray-800">77310987</div>
+                    </a>
+
+                    <a href="mailto:haiba.auth@gmail.com" class="flex items-center gap-2 p-1.5 hover:bg-white/50 rounded transition-colors">
+                        <svg class="w-4 h-4 text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2zm0 2v.511l-8 6.223-8-6.222V6h16zM4 18V9.044l7.386 5.745a.994.994 0 0 0 1.228 0L20 9.044 20.002 18H4z"/>
+                        </svg>
+                        <div class="font-semibold text-gray-800 break-all">haiba.auth@gmail.com</div>
+                    </a>
+
+                    <div class="flex items-center gap-2 p-1.5">
+                        <svg class="w-4 h-4 text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M21.721 12.752a9.711 9.711 0 0 0-.945-5.003 12.754 12.754 0 0 1-4.339 2.708 18.991 18.991 0 0 1-.214 4.772 17.165 17.165 0 0 0 5.498-2.477zM14.634 15.55a17.324 17.324 0 0 0 .332-4.647c-.952.227-1.945.347-2.966.347-1.021 0-2.014-.12-2.966-.347a17.515 17.515 0 0 0 .332 4.647 17.385 17.385 0 0 0 5.268 0zM9.772 17.119a18.963 18.963 0 0 0 4.456 0A17.182 17.182 0 0 1 12 21.724a17.18 17.18 0 0 1-2.228-4.605zM7.777 15.23a18.87 18.87 0 0 1-.214-4.774 12.753 12.753 0 0 1-4.34-2.708 9.711 9.711 0 0 0-.944 5.004 17.165 17.165 0 0 0 5.498 2.477zM21.356 14.752a9.765 9.765 0 0 1-7.478 6.817 18.64 18.64 0 0 0 1.988-4.718 18.627 18.627 0 0 0 5.49-2.098zM2.644 14.752c1.682.971 3.53 1.688 5.49 2.099a18.64 18.64 0 0 0 1.988 4.718 9.765 9.765 0 0 1-7.478-6.816zM13.878 2.43a9.755 9.755 0 0 1 6.116 3.986 11.267 11.267 0 0 1-3.746 2.504 18.63 18.63 0 0 0-2.37-6.49zM12 2.276a17.152 17.152 0 0 1 2.805 7.121c-.897.23-1.837.353-2.805.353-.968 0-1.908-.122-2.805-.353A17.151 17.151 0 0 1 12 2.276zM10.122 2.43a18.629 18.629 0 0 0-2.37 6.49 11.266 11.266 0 0 1-3.746-2.504 9.754 9.754 0 0 1 6.116-3.985z"/>
+                        </svg>
+                        <div class="font-semibold text-gray-800">www.haiba.store</div>
+                    </div>
+
+                    <div class="flex items-center gap-2 p-1.5">
+                        <svg class="w-4 h-4 text-indigo-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19.965 8.521C19.988 8.347 20 8.173 20 8c0-2.379-2.143-4.288-4.521-3.965C14.786 2.802 13.466 2 12 2s-2.786.802-3.479 2.035C6.138 3.712 4 5.621 4 8c0 .173.012.347.035.521C2.802 9.215 2 10.535 2 12s.802 2.785 2.035 3.479A3.976 3.976 0 0 0 4 16c0 2.379 2.138 4.283 4.521 3.965C9.214 21.198 10.534 22 12 22s2.786-.802 3.479-2.035C17.857 20.283 20 18.379 20 16c0-.173-.012-.347-.035-.521C21.198 14.785 22 13.465 22 12s-.802-2.785-2.035-3.479z"/>
+                        </svg>
+                        <div class="font-semibold text-gray-800">CR: 1622252</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- WhatsApp Button -->
+            <button onclick="contactViaWhatsApp()" class="w-full py-3 bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-lg hover:from-green-600 hover:to-green-700 transition-all shadow-lg flex items-center justify-center gap-2 text-sm">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                </svg>
+                <span data-en="Message us on WhatsApp" data-ar="راسلنا على واتساب">راسلنا على واتساب</span>
+            </button>
         </div>
     </div>
 
@@ -1202,17 +1682,20 @@
             updateAuthUI(authenticated) {
                 const authButton = document.getElementById('authButton');
                 const creditsDisplay = document.getElementById('creditsDisplay');
+                const freeTrialBanner = document.getElementById('freeTrialBanner');
 
                 if (authenticated) {
                     authButton.innerHTML = this.currentLanguage === 'ar' 
                         ? 'تسجيل الخروج' 
                         : 'Sign Out';
                     creditsDisplay?.classList.remove('hidden');
+                    freeTrialBanner?.classList.add('hidden');
                 } else {
                     authButton.innerHTML = this.currentLanguage === 'ar' 
                         ? 'تسجيل الدخول' 
                         : 'Sign In';
                     creditsDisplay?.classList.add('hidden');
+                    freeTrialBanner?.classList.remove('hidden');
                 }
             }
 
@@ -1707,7 +2190,7 @@
                 }, 10);
             } else {
                 panel.style.opacity = '0';
-                panel.styletransform = 'translateY(-10px)';
+                panel.style.transform = 'translateY(-10px)';
                 chevron.style.transform = 'rotate(0deg)';
                 setTimeout(() => {
                     panel.classList.add('hidden');
@@ -1846,12 +2329,13 @@
             window.selectedPackage = { credits, omr };
             
             // Update page 2 with selected package info
-            document.getElementById('selectedCredits').textContent = `${credits} Credits`;
             document.getElementById('selectedPrice').innerHTML = `${omr} <span data-en="OMR" data-ar="ريال">ريال</span>`;
+            document.getElementById('selectedCredits').innerHTML = `${credits} <span data-en="credits" data-ar="رصيد">رصيد</span>`;
             
-            // Get and display user ID
+            // Get and display user ID (full ID, not shortened)
             let userId = getUserId();
-            document.getElementById('userIdDisplay').value = userId;
+            document.getElementById('userIdDisplay').textContent = userId;
+            document.getElementById('userIdDisplay').setAttribute('data-full-id', userId);
             
             // Swipe to page 2
             const container = document.getElementById('modalContainer');
@@ -1896,17 +2380,20 @@
         }
         
         function copyUserId() {
-            const userIdInput = document.getElementById('userIdDisplay');
-            userIdInput.select();
-            document.execCommand('copy');
+            const userIdEl = document.getElementById('userIdDisplay');
+            const fullId = userIdEl.getAttribute('data-full-id') || userIdEl.textContent;
             
-            // Show feedback
-            const button = event.target.closest('button');
-            const originalText = button.innerHTML;
-            button.innerHTML = '<span data-en="Copied!" data-ar="تم النسخ!">تم النسخ!</span>';
-            setTimeout(() => {
-                button.innerHTML = originalText;
-            }, 2000);
+            navigator.clipboard.writeText(fullId).then(() => {
+                if (window.app) {
+                    const isArabic = document.documentElement.dir === 'rtl';
+                    window.app.showMessage(
+                        isArabic ? 'تم نسخ المعرّف!' : 'ID copied!',
+                        'success'
+                    );
+                }
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
         }
         
         function openWhatsAppForPurchase() {
@@ -1917,9 +2404,9 @@
             // Create WhatsApp message based on language
             let message;
             if (isArabic) {
-                message = `السلام عليكم! أريد شراء رصيد لتطبيق هيبة للذكاء الاصطناعي%0A%0Aالمبلغ: ${omr} ريال عماني (${credits} رصيد)%0Aمعرف المستخدم: ${userId}%0A%0Aسأحول إلى:%0A${CONTACT_INFO.bankAccount} - Bank Muscat%0AAL MAALA AL MAAWALI%0A%0Aسأشارك إيصال التحويل معك بعد الدفع%0A%0Aشكراً لك!`;
+                message = `السلام عليكم! أريد شراء رصيد لتطبيق هيبة للذكاء الاصطناعي%0A%0Aالمبلغ: ${omr} ريال عماني (${credits} رصيد)%0Aمعرف المستخدم: ${userId}%0A%0Aسأحول برقم الهاتف:%0A${CONTACT_INFO.bankAccount}%0Aباسم: AL MAALA AL MAAWALI%0A%0Aسأشارك إيصال التحويل معك بعد الدفع%0A%0Aشكراً لك!`;
             } else {
-                message = `Hello! I'd like to buy credits for Heiba AI%0A%0AAmount: ${omr} OMR (${credits} credits)%0AUser ID: ${userId}%0A%0AI will transfer to:%0A${CONTACT_INFO.bankAccount} - Bank Muscat%0AAL MAALA AL MAAWALI%0A%0AI'll share the transfer receipt with you after payment%0A%0AThank you!`;
+                message = `Hello! I'd like to buy credits for Heiba AI%0A%0AAmount: ${omr} OMR (${credits} credits)%0AUser ID: ${userId}%0A%0AI will transfer by phone:%0A${CONTACT_INFO.bankAccount}%0AName: AL MAALA AL MAAWALI%0A%0AI'll share the transfer receipt with you after payment%0A%0AThank you!`;
             }
             
             // Bulletproof WhatsApp opener
@@ -1984,9 +2471,17 @@
             }
         }
 
-        function showCreditModal() {
+        function showCreditModal(showUpsell = false) {
             const modal = document.getElementById('creditPurchaseModal');
             const isArabic = document.documentElement.dir === 'rtl';
+            
+            // Show upsell message if credits were just exhausted
+            if (showUpsell && window.app) {
+                const message = isArabic 
+                    ? 'صورك طلعت روعة! 😍 اختر باقة تناسبك وكمّل الإبداع — سهل وآمن'
+                    : 'Your images look amazing! 😍 Choose a package that suits you and continue creating — easy and safe';
+                window.app.showMessage(message, 'success');
+            }
             
             // Update modal content based on language
             modal.classList.remove('hidden');
@@ -1996,16 +2491,47 @@
                 modal.querySelector('.bg-white\\/95').style.transform = 'scale(1)';
             }, 10);
         }
+        
+        function showEnterpriseContact() {
+            // Close credit modal first
+            closeCreditModal();
+            
+            // Show enterprise modal
+            setTimeout(() => {
+                const modal = document.getElementById('enterpriseModal');
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.querySelector('.bg-white').style.transform = 'scale(1)';
+                }, 10);
+            }, 300);
+        }
 
-        // Smart credit alerts
-        function checkCreditsAndNotify() {
-            if (window.app && window.app.userCredits <= 0) {
-                showCreditModal();
-            } else if (window.app && window.app.userCredits <= 3) {
-                showLowCreditAlert();
+        function closeEnterpriseModal() {
+            const modal = document.getElementById('enterpriseModal');
+            modal.querySelector('.bg-white').style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        function contactViaWhatsApp() {
+            const isArabic = document.documentElement.dir === 'rtl';
+            const phoneNumber = CONTACT_INFO.phoneWithCountry;
+            const message = isArabic
+                ? 'السلام عليكم!\n\nأريد الاستفسار عن باقة الشركات 🏢\n\nنحتاج حلول مخصصة للشركات'
+                : 'Hello!\n\nI would like to inquire about the Enterprise package 🏢\n\nWe need custom business solutions';
+            
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const encodedMessage = encodeURIComponent(message);
+            
+            if (isMobile) {
+                window.location.href = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+            } else {
+                window.open(`https://web.whatsapp.com/send?phone=${phoneNumber}&text=${encodedMessage}`, '_blank');
             }
         }
 
+        // Smart credit alerts
         function showLowCreditAlert() {
             // Gentle orange glow on credit counter
             const creditsDisplay = document.getElementById('creditsDisplay');
@@ -2019,7 +2545,6 @@
             }
         }
 
-        // Smart credit alerts
         function checkCreditsAndNotify() {
             const userCredits = window.app?.userCredits || 0;
             
@@ -2030,10 +2555,217 @@
             }
         }
 
-        // Close credit modal on backdrop click
+        // Close credit modal on backdrop click and trigger exit-intent
         document.getElementById('creditPurchaseModal').addEventListener('click', function(e) {
             if (e.target === this) {
+                triggerExitIntent();
+            }
+        });
+
+        // ESC key listener for exit-intent
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const creditModal = document.getElementById('creditPurchaseModal');
+                if (!creditModal.classList.contains('hidden')) {
+                    triggerExitIntent();
+                }
+            }
+        });
+
+        // Exit-Intent Discount Functions
+        function triggerExitIntent() {
+            // Check if user has already seen discount (first-time only)
+            const hasSeenDiscount = localStorage.getItem('heiba-discount-shown');
+            
+            if (!hasSeenDiscount) {
+                // Close credit modal first
                 closeCreditModal();
+                
+                // Show discount popup after short delay
+                setTimeout(() => {
+                    showExitDiscount();
+                }, 300);
+                
+                // Mark as shown
+                localStorage.setItem('heiba-discount-shown', 'true');
+            } else {
+                // Just close the modal normally
+                closeCreditModal();
+            }
+        }
+
+        function showExitDiscount() {
+            const modal = document.getElementById('exitDiscountModal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.querySelector('.bg-white').style.transform = 'scale(1)';
+            }, 10);
+        }
+
+        function closeExitDiscount() {
+            const modal = document.getElementById('exitDiscountModal');
+            modal.querySelector('.bg-white').style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        function acceptDiscount() {
+            closeExitDiscount();
+            // Automatically proceed with first discounted package selection
+            setTimeout(() => {
+                showCreditModal();
+            }, 300);
+        }
+
+        function buyCreditsWithDiscount(credits, omr) {
+            closeExitDiscount();
+            // Open credit modal and go to page 2 with discount applied
+            setTimeout(() => {
+                window.selectedPackage = { credits, omr };
+                document.getElementById('selectedPrice').innerHTML = `${omr} <span data-en="OMR" data-ar="ريال">ريال</span>`;
+                let userId = getUserId();
+                document.getElementById('userIdDisplay').textContent = userId;
+                showCreditModal();
+                setTimeout(() => {
+                    const container = document.getElementById('modalContainer');
+                    container.style.transform = 'translateX(-100%)';
+                }, 100);
+            }, 300);
+        }
+
+        // Copy bank number function
+        function copyBankNumber() {
+            const bankNumber = CONTACT_INFO.bankAccount;
+            navigator.clipboard.writeText(bankNumber).then(() => {
+                if (window.app) {
+                    const isArabic = document.documentElement.dir === 'rtl';
+                    window.app.showMessage(
+                        isArabic ? 'تم نسخ رقم الحساب!' : 'Bank number copied!',
+                        'success'
+                    );
+                }
+            });
+        }
+
+        // Callback Request Function
+        async function submitCallbackRequest() {
+            const contact = document.getElementById('callbackContact').value.trim();
+            const notes = document.getElementById('callbackNotes').value.trim();
+            const isArabic = document.documentElement.dir === 'rtl';
+
+            if (!contact) {
+                if (window.app) {
+                    window.app.showMessage(
+                        isArabic ? 'الرجاء إدخال رقم التواصل' : 'Please enter contact number',
+                        'error'
+                    );
+                }
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/callback-requests', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        contact,
+                        notes,
+                        userId: getUserId(),
+                        package: window.selectedPackage
+                    })
+                });
+
+                if (response.ok) {
+                    if (window.app) {
+                        window.app.showMessage(
+                            isArabic ? 'شكراً! سنتواصل معك قريباً 🙏' : 'Thank you! We\'ll contact you soon 🙏',
+                            'success'
+                        );
+                    }
+                    // Clear form
+                    document.getElementById('callbackContact').value = '';
+                    document.getElementById('callbackNotes').value = '';
+                } else {
+                    throw new Error('Failed to submit');
+                }
+            } catch (error) {
+                console.error('Callback request error:', error);
+                if (window.app) {
+                    window.app.showMessage(
+                        isArabic ? 'حدث خطأ، يرجى المحاولة عبر واتساب' : 'Error occurred, please try via WhatsApp',
+                        'error'
+                    );
+                }
+            }
+        }
+
+        // Share functions
+        function shareOnWhatsApp() {
+            const isArabic = document.documentElement.dir === 'rtl';
+            const message = isArabic 
+                ? 'أحسن ذكاء اصطناعي يرسم المِصر 🇴🇲✨\nجرّب مجاناً: www.haiba.store'
+                : 'The best AI for Omani traditional clothing 🇴🇲✨\nTry for free: www.haiba.store';
+            const url = `https://wa.me/?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        function shareGeneral() {
+            const isArabic = document.documentElement.dir === 'rtl';
+            const shareData = {
+                title: isArabic ? 'هيبة - ذكاء اصطناعي للمِصر' : 'Haiba - AI for Omani Clothing',
+                text: isArabic 
+                    ? 'أحسن ذكاء اصطناعي يرسم المِصر 🇴🇲✨'
+                    : 'The best AI for Omani traditional clothing 🇴🇲✨',
+                url: 'https://www.haiba.store'
+            };
+
+            if (navigator.share) {
+                navigator.share(shareData).catch(err => console.log('Share cancelled'));
+            } else {
+                // Fallback to copying link
+                copyWebsiteLink();
+            }
+        }
+
+        function copyWebsiteLink() {
+            const isArabic = document.documentElement.dir === 'rtl';
+            const url = 'www.haiba.store';
+            
+            navigator.clipboard.writeText(url).then(() => {
+                if (window.app) {
+                    window.app.showMessage(
+                        isArabic ? 'تم نسخ الرابط! 📋' : 'Link copied! 📋',
+                        'success'
+                    );
+                }
+            }).catch(err => {
+                console.error('Copy failed:', err);
+                if (window.app) {
+                    window.app.showMessage(
+                        isArabic ? 'فشل النسخ' : 'Copy failed',
+                        'error'
+                    );
+                }
+            });
+        }
+
+        // Update "ربما لاحقاً" button to trigger exit-intent
+        const maybeLaterButtons = document.querySelectorAll('[onclick*="closeCreditModal"]');
+        maybeLaterButtons.forEach(button => {
+            const originalOnclick = button.getAttribute('onclick');
+            if (originalOnclick && originalOnclick.includes('closeCreditModal') && 
+                button.textContent.includes('ربما') || button.textContent.includes('Maybe')) {
+                button.setAttribute('onclick', 'triggerExitIntent()');
+            }
+        });
+
+        // Close exit discount on backdrop click
+        document.getElementById('exitDiscountModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeExitDiscount();
             }
         });
 

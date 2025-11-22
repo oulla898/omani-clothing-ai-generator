@@ -101,14 +101,8 @@ REFINED PROMPT:`
       const response = await result.response
       let enhancedText = response.text().trim()
 
-      // DEBUG: Log before sanitization
-      console.log('🔍 BEFORE SANITIZE:', enhancedText)
-
       // Sanitize the AI response to remove any inappropriate content
       enhancedText = this.sanitizePrompt(enhancedText)
-      
-      // DEBUG: Log after sanitization
-      console.log('✅ AFTER SANITIZE:', enhancedText)
       
       return enhancedText
     } catch (error) {
@@ -148,8 +142,6 @@ REFINED PROMPT:`
     
     let cleanedPrompt = prompt
     
-    console.log('🧹 SANITIZING:', cleanedPrompt)
-    
     // Multiple aggressive passes
     for (let pass = 0; pass < 3; pass++) {
       inappropriateWords.forEach(word => {
@@ -162,11 +154,7 @@ REFINED PROMPT:`
         ]
         
         patterns.forEach(regex => {
-          const before = cleanedPrompt
           cleanedPrompt = cleanedPrompt.replace(regex, '')
-          if (before !== cleanedPrompt) {
-            console.log(`  🗑️ REMOVED "${word}" via pattern ${regex}`)
-          }
         })
       })
     }
@@ -178,8 +166,6 @@ REFINED PROMPT:`
       .replace(/\s+/g, ' ')           // Multiple spaces
       .replace(/\s*,\s*/g, ', ')      // Clean commas
       .trim()
-    
-    console.log('✨ SANITIZED RESULT:', cleanedPrompt)
     
     // If the prompt becomes empty or too short after cleaning, provide safe default
     if (cleanedPrompt.length < 3) {
