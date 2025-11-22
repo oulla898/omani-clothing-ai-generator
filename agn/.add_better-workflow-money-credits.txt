@@ -12,10 +12,7 @@
 **Display before sign-in:**
 > "جرّب مجاناً! احصل على 3 أرصدة مجانية عند التسجيل 🎁"
 
-**After free credits are exhausted, show:**
-> "صورك طلعت روعة! 😍 اختر باقة تناسبك وكمّل الإبداع — سهل وآمن"
 
----
 
 ## 2. Pricing Plans
 
