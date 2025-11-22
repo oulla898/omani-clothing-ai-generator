@@ -2397,14 +2397,15 @@
         }
         
         function openWhatsAppForPurchase() {
-            const userId = document.getElementById('userIdDisplay').value;
+            const userIdEl = document.getElementById('userIdDisplay');
+            const userId = userIdEl.getAttribute('data-full-id') || userIdEl.textContent;
             const { credits, omr } = window.selectedPackage || { credits: 50, omr: 4 };
             const isArabic = document.documentElement.dir === 'rtl';
             
             // Create WhatsApp message based on language
             let message;
             if (isArabic) {
-                message = `السلام عليكم! أريد شراء رصيد لتطبيق هيبة للذكاء الاصطناعي%0A%0Aالمبلغ: ${omr} ريال عماني (${credits} رصيد)%0Aمعرف المستخدم: ${userId}%0A%0Aسأحول برقم الهاتف:%0A${CONTACT_INFO.bankAccount}%0Aباسم: AL MAALA AL MAAWALI%0A%0Aسأشارك إيصال التحويل معك بعد الدفع%0A%0Aشكراً لك!`;
+                message = `السلام عليكم! أريد شراء رصيد لتطبيق هيبة للذكاء الاصطناعي%0A%0Aالمبلغ: ${omr} ريال عماني (${credits} رصيد)%0Aمعرف المستخدم: ${userId}%0A%0Aسأحول لرقم الهاتف:%0A${CONTACT_INFO.bankAccount}%0Aباسم: AL MAALA AL MAAWALI%0A%0Aسأشارك إيصال التحويل معك بعد الدفع%0A%0Aشكراً لك!`;
             } else {
                 message = `Hello! I'd like to buy credits for Heiba AI%0A%0AAmount: ${omr} OMR (${credits} credits)%0AUser ID: ${userId}%0A%0AI will transfer by phone:%0A${CONTACT_INFO.bankAccount}%0AName: AL MAALA AL MAAWALI%0A%0AI'll share the transfer receipt with you after payment%0A%0AThank you!`;
             }
