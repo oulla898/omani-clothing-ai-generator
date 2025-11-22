@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
-    <!-- Google tag (gtag.js) -->
+    <!-- Resource Hints for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://wise-parakeet-29.clerk.accounts.dev">
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    
+    <!-- Google tag (gtag.js) - Deferred -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11097953181"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -26,7 +33,8 @@
         window.gtag_report_conversion = gtag_report_conversion;
     </script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>هيبة | مولد الأزياء العمانية بالذكاء الاصطناعي</title>
     
     <!-- SEO Meta Tags -->
@@ -56,19 +64,32 @@
     <!-- Favicon -->
     <link rel="icon" href="/logo.png" type="image/png">
     
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Fonts - Optimized Loading with Polyfill -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+    </noscript>
+    <!-- Polyfill for older browsers -->
+    <script>!function(e){"use strict";var t=function(t,n,o){var i,r=e.document,a=r.createElement("link");if(n)i=n;else{var d=(r.body||r.getElementsByTagName("head")[0]).childNodes;i=d[d.length-1]}var s=r.styleSheets;if(o)for(var l in o)o.hasOwnProperty(l)&&a.setAttribute(l,o[l]);a.rel="stylesheet",a.href=t,a.media="only x",function e(t){if(r.body)return t();setTimeout(function(){e(t)})}(function(){i.parentNode.insertBefore(a,n?i:i.nextSibling)});var f=function(e){for(var t=a.href,n=s.length;n--;)if(s[n].href===t)return e();setTimeout(function(){f(e)})};function u(){a.addEventListener&&a.removeEventListener("load",u),a.media=o.media||"all"}return a.addEventListener&&a.addEventListener("load",u),a.onloadcssdefined=f,f(u),a};"undefined"!=typeof exports?exports.loadCSS=t:e.loadCSS=t}("undefined"!=typeof global?global:this);</script>
     
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS - Load immediately for proper styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Clerk Authentication -->
-    <script async crossorigin="anonymous" data-clerk-publishable-key="pk_test_bWVhc3VyZWQtY2hvdy01Ny5jbGVyay5hY2NvdW50cy5kZXYk" src="https://wise-parakeet-29.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" type="text/javascript"></script>
+    <!-- Clerk Authentication - Deferred -->
+    <script defer crossorigin="anonymous" data-clerk-publishable-key="pk_test_bWVhc3VyZWQtY2hvdy01Ny5jbGVyay5hY2NvdW50cy5kZXYk" src="https://wise-parakeet-29.clerk.accounts.dev/npm/@clerk/clerk-js@latest/dist/clerk.browser.js" type="text/javascript"></script>
     
     <style>
-        .font-arabic { font-family: 'Noto Sans Arabic', 'Arial Unicode MS', sans-serif; }
-        .font-english { font-family: 'Inter', 'Segoe UI', sans-serif; }
+        /* System font fallbacks for faster initial render */
+        .font-arabic { 
+            font-family: 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, 'Arial Unicode MS', sans-serif;
+            font-display: swap;
+        }
+        .font-english { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-display: swap;
+        }
         
         .gradient-bg {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -176,7 +197,7 @@
             <div class="flex items-center justify-between max-w-7xl mx-auto">
                 <!-- Logo -->
                 <div class="flex items-center">
-                    <img src="logo.png" alt="Logo" class="w-10 h-10 rounded-full">
+                    <img src="logo.webp" alt="Logo" width="40" height="40" class="w-10 h-10 rounded-full">
                 </div>
                 
                 <!-- Account Area -->
@@ -1380,12 +1401,12 @@
                         descEn: 'Smiling man in dark Omani attire'
                     },
                     {
-                        src: 'child bisht musar dishdasha.jpg',
+                        src: 'child bisht musar dishdasha.webp',
                         descAr: 'طفل لابس دشداشة ومصر',
                         descEn: 'Child in dishdasha and musar'
                     },
                     {
-                        src: 'man quran.jpg',
+                        src: 'man quran.webp',
                         descAr: 'رجل يقرأ القرآن',
                         descEn: 'Man reading Quran'
                     },
@@ -1400,22 +1421,22 @@
                         descEn: 'Man in blue dishdasha and musar'
                     },
                     {
-                        src: 'night man moon.png',
+                        src: 'night man moon.webp',
                         descAr: 'رجل يتأمل تحت القمر',
                         descEn: 'Man gazing under the moon'
                     },
                     {
-                        src: 'old in office 2.jpg',
+                        src: 'old in office 2.webp',
                         descAr: 'رجل مسن في مكتبة',
                         descEn: 'Elder man in library'
                     },
                     {
-                        src: 'qahwa3.jpg',
+                        src: 'qahwa3.webp',
                         descAr: 'رجل يتقهوى',
                         descEn: 'Man enjoying qahwa'
                     },
                     {
-                        src: 'رجل لابس مصر وبشت.jpg',
+                        src: 'رجل لابس مصر وبشت.webp',
                         descAr: 'رجل يرتدي البشت والمصر',
                         descEn: 'Man wearing bisht and musar'
                     }
@@ -1437,7 +1458,7 @@
                     const div = document.createElement('div');
                     div.className = 'card-hover';
                     div.innerHTML = `
-                        <img src="${img.src}" alt="${img.descAr}" class="sample-image w-full">
+                        <img src="${img.src}" alt="${img.descAr}" loading="lazy" width="300" height="300" class="sample-image w-full">
                         <p class="text-center mt-2 text-sm text-gray-600" data-en="${img.descEn}" data-ar="${img.descAr}">${img.descAr}</p>
                     `;
                     grid.appendChild(div);
@@ -2000,7 +2021,7 @@
                 grid.innerHTML = generations.map(gen => `
                     <div class="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all group">
                         <div class="aspect-square relative">
-                            <img src="${gen.image_url}" alt="${gen.prompt}" class="w-full h-full object-cover">
+                            <img src="${gen.image_url}" alt="${gen.prompt}" loading="lazy" width="400" height="400" class="w-full h-full object-cover">
                             
                             <!-- Action Buttons Overlay -->
                             <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
