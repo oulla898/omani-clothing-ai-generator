@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from '@google/generative-ai'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
@@ -19,27 +19,7 @@ export class TranslationService {
     // Keep trying until timeout
     while (Date.now() - startTime < timeout) {
       try {
-        const model = genAI.getGenerativeModel({ 
-          model: 'gemini-flash-lite-latest',
-          safetySettings: [
-            {
-              category: HarmCategory.HARM_CATEGORY_HARASSMENT,
-              threshold: HarmBlockThreshold.BLOCK_NONE,
-            },
-            {
-              category: HarmCategory.HARM_CATEGORY_HATE_SPEECH,
-              threshold: HarmBlockThreshold.BLOCK_NONE,
-            },
-            {
-              category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT,
-              threshold: HarmBlockThreshold.BLOCK_NONE,
-            },
-            {
-              category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT,
-              threshold: HarmBlockThreshold.BLOCK_NONE,
-            },
-          ],
-        })
+        const model = genAI.getGenerativeModel({ model: 'gemini-flash-lite-latest' })
         
         console.log('🚀 Sending to Gemini API...')
         
@@ -129,35 +109,22 @@ USER INPUT: "${prompt}"
 REFINED PROMPT:`
 
         const result = await model.generateContent(enhancePrompt)
-        
-        // For non-streaming generateContent, result.response is already the response object (not a Promise)
-        const response = result.response
-        
-        // Check if response was blocked by safety filters
-        if (!response || !response.candidates || response.candidates.length === 0) {
-          console.warn('⚠️ Gemini response blocked or empty (safety filters?)')
-          throw new Error('Gemini response blocked or no candidates')
-        }
-        
-        // Get the text from the response (response.text() is a function that returns string)
+        const response = await result.response
         const enhancedText = response.text().trim()
         
         console.log('📨 Gemini response:', enhancedText)
-
-        // If Gemini returned empty, throw error to trigger retry
-        if (enhancedText.length === 0) {
-          console.warn('⚠️ Gemini returned empty text')
-          throw new Error('Gemini returned empty response')
-        }
 
         // Sanitize the AI response to remove any inappropriate content
         const sanitizedText = this.sanitizePrompt(enhancedText)
         
         console.log('🧹 After sanitization:', sanitizedText)
         
-        // If sanitization resulted in empty string, throw error to trigger retry
+        // If sanitization resulted in empty string, use fallback
         if (sanitizedText.length === 0) {
-          throw new Error('Response became empty after sanitization')
+          const fallbackPrompt = this.createSafeFallback()
+          console.warn('⚠️ Gemini response became empty after sanitization')
+          console.log('🔄 Using fallback prompt:', fallbackPrompt)
+          return fallbackPrompt
         }
         
         console.log('✅ Final prompt:', sanitizedText)
