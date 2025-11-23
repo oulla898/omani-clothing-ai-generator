@@ -11,7 +11,7 @@ export class TranslationService {
   static async translateAndEnhance(prompt: string): Promise<string> {
     const startTime = Date.now()
     const timeout = 1800 // 1 second timeout
-    let lastError: any = null
+    let lastError: Error | null = null
 
     // Keep trying until timeout
     while (Date.now() - startTime < timeout) {
@@ -113,7 +113,7 @@ REFINED PROMPT:`
         console.log('✅ Translation successful:', enhancedText)
         return enhancedText
       } catch (error) {
-        lastError = error
+        lastError = error instanceof Error ? error : new Error(String(error))
         // If we have time left, wait a bit before retry
         const elapsed = Date.now() - startTime
         if (elapsed < timeout) {
