@@ -10,7 +10,7 @@ export class TranslationService {
 
   static async translateAndEnhance(prompt: string): Promise<string> {
     const startTime = Date.now()
-    const timeout = 1800 // 1 second timeout
+    const timeout = 1800 // 1.8 second timeout
     let lastError: Error | null = null
 
     // Keep trying until timeout
@@ -110,6 +110,14 @@ REFINED PROMPT:`
         // Sanitize the AI response to remove any inappropriate content
         enhancedText = this.sanitizePrompt(enhancedText)
         
+        // If sanitization resulted in empty string, use fallback
+        if (enhancedText.length === 0) {
+          const fallbackPrompt = this.createSafeFallback(prompt)
+          console.warn('⚠️ Gemini response became empty after sanitization')
+          console.log('🔄 Using fallback prompt:', fallbackPrompt)
+          return fallbackPrompt
+        }
+        
         console.log('✅ Translation successful:', enhancedText)
         return enhancedText
       } catch (error) {
@@ -124,27 +132,14 @@ REFINED PROMPT:`
 
     // All retries failed within timeout
     const fallbackPrompt = this.createSafeFallback(prompt)
-    console.error('❌ Translation failed after 1s timeout. Reason:', lastError?.message || 'Unknown error')
+    console.error('❌ Translation failed after 1.8s timeout. Reason:', lastError?.message || 'Unknown error')
     console.log('🔄 Using fallback prompt:', fallbackPrompt)
     return fallbackPrompt
   }
 
   static createSafeFallback(prompt: string): string {
-    // Clean and sanitize the prompt
-    const cleanPrompt = this.sanitizePrompt(prompt)
-    
-    // If Arabic text, provide a safe English fallback optimized for model performance
-    if (this.isArabicText(cleanPrompt)) {
-      // Portrait with dishdasha and musar - model performs best with this
-      return "omani man wearing traditional white dishdasha and colorful patterned Omani turban, neatly trimmed beard, closeup portrait, dramatic studio lighting with soft shadows, dark blurred background, photorealistic, high quality, ultra detailed"
-    }
-    
-    // For English text, enhance it with portrait style if it's too simple
-    if (cleanPrompt.length < 20) {
-      return "omani man wearing traditional white dishdasha and Omani turban, closeup portrait, professional studio lighting, dramatic colors, photorealistic"
-    }
-    
-    return cleanPrompt
+    // Only used when Gemini API fails completely - return detailed fallback
+    return "omani man wearing traditional white dishdasha and colorful patterned Omani turban, neatly trimmed beard, closeup portrait, dramatic studio lighting with soft shadows, dark blurred background, photorealistic, high quality, ultra detailed"
   }
 
   static sanitizePrompt(prompt: string): string {
@@ -157,8 +152,7 @@ REFINED PROMPT:`
       'naked', 'nude', 'topless', 'bottomless',
       'revealing', 'sexy', 'erotic', 'adult',
       'shorts', 'mini skirt', 'crop top', 'tank top',
-      'cleavage', 'exposed', 'bare', 'skin showing',
-      'beach', 'swimming', 'swim', 'water'
+      'cleavage', 'exposed', 'bare', 'skin showing'
     ]
     
     let cleanedPrompt = prompt
@@ -188,11 +182,7 @@ REFINED PROMPT:`
       .replace(/\s*,\s*/g, ', ')      // Clean commas
       .trim()
     
-    // If the prompt becomes empty or too short after cleaning, provide safe default
-    if (cleanedPrompt.length < 3) {
-      return "traditional omani clothing"
-    }
-    
+    // Return cleaned prompt even if short or empty (Gemini handles enhancement)
     return cleanedPrompt
   }
 }
