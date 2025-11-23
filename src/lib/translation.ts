@@ -109,22 +109,32 @@ USER INPUT: "${prompt}"
 REFINED PROMPT:`
 
         const result = await model.generateContent(enhancePrompt)
-        const response = await result.response
+        const response = result.response
+        
+        // Check if response was blocked by safety filters
+        if (!response || !response.candidates || response.candidates.length === 0) {
+          console.warn('⚠️ Gemini response blocked or empty (safety filters?)')
+          throw new Error('Gemini response blocked or no candidates')
+        }
+        
         const enhancedText = response.text().trim()
         
         console.log('📨 Gemini response:', enhancedText)
+
+        // If Gemini returned empty, throw error to trigger retry
+        if (enhancedText.length === 0) {
+          console.warn('⚠️ Gemini returned empty text')
+          throw new Error('Gemini returned empty response')
+        }
 
         // Sanitize the AI response to remove any inappropriate content
         const sanitizedText = this.sanitizePrompt(enhancedText)
         
         console.log('🧹 After sanitization:', sanitizedText)
         
-        // If sanitization resulted in empty string, use fallback
+        // If sanitization resulted in empty string, throw error to trigger retry
         if (sanitizedText.length === 0) {
-          const fallbackPrompt = this.createSafeFallback()
-          console.warn('⚠️ Gemini response became empty after sanitization')
-          console.log('🔄 Using fallback prompt:', fallbackPrompt)
-          return fallbackPrompt
+          throw new Error('Response became empty after sanitization')
         }
         
         console.log('✅ Final prompt:', sanitizedText)
