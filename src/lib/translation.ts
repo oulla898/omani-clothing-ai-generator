@@ -109,7 +109,9 @@ USER INPUT: "${prompt}"
 REFINED PROMPT:`
 
         const result = await model.generateContent(enhancePrompt)
-        const response = result.response
+        
+        // Wait for the full response to be ready
+        const response = await result.response
         
         // Check if response was blocked by safety filters
         if (!response || !response.candidates || response.candidates.length === 0) {
@@ -117,6 +119,7 @@ REFINED PROMPT:`
           throw new Error('Gemini response blocked or no candidates')
         }
         
+        // Get the text from the response (this is synchronous once response is ready)
         const enhancedText = response.text().trim()
         
         console.log('📨 Gemini response:', enhancedText)
