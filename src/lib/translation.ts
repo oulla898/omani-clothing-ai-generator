@@ -110,7 +110,7 @@ REFINED PROMPT:`
 
         const result = await model.generateContent(enhancePrompt)
         const response = await result.response
-        let enhancedText = response.text().trim()
+        const enhancedText = response.text().trim()
         
         console.log('📨 Gemini response:', enhancedText)
 
@@ -121,7 +121,7 @@ REFINED PROMPT:`
         
         // If sanitization resulted in empty string, use fallback
         if (sanitizedText.length === 0) {
-          const fallbackPrompt = this.createSafeFallback(prompt)
+          const fallbackPrompt = this.createSafeFallback()
           console.warn('⚠️ Gemini response became empty after sanitization')
           console.log('🔄 Using fallback prompt:', fallbackPrompt)
           return fallbackPrompt
@@ -140,13 +140,13 @@ REFINED PROMPT:`
     }
 
     // All retries failed within timeout
-    const fallbackPrompt = this.createSafeFallback(prompt)
+    const fallbackPrompt = this.createSafeFallback()
     console.error('❌ Translation failed after 1.8s timeout. Reason:', lastError?.message || 'Unknown error')
     console.log('🔄 Using fallback prompt:', fallbackPrompt)
     return fallbackPrompt
   }
 
-  static createSafeFallback(prompt: string): string {
+  static createSafeFallback(): string {
     // Only used when Gemini API fails completely - return detailed fallback
     return "omani man wearing traditional white dishdasha and colorful patterned Omani turban, neatly trimmed beard, closeup portrait, dramatic studio lighting with soft shadows, dark blurred background, photorealistic, high quality, ultra detailed"
   }
