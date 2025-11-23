@@ -13,10 +13,15 @@ export class TranslationService {
     const timeout = 1800 // 1.8 second timeout
     let lastError: Error | null = null
 
+    // Log the original user input
+    console.log('📥 User input:', prompt)
+
     // Keep trying until timeout
     while (Date.now() - startTime < timeout) {
       try {
         const model = genAI.getGenerativeModel({ model: 'gemini-flash-lite-latest' })
+        
+        console.log('🚀 Sending to Gemini API...')
         
       const enhancePrompt = `You are an AI assistant that translates Arabic to English and refines prompts for image generation, focused mainly on traditional Omani clothing and Omani scenes unless the user clearly asks for something else.
 
@@ -106,20 +111,24 @@ REFINED PROMPT:`
         const result = await model.generateContent(enhancePrompt)
         const response = await result.response
         let enhancedText = response.text().trim()
+        
+        console.log('📨 Gemini response:', enhancedText)
 
         // Sanitize the AI response to remove any inappropriate content
-        enhancedText = this.sanitizePrompt(enhancedText)
+        const sanitizedText = this.sanitizePrompt(enhancedText)
+        
+        console.log('🧹 After sanitization:', sanitizedText)
         
         // If sanitization resulted in empty string, use fallback
-        if (enhancedText.length === 0) {
+        if (sanitizedText.length === 0) {
           const fallbackPrompt = this.createSafeFallback(prompt)
           console.warn('⚠️ Gemini response became empty after sanitization')
           console.log('🔄 Using fallback prompt:', fallbackPrompt)
           return fallbackPrompt
         }
         
-        console.log('✅ Translation successful:', enhancedText)
-        return enhancedText
+        console.log('✅ Final prompt:', sanitizedText)
+        return sanitizedText
       } catch (error) {
         lastError = error instanceof Error ? error : new Error(String(error))
         // If we have time left, wait a bit before retry
