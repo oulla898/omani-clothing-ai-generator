@@ -33,7 +33,7 @@ export class TranslationService {
   - Men: explicit Omani clothing if appropriate (e.g., white dishdasha, Omani turban). the dishdasha and omani turban is for male only. NEVER put them for female unless requested.
   - Women: explicit age range plus modest, clear clothing (e.g., adult woman in black abaya and black hijab). For female clothing, never use the word "embroidery".
   - If there are multiple people, describe each group or person separately with age range and clothing
-  - Composition and camera style (e.g., closeup portrait, full body, three-quarter view)
+  - Composition and camera style (prefer medium shot, waist-up, Bust Shot, three-quarter portrait ,or closeup; avoid full body shots unless explicitly requested. 
   - Setting or background
   - Technical details (e.g., professional photography, soft studio lighting, dramatic lighting, smoke or fog if suitable)
   - Quality description (e.g., high quality, photorealistic, cinematic)
@@ -85,6 +85,7 @@ export class TranslationService {
 
 9.  Technical and artistic style:
   - When appropriate, lean toward professional photography terms: studio lighting, soft light, dramatic lighting, cinematic mood, shallow depth of field, blurred background.
+  - Composition preference: Default to "medium shot", "waist-up", or "three-quarter portrait" to focus on the upper body and face. Avoid "full body" or showing feet unless the user asks for it.
   - It is often good to include elements like dramatic colors, dramatic shadows, and subtle smoke or fog in the background when this fits the user's request.
   - Aim for "high quality", "ultra detailed", and "photorealistic" when that matches the prompt style.
 
