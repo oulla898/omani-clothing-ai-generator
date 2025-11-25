@@ -9,10 +9,21 @@ export class TranslationService {
   }
 
   static async translateAndEnhance(prompt: string): Promise<string> {
-    try {
-      const model = genAI.getGenerativeModel({ model: 'gemini-flash-lite-latest' })
-      
-    const enhancePrompt = `You are an AI assistant that translates Arabic to English and refines prompts for image generation, focused mainly on traditional Omani clothing and Omani scenes unless the user clearly asks for something else.
+    const startTime = Date.now()
+    const timeout = 1800 // 1.8 second timeout
+    let lastError: Error | null = null
+
+    // Log the original user input
+    console.log('📥 User input:', prompt)
+
+    // Keep trying until timeout
+    while (Date.now() - startTime < timeout) {
+      try {
+        const model = genAI.getGenerativeModel({ model: 'gemini-flash-lite-latest' })
+        
+        console.log('🚀 Sending to Gemini API...')
+        
+      const enhancePrompt = `You are an AI assistant that translates Arabic to English and refines prompts for image generation, focused mainly on traditional Omani clothing and Omani scenes unless the user clearly asks for something else.
 
 **RULES (GENERAL BEHAVIOR):**
 
@@ -32,14 +43,14 @@ export class TranslationService {
 
 4.  If the input contains sexual, indecent, or revealing descriptions, override them completely. Always generate a modest, culturally appropriate version:
   - Men: dishdasha and, when suitable, Omani turban
-  - Women: modest, loose clothing; abaya, also include a hijab unless the subject is clearly a little girl
+  - Women: modest, loose clothing; abaya, also you must include a hijab unless the subject is clearly a little girl
   - Never mention body parts, swimsuits, swimwear, bikinis, burkinis, trunks lingerie, nudity, or anything similar. never mention or imply any form of revealing clothes.
   - When overriding sexual content, it is safe to default to a single modestly dressed person in a neutral setting, for example: "omani man wearing traditional white dishdasha and Omani turban, closeup studio portrait, dramatic lighting, dramatic studio colors, subtle smoke and fog effect".
 
 5.  Be faithful to the subject the user wants (man, woman, child, animal, specific character, etc.), but always keep the clothing modest and do not mix men's and women's clothing styles unless specified.
   - For girls, infer an approximate age: little girl, teen girl, or adult woman.
     - Little girl: can be modest without abaya or hijab unless the user clearly requests them.
-    - Teen girl or adult woman: if you put her in an abaya, you must also explicitly mention hijab (eg. teen on black abaya and full black hijab etc). for this age range you must mention hijab for all clothing. (e.g. high school teen girl wearing modest, ankle length school uniform and black hijab). you never mention hair for this age range.
+    - Teen girl or adult woman: if you put her in an abaya, you must also explicitly mention hijab (eg. teen on black abaya and full black hijab etc). for this age range you must mention hijab for all clothing. (e.g. high school teen girl wearing modest, ankle length school uniform and black hijab). you never mention hair for this age range. you mention hijab at least once for this age range.
   - Avoid vague words like "family", "group", "people", "students", or "staff", etc on their own. Instead, expand them explicitly into specific individuals or small sub-groups with clear age ranges and specific clothing for each person. This reduces the chance of any person appearing with immodest clothing.
 
 6.  Omani locations and governorates:
@@ -97,33 +108,47 @@ EXAMPLES FROM TRAINING SET STYLE (NOT TO BE COPIED VERBATIM, JUST MATCH THE VIBE
 USER INPUT: "${prompt}"
 REFINED PROMPT:`
 
-      const result = await model.generateContent(enhancePrompt)
-      const response = await result.response
-      let enhancedText = response.text().trim()
+        const result = await model.generateContent(enhancePrompt)
+        const response = await result.response
+        const enhancedText = response.text().trim()
+        
+        console.log('📨 Gemini response:', enhancedText)
 
-      // Sanitize the AI response to remove any inappropriate content
-      enhancedText = this.sanitizePrompt(enhancedText)
-      
-      return enhancedText
-    } catch (error) {
-      console.error('Translation/enhancement error:', error)
-      // Enhanced fallback that never returns Arabic text
-      return this.createSafeFallback(prompt)
+        // Sanitize the AI response to remove any inappropriate content
+        const sanitizedText = this.sanitizePrompt(enhancedText)
+        
+        console.log('🧹 After sanitization:', sanitizedText)
+        
+        // If sanitization resulted in empty string, use fallback
+        if (sanitizedText.length === 0) {
+          const fallbackPrompt = this.createSafeFallback()
+          console.warn('⚠️ Gemini response became empty after sanitization')
+          console.log('🔄 Using fallback prompt:', fallbackPrompt)
+          return fallbackPrompt
+        }
+        
+        console.log('✅ Final prompt:', sanitizedText)
+        return sanitizedText
+      } catch (error) {
+        lastError = error instanceof Error ? error : new Error(String(error))
+        // If we have time left, wait a bit before retry
+        const elapsed = Date.now() - startTime
+        if (elapsed < timeout) {
+          await new Promise(resolve => setTimeout(resolve, 50)) // 50ms between retries
+        }
+      }
     }
+
+    // All retries failed within timeout
+    const fallbackPrompt = this.createSafeFallback()
+    console.error('❌ Translation failed after 1.8s timeout. Reason:', lastError?.message || 'Unknown error')
+    console.log('🔄 Using fallback prompt:', fallbackPrompt)
+    return fallbackPrompt
   }
 
-  static createSafeFallback(prompt: string): string {
-    // Clean and sanitize the prompt
-    const cleanPrompt = this.sanitizePrompt(prompt)
-    
-    // If Arabic text, provide a safe English fallback
-    if (this.isArabicText(cleanPrompt)) {
-      // Safe, very general default for Arabic when translation fails
-      return "omani man wearing traditional white dishdasha and Omani turban, closeup studio portrait, dramatic lighting"
-    }
-    
-    // For English text, just return the cleaned version without forcing it to be Omani
-    return cleanPrompt
+  static createSafeFallback(): string {
+    // Only used when Gemini API fails completely - return detailed fallback
+    return "omani man wearing traditional white dishdasha and colorful patterned Omani turban, neatly trimmed beard, closeup portrait, dramatic studio lighting with soft shadows, dark blurred background, photorealistic, high quality, ultra detailed"
   }
 
   static sanitizePrompt(prompt: string): string {
@@ -136,8 +161,7 @@ REFINED PROMPT:`
       'naked', 'nude', 'topless', 'bottomless',
       'revealing', 'sexy', 'erotic', 'adult',
       'shorts', 'mini skirt', 'crop top', 'tank top',
-      'cleavage', 'exposed', 'bare', 'skin showing',
-      'beach', 'swimming', 'swim', 'water'
+      'cleavage', 'exposed', 'bare', 'skin showing'
     ]
     
     let cleanedPrompt = prompt
@@ -167,11 +191,7 @@ REFINED PROMPT:`
       .replace(/\s*,\s*/g, ', ')      // Clean commas
       .trim()
     
-    // If the prompt becomes empty or too short after cleaning, provide safe default
-    if (cleanedPrompt.length < 3) {
-      return "traditional omani clothing"
-    }
-    
+    // Return cleaned prompt even if short or empty (Gemini handles enhancement)
     return cleanedPrompt
   }
 }
