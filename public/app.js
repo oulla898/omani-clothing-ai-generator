@@ -250,7 +250,12 @@ class OmaniAI {
     // Credits Management
     async loadUserCredits() {
         try {
-            const response = await fetch('/api/credits');
+            const token = await this.clerk?.session?.getToken();
+            const response = await fetch('/api/credits', {
+                headers: token ? {
+                    'Authorization': `Bearer ${token}`
+                } : {}
+            });
             if (response.ok) {
                 const data = await response.json();
                 this.userCredits = data.credits;
@@ -378,10 +383,12 @@ class OmaniAI {
         this.setLoading(true);
         
         try {
+            const token = await this.clerk?.session?.getToken();
             const response = await fetch('/api/generate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    ...(token && { 'Authorization': `Bearer ${token}` })
                 },
                 body: JSON.stringify({ prompt }),
             });
