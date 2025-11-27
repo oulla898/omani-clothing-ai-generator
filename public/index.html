@@ -34,7 +34,7 @@
     <meta name="keywords" content="عمان, أزياء عمانية, دشداشة, بشت, خنجر, ذكاء اصطناعي, Oman, Omani clothing, dishdasha, bisht, khanjar, AI generator, traditional clothing">
     <meta name="author" content="Heiba - هيبة">
     <meta name="robots" content="index, follow">
-    <meta name="google-site-verification" content="LzFtldRRazokRREi3lINHaf1aB4GkBikKFaPzi2hvZ4" />
+    <meta name="google-site-verification" content="ZHY42NDfigOZmi5XyolpRGOlfIHxoUgW44kLInXDIOg" />
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="هيبة - مولد الأزياء العمانية بالذكاء الاصطناعي">
@@ -2757,9 +2757,110 @@
             }
         });
 
+        // Suggested Prompts Array - Single person closeup/headshot focused on dishdasha and musar
+        const suggestedPrompts = [
+            {
+                emoji: '👨',
+                titleAr: 'بورتريه كلاسيكي',
+                titleEn: 'Classic Portrait',
+                promptAr: 'صورة قريبة لوجه رجل عماني وسيم يرتدي دشداشة بيضاء ناصعة ومصر أحمر تقليدي، إضاءة طبيعية ناعمة، خلفية بسيطة',
+                promptEn: 'Close-up portrait of handsome Omani man wearing pristine white dishdasha and traditional red musar, soft natural lighting, simple background'
+            },
+            {
+                emoji: '😊',
+                titleAr: 'ابتسامة دافئة',
+                titleEn: 'Warm Smile',
+                promptAr: 'صورة نصفية لشاب عماني مبتسم يرتدي دشداشة بيضاء ومصر كحلي، نظرة ودودة، إضاءة ذهبية دافئة',
+                promptEn: 'Half-body shot of smiling young Omani man wearing white dishdasha and navy musar, friendly gaze, warm golden lighting'
+            },
+            {
+                emoji: '🎯',
+                titleAr: 'نظرة واثقة',
+                titleEn: 'Confident Look',
+                promptAr: 'بورتريه احترافي لرجل عماني بنظرة واثقة، يرتدي دشداشة رمادية فاتحة ومصر أسود، خلفية محايدة، تصوير استوديو',
+                promptEn: 'Professional portrait of Omani man with confident gaze, wearing light grey dishdasha and black musar, neutral background, studio photography'
+            },
+            {
+                emoji: '🌅',
+                titleAr: 'ضوء الغروب',
+                titleEn: 'Sunset Light',
+                promptAr: 'صورة قريبة لرجل عماني في ضوء الغروب الذهبي، يرتدي دشداشة بيضاء ومصر بني، إضاءة جانبية درامية',
+                promptEn: 'Close-up of Omani man in golden sunset light, wearing white dishdasha and brown musar, dramatic side lighting'
+            },
+            {
+                emoji: '👔',
+                titleAr: 'أناقة عصرية',
+                titleEn: 'Modern Elegance',
+                promptAr: 'صورة نصفية لشاب عماني أنيق يرتدي دشداشة بيج فاتح ومصر رمادي، خلفية عصرية بسيطة، إضاءة احترافية',
+                promptEn: 'Half-body portrait of elegant young Omani wearing light beige dishdasha and grey musar, modern simple background, professional lighting'
+            },
+            {
+                emoji: '🌟',
+                titleAr: 'إطلالة ملكية',
+                titleEn: 'Royal Look',
+                promptAr: 'بورتريه فخم لرجل عماني يرتدي دشداشة بيضاء ومصر ملكي أزرق، وضعية رسمية، إضاءة سينمائية',
+                promptEn: 'Luxurious portrait of Omani man wearing white dishdasha and royal blue musar, formal pose, cinematic lighting'
+            },
+            {
+                emoji: '🎨',
+                titleAr: 'ألوان الصحراء',
+                titleEn: 'Desert Colors',
+                promptAr: 'صورة قريبة لرجل عماني يرتدي دشداشة بنية ومصر بيج، خلفية صحراوية ضبابية، ضوء طبيعي',
+                promptEn: 'Close-up of Omani man wearing brown dishdasha and beige musar, blurred desert background, natural light'
+            },
+            {
+                emoji: '💫',
+                titleAr: 'حكمة وخبرة',
+                titleEn: 'Wisdom & Experience',
+                promptAr: 'بورتريه لرجل عماني في الخمسينات بلحية مهذبة، يرتدي دشداشة بيضاء ومصر تقليدي، نظرة حكيمة',
+                promptEn: 'Portrait of Omani man in his 50s with neat beard, wearing white dishdasha and traditional musar, wise gaze'
+            },
+            {
+                emoji: '🌙',
+                titleAr: 'إضاءة ليلية',
+                titleEn: 'Night Lighting',
+                promptAr: 'صورة نصفية لشاب عماني في إضاءة ليلية ناعمة، يرتدي دشداشة بيضاء ومصر أسود، خلفية داكنة أنيقة',
+                promptEn: 'Half-body shot of young Omani in soft night lighting, wearing white dishdasha and black musar, elegant dark background'
+            },
+            {
+                emoji: '☀️',
+                titleAr: 'صباح مشرق',
+                titleEn: 'Bright Morning',
+                promptAr: 'بورتريه مشرق لرجل عماني يبتسم بخفة، يرتدي دشداشة بيضاء ومصر أبيض، إضاءة صباحية طبيعية، خلفية فاتحة',
+                promptEn: 'Bright portrait of Omani man with subtle smile, wearing white dishdasha and white musar, natural morning light, light background'
+            }
+        ];
+
         // Prompt Suggestion Functions
         function showSuggestionPopup() {
             const modal = document.getElementById('suggestionModal');
+            const isArabic = document.documentElement.dir === 'rtl';
+            
+            // Select random prompt
+            const randomPrompt = suggestedPrompts[Math.floor(Math.random() * suggestedPrompts.length)];
+            
+            // Update modal content
+            const titleElement = modal.querySelector('h3 span');
+            const descElement = modal.querySelector('.text-gray-600 span');
+            const promptTextElement = document.getElementById('warriorPromptText');
+            const categoryElement = modal.querySelector('.text-amber-800 span');
+            
+            if (titleElement) {
+                titleElement.textContent = `${randomPrompt.emoji} ${isArabic ? 'اقتراح ملهم' : 'Suggested Prompt'}`;
+            }
+            if (descElement) {
+                descElement.textContent = isArabic ? 'جرب هذا الاقتراح الاحترافي' : 'Try this professional prompt';
+            }
+            if (categoryElement) {
+                categoryElement.textContent = `${randomPrompt.emoji} ${isArabic ? randomPrompt.titleAr : randomPrompt.titleEn}`;
+            }
+            if (promptTextElement) {
+                promptTextElement.textContent = isArabic ? randomPrompt.promptAr : randomPrompt.promptEn;
+            }
+            
+            // Store current prompt for use
+            modal.dataset.currentPrompt = isArabic ? randomPrompt.promptAr : randomPrompt.promptEn;
+            
             modal.classList.remove('hidden');
             
             // Add animation
@@ -2783,7 +2884,8 @@
         }
 
         function useSuggestedPrompt() {
-            const promptText = "محارب عُماني يحمل ندوب المعارك، ملطخ بالتراب والعرق، يلوّح بالأسلحة العُمانية التقليدية في مشهد درامي مليء بالحركة، تتناثر فيه الشرر والدخان، مع إضاءة ملحمية.";
+            const modal = document.getElementById('suggestionModal');
+            const promptText = modal.dataset.currentPrompt || "صورة قريبة لوجه رجل عماني وسيم يرتدي دشداشة بيضاء ناصعة ومصر أحمر تقليدي، إضاءة طبيعية ناعمة، خلفية بسيطة";
             const descriptionTextarea = document.getElementById('description');
             
             if (descriptionTextarea) {
