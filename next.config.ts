@@ -10,14 +10,6 @@ const nextConfig: NextConfig = {
       },
     ]
   },
-  // Static export for better SEO
-  output: 'export',
-  // Disable image optimization for static export
-  images: {
-    unoptimized: true,
-  },
-  // Trailing slash for consistent URLs
-  trailingSlash: true,
 }
 
 export default nextConfig;
