@@ -858,6 +858,16 @@
                     
                     <!-- Page 1: Credit Packages -->
                     <div id="page1" class="w-full">
+                        <!-- Upsell Message (shown when out of credits) -->
+                        <div id="upsellBanner" class="hidden mb-4 bg-gradient-to-r from-purple-50 to-pink-50 border-2 border-purple-300 rounded-xl p-4 text-center animate-pulse">
+                            <div class="text-base font-bold text-purple-800 mb-1">
+                                <span data-en="Your images look amazing! 😍" data-ar="صورك طلعت روعة! 😍">صورك طلعت روعة! 😍</span>
+                            </div>
+                            <div class="text-sm text-purple-700 leading-relaxed">
+                                <span data-en="Choose a package that suits you and continue creating — easy and safe" data-ar="اختر باقة تناسبك وكمّل الإبداع — سهل وآمن">اختر باقة تناسبك وكمّل الإبداع — سهل وآمن</span>
+                            </div>
+                        </div>
+                        
                         <div class="text-center mb-4">
                             <h3 class="text-xl font-bold text-gray-800 mb-1">
                                 <span data-en="Add Credits 💳" data-ar="شراء رصيد 💳">شراء رصيد 💳</span>
@@ -1777,13 +1787,8 @@
                 }
 
                 if (this.userCredits <= 0) {
-                    this.showMessage(
-                        this.currentLanguage === 'ar' 
-                            ? 'صورك طلعت روعة! 😍 اختر باقة تناسبك وكمّل الإبداع — سهل وآمن' 
-                            : 'Your images look amazing! 😍 Choose a package that suits you and continue creating — easy and safe',
-                        'success'
-                    );
-                    setTimeout(() => showCreditModal(true), 500);
+                    // Open credit purchase modal with upsell message
+                    showCreditModal(true);
                     return;
                 }
 
@@ -2465,14 +2470,15 @@
 
         function showCreditModal(showUpsell = false) {
             const modal = document.getElementById('creditPurchaseModal');
-            const isArabic = document.documentElement.dir === 'rtl';
+            const upsellBanner = document.getElementById('upsellBanner');
             
-            // Show upsell message if credits were just exhausted
-            if (showUpsell && window.app) {
-                const message = isArabic 
-                    ? 'صورك طلعت روعة! 😍 اختر باقة تناسبك وكمّل الإبداع — سهل وآمن'
-                    : 'Your images look amazing! 😍 Choose a package that suits you and continue creating — easy and safe';
-                window.app.showMessage(message, 'success');
+            // Show/hide upsell banner based on parameter
+            if (upsellBanner) {
+                if (showUpsell) {
+                    upsellBanner.classList.remove('hidden');
+                } else {
+                    upsellBanner.classList.add('hidden');
+                }
             }
             
             // Update modal content based on language
