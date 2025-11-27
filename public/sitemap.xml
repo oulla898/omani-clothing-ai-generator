@@ -4,30 +4,20 @@
   <!-- Homepage -->
   <url>
     <loc>https://haiba.store/</loc>
-    <lastmod>2024-11-16</lastmod>
+    <lastmod>2024-11-27</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="ar" href="https://haiba.store/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://haiba.store/" />
   </url>
   
-  <!-- History Page -->
+  <!-- WWW version -->
   <url>
-    <loc>https://haiba.store/history</loc>
-    <lastmod>2024-11-16</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://haiba.store/history" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://haiba.store/history" />
-  </url>
-  
-  <!-- Pricing Page -->
-  <url>
-    <loc>https://haiba.store/pricing</loc>
-    <lastmod>2024-11-16</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://haiba.store/pricing" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://haiba.store/pricing" />
+    <loc>https://www.haiba.store/</loc>
+    <lastmod>2024-11-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://www.haiba.store/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.haiba.store/" />
   </url>
 </urlset>
