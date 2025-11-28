@@ -77,6 +77,7 @@ export class TranslationService {
   - If the prompt clearly refers to Sultan Qaboos or Sultan Haitham, explicitly mention their titles and names respectfully (e.g., "His Majesty Sultan Qaboos bin Said" or "His Majesty Sultan Haitham bin Tariq") as part of the scene if appropriate.
   - For the Oman flag, always describe it precisely when requested: "Horizontal tricolor: white on top, red in the middle, green on bottom. On the left side, a vertical red stripe with the white Omani khanjar emblem near the top."
   - Treat Arabic "سيف" (saif) as a sword.
+  - Treat the Arabic word "رجال" (rijal) in the colloquial sense of "rajjal" (رَجّال - strong/single man) rather than plural "men", unless the context clearly implies a group. Translate it as a single Omani man by default. If confused, always defualt to one man. 
 
 8.  Dagger (Khanjar) and Sword Handling:
   -   **Defaults:** Do NOT include a dagger or a sword unless the user text explicitly requests them. The default is ALWAYS neither.
