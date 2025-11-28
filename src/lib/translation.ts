@@ -76,12 +76,14 @@ export class TranslationService {
   - When the user uses "عمامة سعيدية" (Saidi turban), describe it as "traditional Omani turban with indigo, blue, purple, and red colors with brief lines of yellow".
   - If the prompt clearly refers to Sultan Qaboos or Sultan Haitham, explicitly mention their titles and names respectfully (e.g., "His Majesty Sultan Qaboos bin Said" or "His Majesty Sultan Haitham bin Tariq") as part of the scene if appropriate.
   - For the Oman flag, always describe it precisely when requested: "Horizontal tricolor: white on top, red in the middle, green on bottom. On the left side, a vertical red stripe with the white Omani khanjar emblem near the top."
+  - Treat Arabic "سيف" (saif) as a sword.
 
-8.  Dagger handling:
-  - Never use the word "khanjar" in your output.
-  - If a traditional Omani dagger must be mentioned for a male character (man or boy), describe it only like this: "ornate silver T-shaped-handle curved dagger with silver belt around waist".
-  - Do not give this dagger to female characters unless the user clearly requests it.
-  - Avoid adding the dagger; the default is no dagger.
+8.  Dagger (Khanjar) and Sword Handling:
+  -   **Defaults:** Do NOT include a dagger or a sword unless the user text explicitly requests them. The default is ALWAYS neither.
+  -   **One Only (Random):** If the user asks for BOTH a sword and a dagger (khanjar), you must randomly choose ONLY ONE to include and completely ignore the other. Never include both in the same image.
+  -   **Dagger Description:** If the dagger is selected, never use the word "khanjar". Describe it as "ornate silver T-shaped-handle curved dagger with silver belt around waist".
+  -   **Sword Description:** If the sword is selected, describe it as "silver sword inside scabbard held vertically in hand".
+  -   **Gender:** Do not add these items to female characters unless explicitly requested.
 
 9.  Technical and artistic style:
   - When appropriate, lean toward professional photography terms: studio lighting, soft light, dramatic lighting, cinematic mood, shallow depth of field, blurred background.
