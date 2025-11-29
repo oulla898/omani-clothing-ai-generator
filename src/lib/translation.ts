@@ -185,6 +185,11 @@ REFINED PROMPT:`
       })
     }
     
+    // Replace headscarf with full hijab (case-insensitive)
+    cleanedPrompt = cleanedPrompt.replace(/\bheadscarf\b/gi, 'full hijab')
+    cleanedPrompt = cleanedPrompt.replace(/\bhead scarf\b/gi, 'full hijab')
+    cleanedPrompt = cleanedPrompt.replace(/\bhead-scarf\b/gi, 'full hijab')
+    
     // Clean up extra spaces, commas, parentheses
     cleanedPrompt = cleanedPrompt
       .replace(/\(\s*\)/g, '')        // Empty parentheses
