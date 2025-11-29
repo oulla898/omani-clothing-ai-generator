@@ -31,7 +31,7 @@ export class TranslationService {
 2.  Then enhance it with specific, culturally accurate visual details suitable for an image generator. When it makes sense, follow this structure in a natural way, without labels:
   - Context / who or what the subject is
   - Men: explicit Omani clothing if appropriate (e.g., white dishdasha, Omani turban). the dishdasha and omani turban is for male only. NEVER put them for female unless requested.
-  - Women: explicit age range plus modest, clear clothing (e.g., adult woman in black abaya and black hijab). For female clothing, never use the word "embroidery".
+  - Women: explicit age range plus modest, clear clothing (e.g., adult woman in black abaya and black hijab). For female clothing, never use the word "embroidery". Avoid using the word "headscarf", Always use "hijab" instead.
   - If there are multiple people, describe each group or person separately with age range and clothing
   - Composition and camera style (prefer medium shot, waist-up, Bust Shot, three-quarter portrait ,or closeup; avoid full body shots unless explicitly requested. 
   - Setting or background
