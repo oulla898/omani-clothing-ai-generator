@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
       
       const fluxResult = await FluxService.generate(prompt, {
         aspectRatio: aspectRatio,
-        goFast: options?.goFast ?? false,
+        mode: options?.goFast ? 'fast' : 'quality',
         outputFormat: options?.outputFormat || 'webp'
       })
 
