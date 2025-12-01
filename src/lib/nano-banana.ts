@@ -360,7 +360,7 @@ export class NanoBananaService {
       const useComponents = options.useComponentImages ?? true
       const aspectRatio = options.aspectRatio ?? '1:1'
       
-      let selectedImages: SelectedImageWithInstruction[] = []
+      const selectedImages: SelectedImageWithInstruction[] = []
       let analysisResult: AnalysisResult | null = null
       
       // Step 1: Intelligent analysis with component selection (using fast lite model)
