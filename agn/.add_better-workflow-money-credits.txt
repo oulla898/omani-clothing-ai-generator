@@ -1,0 +1,250 @@
+# Haiba Credit System - Feature Requirements
+
+## Language & Tone
+
+- **Tone**: Friendly, Omani dialect, might do emotinal if trying to convince (عامية عمانية),  warm
+- **Style**: Clean, minimal, not overwhelming — like premium websites
+
+---
+
+## 1. Free Trial Attraction (Pre-Login Users Only)
+
+**Display before sign-in:**
+> "جرّب مجاناً! احصل على 3 أرصدة مجانية عند التسجيل 🎁"
+
+
+
+## 2. Pricing Plans
+
+| Plan | Price | Credits | Note |
+|------|-------|---------|------|
+| Starter | 100 بيسة | 1 credit | "بدون مخاطرة — جرّب بـ100 بيسة بس" |
+| Basic | [1] ريال | [10] credits | — |
+| Pro | [2] ريال | [25] credits | put something cool |
+| Enterprise | Contact us | Custom | "للشركات والمؤسسات" |
+
+*Remove the old "Custom" tier — replace with Enterprise (contact-based)*
+
+---
+
+## 3. Refund Guarantee Badge
+
+**Display prominently on pricing section:**
+> "ضمان الرضا 💯"  
+> "اذا ما عجبتك صورة، شاركنا الصورة والطلب ونرد قيمتها بدون أسئلة"
+طلب اقصد برومبت
+---
+
+##make the price listing nice and scrollable as its now not showing everything in small screens.
+
+## 4. Exit-Intent Discount Popup
+
+**Trigger conditions (scalable system):**
+- User clicks "ربما لاحقاً" button
+- User clicks outside the credit/pricing modal
+- **First-time users only** (track via localStorage or user flag)
+
+**Popup content:**
+> "لحظة لحظة.. قبل لا تروح! 🥺"  
+> "خصم خاص لك — [X]% على أي باقة!"  
+ممكن تحط باقة 100 بيسة
+> [Show discounted prices]  
+> [CTA: "استفيد من العرض"]
+
+**Technical note:** Build trigger system to be extensible for future exit scenarios.
+
+---
+
+## 5. Payment Flow (Simplified)
+
+**Remove step 2 ("اضغط فتح واتساب"). New flow:**
+
+-. حوّل المبلغ إلى: **96041234** (بنك مسقط)  
+   *(make number blu tiny tiny copy icon above it when they clich number it gets copied)*
+-. أرسل الإيصال عبر واتساب لتحصل على رصيدك خلال ٢٤ ساعة ✅
+this page must be extremly minimal. no much icons or cards, no much nonsense
+-scroll
+-less text
+-nicer plans names+ no redundency
+-no need to show the entire user name
+-showing the selected plan in "almost done" must be small
+
+**Important numbers:**
+- Payment transfers: `96041234`
+- Contact/Support: `77310987`
+
+---
+
+## 6. Callback Request Feature
+
+**For users who don't want to contact directly:**
+
+> "تحب نتواصل معاك؟"  
+> "اترك رقمك ونتواصل بك لمساعدتك في شراء الرصيد"
+
+**Form fields:**
+- contact (required)
+- Notes (optional)
+
+**Backend:** Store in database for sales follow-up. 
+
+---
+
+
+
+
+
+add option so people can share the site
+
+## 7. Footer Section
+
+### FAQ Section
+Include common questions like:
+-
+
+هل أنتم مؤسسة مسجلة؟
+أيوه! مسجلين رسمياً في وزارة التجارة والصناعة بالسجل التجاري رقم 1622252
+
+كم يستغرق توليد الصورة؟
+معظم الصور تنتهي خلال ١٠-٣٠ ثانية، على حسب الضغط على السيرفر.
+
+هل الرصيد له تاريخ انتهاء؟
+لا أبداً! رصيدك يبقى معاك إلى الأبد، استخدمه متى تبغى.
+
+هل أقدر أستخدم الصور تجارياً؟
+أيوه! كل الصور اللي تطلعها ملكك، استخدمها زي ما تبغى - تجارياً أو شخصياً.
+
+كيف أسترجع فلوسي إذا ما عجبتني الصورة؟
+سهلة! شاركنا الصورة والطلب على الواتساب ونرجع لك قيمتها بدون أسئلة.
+
+كيف طريقة الدفع؟
+تحول على رقم حسابنا في بنك مسقط (96041234) وترسل لنا الإيصال على الواتساب. خلال ٢٤ ساعة يضاف رصيدك.
+
+### Enterprise Section
+> "للشركات والمؤسسات"  
+>xxxxxxxx  
+> [Contact button]
+
+
+
+### Social & Contact
+- Instagram: [@haiba_auth](https://www.instagram.com/haiba_auth/)
+- WhatsApp: 77310987
+email
+
+---
+
+## Summary Checklist
+
+- [ ] 3 free credits banner (pre-login only)
+- [ ] "Amazing images" upsell after credits depleted
+- [ ] New pricing: 100 baisa starter + Enterprise tier
+- [ ] Refund guarantee badge
+- [ ] Exit-intent discount popup (first-time, scalable triggers)
+- [ ] Simplified 3-step payment with copyable number
+- [ ] Callback request form → backend storage
+- [ ] Footer: FAQ, Enterprise contact, CR number, Instagram
+- [ ] Clean, professional, Omani-friendly tone throughout
+
+
+
+
+
+
+refined part 1. for now you only implement the following. the rest will later
+
+""# Haiba Credit System - Feature Requirements
+
+## Language & Tone
+
+- **Tone**: Friendly, Omani dialect, might do emotinal if trying to convince (عامية عمانية),  warm... might be emotinal if trying to convince
+- **Style**: Clean, minimal, not overwhelming — like premium websites
+
+---
+
+## 1. Free Trial Attraction (Pre-Login Users Only)
+
+**Display before sign-in:**
+> "جرّب مجاناً! احصل على 3 أرصدة مجانية عند التسجيل 🎁"..  put we never ask for card details
+
+**After free credits are exhausted, show:**
+> "صورك طلعت روعة! 😍 اختر باقة تناسبك وكمّل الإبداع — سهل وآمن"
+
+---
+
+## 2. Pricing Plans
+
+| Plan | Price | Credits | Note |
+|------|-------|---------|------|
+| Starter | 100 بيسة | 1 credit | "بدون مخاطرة — جرّب بـ100 بيسة بس" |
+| Basic | [1] ريال | [10] credits | — |
+| Pro | [2] ريال | [25] credits | put something cool |
+| Enterprise | Contact us | Custom | "للشركات والمؤسسات" |
+
+*Remove the old "Custom" tier — replace with Enterprise (contact-based)*
+
+---
+
+## 3. Refund Guarantee Badge
+
+**Display prominently on pricing section:**
+> "ضمان الرضا 💯"  
+> "اذا ما عجبتك صورة، شاركنا الصورة والطلب ونرد قيمتها بدون أسئلة"
+طلب اقصد برومبت
+---
+
+##make the price listing nice and scrollable as its now not showing everything in small screens... ithe entire popup scrollable in clean nice way
+
+## 4. Exit-Intent Discount Popup
+
+**Trigger conditions (scalable system):**
+- User clicks "ربما لاحقاً" button
+- User clicks outside the credit/pricing modal
+-esc button
+- **First-time users only** (track via localStorage or user flag)
+
+**Popup content:**
+> "لحظة لحظة.. قبل لا تروح! 🥺"  
+> "خصم خاص لك — [50]% على أي باقة!"  
+ممكن تحط باقة 100 بيسة
+> [Show discounted prices]  
+> [CTA: "استفيد من العرض"]
+
+**Technical note:** Build trigger system to be extensible for future exit scenarios.
+
+---
+
+## 5. Payment Flow (Simplified)
+
+**Remove step 2 ("اضغط فتح واتساب"). New flow:**
+
+-. حوّل المبلغ إلى: **96041234** (بنك مسقط)  
+   *(make number blu tiny tiny copy icon above it when they clich number it gets copied.. number is inline with all text just blue text)*
+-. أرسل الإيصال عبر واتساب لتحصل على رصيدك خلال ٢٤ ساعة ✅
+this page must be extremly minimal. no much icons or cards, no much nonsense
+-scrollable
+-less text
+-nicer plans names+ no redundency
+-no need to show the entire user id. no need for usr_g767g76f67f54f67jhb766
+-showing the selected plan in "almost done" must be small
+
+**Important numbers:**
+- Payment transfers phone number: `96041234`
+- Contact/Support: `77310987`
+
+---
+
+## 6. Callback Request Feature
+
+**For users who don't want to contact directly:**
+
+> "تحب نتواصل معاك؟"  
+> "اترك رقمك ونتواصل بك لمساعدتك في أي شي"
+
+**Form fields:**
+- contact (required)
+- Notes (optional)
+
+**Backend:** Store in database for sales follow-up. 
+
+---""

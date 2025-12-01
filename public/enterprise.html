@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-ar="هيبة للأعمال | باقات الفرق والشركات" data-en="Haiba for Business | Team & Company Plans">هيبة للأعمال | باقات الفرق والشركات</title>
+
+  <meta name="description" content="باقات هيبة للأعمال: رصيد ما يخلص، حساب لكل الفريق، وسرعة فورية بدون طوابير.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" href="/logo.webp" type="image/webp">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --font-ar: 'Noto Sans Arabic', system-ui, sans-serif;
+      --font-en: 'Inter', system-ui, sans-serif;
+    }
+    html[lang="ar"] body { font-family: var(--font-ar); }
+    html[lang="en"] body { font-family: var(--font-en); }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 50%, #faf5ff 100%);
+    }
+
+    .card-hover {
+      transition: all 0.25s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+
+    .best-value {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    }
+
+    /* Tooltip for info icons */
+    .info-tip {
+      position: relative;
+      cursor: help;
+    }
+    .info-tip .tip-text {
+      visibility: hidden;
+      opacity: 0;
+      position: absolute;
+      z-index: 50;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1e293b;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      line-height: 1.4;
+      width: max-content;
+      max-width: 220px;
+      text-align: center;
+      transition: opacity 0.2s, visibility 0.2s;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .info-tip .tip-text::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: #1e293b;
+    }
+    .info-tip:hover .tip-text,
+    .info-tip:focus .tip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+    /* Mobile: tap to show */
+    @media (max-width: 768px) {
+      .info-tip .tip-text {
+        left: auto;
+        right: 0;
+        transform: none;
+      }
+      .info-tip .tip-text::after {
+        left: auto;
+        right: 12px;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen gradient-bg text-slate-900">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200/80">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <a href="/" class="flex items-center gap-3">
+        <img src="/logo.webp" alt="هيبة" class="w-9 h-9 rounded-full shadow-sm">
+        <span class="text-lg font-bold text-slate-800" data-ar="هيبة للأعمال" data-en="Haiba for Business">هيبة للأعمال</span>
+      </a>
+      <div class="flex items-center gap-2">
+        <button
+          id="langToggle"
+          class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-300 bg-white hover:bg-slate-50 transition"
+        >
+          English
+        </button>
+        <a href="/" class="hidden sm:inline-flex px-4 py-2 rounded-full text-sm font-medium bg-slate-900 text-white hover:bg-slate-800 transition">
+          <span data-ar="الموقع الرئيسي" data-en="Main Site">الموقع الرئيسي</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-4 py-8 md:py-12 space-y-12">
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         SECTION 1: Hero
+    ════════════════════════════════════════════════════════════════════ -->
+    <section class="text-center space-y-4">
+      <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900">
+        <span data-ar="باقات للفرق والشركات" data-en="Plans for Teams & Companies">باقات للفرق والشركات</span>
+      </h1>
+      <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto" data-ar="رصيد ما يخلص، حساب لكل الفريق، وسرعة فورية." data-en="Credits that never run out, one account for your whole team, and instant speed.">
+        رصيد ما يخلص، حساب لكل الفريق، وسرعة فورية.
+      </p>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         SECTION 2: Why Business Plans? (4 benefit cards)
+    ════════════════════════════════════════════════════════════════════ -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <!-- Card 1: Never runs out -->
+      <div class="bg-white rounded-2xl p-5 text-center shadow-sm border border-slate-100">
+        <div class="text-3xl mb-2">♾️</div>
+        <h3 class="font-bold text-slate-900 mb-1" data-ar="رصيد ما يخلص" data-en="Never Runs Out">رصيد ما يخلص</h3>
+        <p class="text-xs text-slate-600" data-ar="الفريق يشتغل بدون توقف. نزيد الحصة تلقائياً عند الحاجة." data-en="Your team works non-stop. We increase your quota automatically when needed.">الفريق يشتغل بدون توقف. نزيد الحصة تلقائياً عند الحاجة.</p>
+      </div>
+      <!-- Card 2: Shared credits pool -->
+      <div class="bg-white rounded-2xl p-5 text-center shadow-sm border border-slate-100">
+        <div class="text-3xl mb-2">👥</div>
+        <h3 class="font-bold text-slate-900 mb-1" data-ar="رصيد مشترك للفريق" data-en="Shared Team Credits">رصيد مشترك للفريق</h3>
+        <p class="text-xs text-slate-600" data-ar="حصة كريدت واحدة يستخدمها كل أعضاء الفريق معاً." data-en="One credit pool shared by all team members together.">حصة كريدت واحدة يستخدمها كل أعضاء الفريق معاً.</p>
+      </div>
+      <!-- Card 3: Instant speed -->
+      <div class="bg-white rounded-2xl p-5 text-center shadow-sm border border-slate-100">
+        <div class="text-3xl mb-2">⚡</div>
+        <h3 class="font-bold text-slate-900 mb-1" data-ar="سرعة فورية" data-en="Instant Speed">سرعة فورية</h3>
+        <p class="text-xs text-slate-600" data-ar="GPU مخصص في الباقات العليا = بدون انتظار حتى في الذروة." data-en="Dedicated GPU in top plans = no waiting even during peak times.">GPU مخصص في الباقات العليا = بدون انتظار حتى في الذروة.</p>
+      </div>
+      <!-- Card 4: Full freedom -->
+      <div class="bg-white rounded-2xl p-5 text-center shadow-sm border border-slate-100">
+        <div class="text-3xl mb-2">✍️</div>
+        <h3 class="font-bold text-slate-900 mb-1" data-ar="حرية كاملة" data-en="Full Freedom">حرية كاملة</h3>
+        <p class="text-xs text-slate-600" data-ar="اكتب البرومبت بطريقتك. يوصل للنموذج كما هو بدون تعديل." data-en="Write prompts your way. They go to the model exactly as you write them.">اكتب البرومبت بطريقتك. يوصل للنموذج كما هو بدون تعديل.</p>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         SECTION 3: Pricing Cards (3 tiers)
+    ════════════════════════════════════════════════════════════════════ -->
+    <section class="space-y-6">
+      <h2 class="text-2xl font-bold text-center" data-ar="اختر الباقة المناسبة" data-en="Choose Your Plan">اختر الباقة المناسبة</h2>
+      
+      <div class="grid md:grid-cols-3 gap-5 items-stretch">
+        
+        <!-- TIER 1: Launch -->
+        <article class="card-hover bg-white rounded-2xl border border-slate-200 p-6 flex flex-col">
+          <div class="mb-4">
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-600 mb-3" data-ar="فرق صغيرة" data-en="Small Teams">فرق صغيرة</span>
+            <h3 class="text-xl font-bold text-slate-900" data-ar="باقة انطلاقة" data-en="Launch">باقة انطلاقة</h3>
+          </div>
+          
+          <div class="mb-4">
+            <div class="flex items-baseline gap-1">
+              <span class="text-3xl font-extrabold text-slate-900">٤٩</span>
+              <span class="text-sm text-slate-500" data-ar="ر.ع / شهرياً" data-en="OMR / month">ر.ع / شهرياً</span>
+            </div>
+            <p class="text-xs text-emerald-600 font-medium mt-1" data-ar="أو ٤٩٠ ر.ع سنوياً (شهرين مجاناً)" data-en="Or 490 OMR/year (2 months free)">أو ٤٩٠ ر.ع سنوياً (شهرين مجاناً)</p>
+          </div>
+          
+          <ul class="space-y-2.5 text-sm text-slate-700 flex-1">
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 mt-0.5">✓</span>
+              <span data-ar="٥٠٠ كريدت شهرياً" data-en="500 credits/month">٥٠٠ كريدت شهرياً</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 mt-0.5">✓</span>
+              <span data-ar="حتى ٥ مستخدمين" data-en="Up to 5 users">حتى ٥ مستخدمين</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 mt-0.5">✓</span>
+              <span data-ar="توليد صورتين في نفس الوقت" data-en="Generate 2 images at once">توليد صورتين في نفس الوقت</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 mt-0.5">✓</span>
+              <span data-ar="عدة اقتراحات للنص المحسّن" data-en="Multiple enhanced prompt options">عدة اقتراحات للنص المحسّن</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-slate-300 mt-0.5">–</span>
+              <span class="text-slate-500" data-ar="حرية البرومبت (كإضافة)" data-en="Prompt freedom (as add-on)">حرية البرومبت (كإضافة)</span>
+            </li>
+          </ul>
+          
+          <a href="https://api.whatsapp.com/send?phone=96877310987&text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D9%85%D9%87%D8%AA%D9%85%20%D8%A8%D8%A8%D8%A7%D9%82%D8%A9%20%D8%A7%D9%86%D8%B7%D9%84%D8%A7%D9%82%D8%A9" target="_blank" rel="noopener"
+             class="mt-6 block text-center py-3 px-4 rounded-xl font-semibold text-sm bg-slate-100 text-slate-800 hover:bg-slate-200 transition">
+            <span data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</span>
+          </a>
+        </article>
+
+        <!-- TIER 2: Growth (Best Value) -->
+        <article class="card-hover best-value rounded-2xl p-6 flex flex-col text-white relative">
+          <div class="absolute -top-3 inset-x-0 flex justify-center">
+            <span class="inline-flex items-center gap-1 px-4 py-1.5 rounded-full text-xs font-bold bg-amber-400 text-amber-900 shadow-lg">
+              ⭐ <span data-ar="أفضل قيمة" data-en="Best Value">أفضل قيمة</span>
+            </span>
+          </div>
+          
+          <div class="mb-4 mt-2">
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-white/90 mb-3" data-ar="وكالات وفرق المحتوى" data-en="Agencies & Content Teams">وكالات وفرق المحتوى</span>
+            <h3 class="text-xl font-bold" data-ar="باقة نمو" data-en="Growth">باقة نمو</h3>
+          </div>
+          
+          <div class="mb-4">
+            <div class="flex items-baseline gap-1">
+              <span class="text-3xl font-extrabold">٩٩</span>
+              <span class="text-sm text-white/80" data-ar="ر.ع / شهرياً" data-en="OMR / month">ر.ع / شهرياً</span>
+            </div>
+            <p class="text-xs text-emerald-300 font-medium mt-1" data-ar="أو ٩٩٠ ر.ع سنوياً (شهرين مجاناً)" data-en="Or 990 OMR/year (2 months free)">أو ٩٩٠ ر.ع سنوياً (شهرين مجاناً)</p>
+          </div>
+          
+          <ul class="space-y-2.5 text-sm flex-1">
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-300 mt-0.5">✓</span>
+              <span data-ar="١,٣٠٠ كريدت شهرياً" data-en="1,300 credits/month">١,٣٠٠ كريدت شهرياً</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-300 mt-0.5">✓</span>
+              <span data-ar="حتى ١٥ مستخدم" data-en="Up to 15 users">حتى ١٥ مستخدم</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-300 mt-0.5">✓</span>
+              <span data-ar="توليد ٣ صور في نفس الوقت" data-en="Generate 3 images at once">توليد ٣ صور في نفس الوقت</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-300 mt-0.5">✓</span>
+              <span data-ar="عدة اقتراحات للنص المحسّن" data-en="Multiple enhanced prompt options">عدة اقتراحات للنص المحسّن</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-300 mt-0.5">✓</span>
+              <span data-ar="حرية كاملة في البرومبت" data-en="Full prompt freedom">حرية كاملة في البرومبت</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-300 mt-0.5">✓</span>
+              <span data-ar="GPU مخصص – بدون طوابير" data-en="Dedicated GPU – no queues">GPU مخصص – بدون طوابير</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-300 mt-0.5">✓</span>
+              <span data-ar="وصول إلى API" data-en="API access">وصول إلى API</span>
+            </li>
+          </ul>
+          
+          <a href="https://api.whatsapp.com/send?phone=96877310987&text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D9%85%D9%87%D8%AA%D9%85%20%D8%A8%D8%A8%D8%A7%D9%82%D8%A9%20%D9%86%D9%85%D9%88" target="_blank" rel="noopener"
+             class="mt-6 block text-center py-3 px-4 rounded-xl font-semibold text-sm bg-white text-indigo-700 hover:bg-indigo-50 transition shadow-lg">
+            <span data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</span>
+          </a>
+        </article>
+
+        <!-- TIER 3: Partnership -->
+        <article class="card-hover bg-slate-900 rounded-2xl p-6 flex flex-col text-white">
+          <div class="mb-4">
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-slate-800 text-slate-300 mb-3" data-ar="مؤسسات وبراندات كبيرة" data-en="Enterprises & Big Brands">مؤسسات وبراندات كبيرة</span>
+            <h3 class="text-xl font-bold" data-ar="باقة شراكة" data-en="Partnership">باقة شراكة</h3>
+          </div>
+          
+          <div class="mb-4">
+            <div class="flex items-baseline gap-1">
+              <span class="text-sm text-slate-400" data-ar="من" data-en="From">من</span>
+              <span class="text-3xl font-extrabold">٢٩٩</span>
+              <span class="text-sm text-slate-400" data-ar="ر.ع / شهرياً" data-en="OMR / month">ر.ع / شهرياً</span>
+            </div>
+            <p class="text-xs text-emerald-400 font-medium mt-1" data-ar="خصم سنوي متاح (شهرين مجاناً)" data-en="Yearly discount available (2 months free)">خصم سنوي متاح (شهرين مجاناً)</p>
+          </div>
+          
+          <ul class="space-y-2.5 text-sm flex-1">
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <span data-ar="٣,٠٠٠+ كريدت شهرياً" data-en="3,000+ credits/month">٣,٠٠٠+ كريدت شهرياً</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <span data-ar="مستخدمين بلا حدود" data-en="Unlimited users">مستخدمين بلا حدود</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <span data-ar="توليد ٤ صور في نفس الوقت" data-en="Generate 4 images at once">توليد ٤ صور في نفس الوقت</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <span data-ar="كل مميزات باقة نمو" data-en="All Growth features">كل مميزات باقة نمو</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <span data-ar="GPU مخصص – سرعة فورية" data-en="Dedicated GPU – instant speed">GPU مخصص – سرعة فورية</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <span data-ar="نموذج يعكس أسلوب البراند" data-en="Brand-style model">نموذج يعكس أسلوب البراند</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-400 mt-0.5">✓</span>
+              <span data-ar="إعداد منفصل لجهتكم فقط" data-en="Dedicated setup for your org only">إعداد منفصل لجهتكم فقط</span>
+            </li>
+          </ul>
+          
+          <a href="https://api.whatsapp.com/send?phone=96877310987&text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D9%85%D9%87%D8%AA%D9%85%20%D8%A8%D8%A8%D8%A7%D9%82%D8%A9%20%D8%B4%D8%B1%D8%A7%D9%83%D8%A9" target="_blank" rel="noopener"
+             class="mt-6 block text-center py-3 px-4 rounded-xl font-semibold text-sm bg-white text-slate-900 hover:bg-slate-100 transition">
+            <span data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</span>
+          </a>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         SECTION 4: Quick Comparison Table
+    ════════════════════════════════════════════════════════════════════ -->
+    <section class="bg-white/90 rounded-2xl border border-slate-200 p-5 md:p-6 overflow-hidden">
+      <h2 class="text-lg md:text-xl font-bold mb-4 text-center" data-ar="مقارنة سريعة" data-en="Quick Comparison">مقارنة سريعة</h2>
+      
+      <div class="overflow-x-auto -mx-5 md:mx-0 px-5 md:px-0">
+        <table class="w-full text-sm border-separate border-spacing-y-1 min-w-[500px]">
+          <thead>
+            <tr class="text-xs text-slate-500">
+              <th class="text-right pr-3 py-2 font-medium"></th>
+              <th class="text-center py-2 font-semibold" data-ar="انطلاقة" data-en="Launch">انطلاقة</th>
+              <th class="text-center py-2 font-semibold text-indigo-600" data-ar="نمو ⭐" data-en="Growth ⭐">نمو ⭐</th>
+              <th class="text-center py-2 font-semibold" data-ar="شراكة" data-en="Partnership">شراكة</th>
+            </tr>
+          </thead>
+          <tbody class="text-slate-700">
+            <tr class="bg-slate-50/50">
+              <td class="py-2.5 pr-3 font-medium" data-ar="السعر الشهري" data-en="Monthly Price">السعر الشهري</td>
+              <td class="text-center">٤٩ ر.ع</td>
+              <td class="text-center font-semibold text-indigo-600">٩٩ ر.ع</td>
+              <td class="text-center" data-ar="من ٢٩٩ ر.ع" data-en="From 299 OMR">من ٢٩٩ ر.ع</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-medium" data-ar="السعر السنوي" data-en="Yearly Price">السعر السنوي</td>
+              <td class="text-center text-emerald-600 text-xs">٤٩٠ ر.ع<br><span class="text-slate-400">(شهرين مجاناً)</span></td>
+              <td class="text-center text-emerald-600 text-xs">٩٩٠ ر.ع<br><span class="text-slate-400">(شهرين مجاناً)</span></td>
+              <td class="text-center text-emerald-600 text-xs" data-ar="بالاتفاق" data-en="Custom">بالاتفاق</td>
+            </tr>
+            <tr class="bg-slate-50/50">
+              <td class="py-2.5 pr-3 font-medium" data-ar="الكريدت شهرياً" data-en="Credits/Month">الكريدت شهرياً</td>
+              <td class="text-center">٥٠٠</td>
+              <td class="text-center font-semibold">١,٣٠٠</td>
+              <td class="text-center">٣,٠٠٠+</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-medium" data-ar="عدد المستخدمين" data-en="Users">عدد المستخدمين</td>
+              <td class="text-center" data-ar="حتى ٥" data-en="Up to 5">حتى ٥</td>
+              <td class="text-center" data-ar="حتى ١٥" data-en="Up to 15">حتى ١٥</td>
+              <td class="text-center" data-ar="بلا حدود" data-en="Unlimited">بلا حدود</td>
+            </tr>
+            <tr class="bg-slate-50/50">
+              <td class="py-2.5 pr-3 font-medium">
+                <span data-ar="توليد متزامن" data-en="Simultaneous Generation">توليد متزامن</span>
+                <span class="info-tip inline-block align-middle mr-1" tabindex="0">
+                  <svg class="w-4 h-4 text-slate-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                  <span class="tip-text" data-ar="عدد الصور التي يمكن توليدها في نفس اللحظة بدل الانتظار واحدة تلو الأخرى." data-en="Number of images you can generate at the same moment instead of waiting one by one.">عدد الصور التي يمكن توليدها في نفس اللحظة بدل الانتظار واحدة تلو الأخرى.</span>
+                </span>
+              </td>
+              <td class="text-center" data-ar="٢ صور" data-en="2 images">٢ صور</td>
+              <td class="text-center" data-ar="٣ صور" data-en="3 images">٣ صور</td>
+              <td class="text-center" data-ar="٤ صور" data-en="4 images">٤ صور</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-medium">
+                <span data-ar="اقتراحات نص محسّن" data-en="Enhanced Prompt Options">اقتراحات نص محسّن</span>
+                <span class="info-tip inline-block align-middle mr-1" tabindex="0">
+                  <svg class="w-4 h-4 text-slate-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                  <span class="tip-text" data-ar="قبل التوليد تشوف ٢-٣ خيارات جاهزة للنص المحسّن وتختار الأنسب." data-en="Before generating, you see 2-3 ready enhanced prompt options and pick the best one.">قبل التوليد تشوف ٢-٣ خيارات جاهزة للنص المحسّن وتختار الأنسب.</span>
+                </span>
+              </td>
+              <td class="text-center text-emerald-600 font-bold">✓</td>
+              <td class="text-center text-emerald-600 font-bold">✓</td>
+              <td class="text-center text-emerald-600 font-bold">✓</td>
+            </tr>
+            <tr class="bg-slate-50/50">
+              <td class="py-2.5 pr-3 font-medium">
+                <span data-ar="حرية كاملة في البرومبت" data-en="Full Prompt Freedom">حرية كاملة في البرومبت</span>
+                <span class="info-tip inline-block align-middle mr-1" tabindex="0">
+                  <svg class="w-4 h-4 text-slate-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                  <span class="tip-text" data-ar="اكتب البرومبت بطريقتك ويوصل للنموذج كما هو بدون أي تعديل تلقائي." data-en="Write prompts your way and they go to the model exactly as-is, no auto changes.">اكتب البرومبت بطريقتك ويوصل للنموذج كما هو بدون أي تعديل تلقائي.</span>
+                </span>
+              </td>
+              <td class="text-center text-slate-400 text-xs" data-ar="إضافة" data-en="Add-on">إضافة</td>
+              <td class="text-center text-emerald-600 font-bold">✓</td>
+              <td class="text-center text-emerald-600 font-bold">✓</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-medium">
+                <span data-ar="GPU مخصص (بدون طوابير)" data-en="Dedicated GPU (No Queues)">GPU مخصص (بدون طوابير)</span>
+                <span class="info-tip inline-block align-middle mr-1" tabindex="0">
+                  <svg class="w-4 h-4 text-slate-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                  <span class="tip-text" data-ar="موارد معالجة خاصة لجهتك = سرعة فورية حتى في أوقات الذروة." data-en="Dedicated processing resources for your org = instant speed even during peak times.">موارد معالجة خاصة لجهتك = سرعة فورية حتى في أوقات الذروة.</span>
+                </span>
+              </td>
+              <td class="text-center text-slate-400">–</td>
+              <td class="text-center text-emerald-600 font-bold">✓</td>
+              <td class="text-center text-emerald-600 font-bold">✓</td>
+            </tr>
+            <tr class="bg-slate-50/50">
+              <td class="py-2.5 pr-3 font-medium">
+                <span data-ar="نموذج يعكس أسلوب البراند" data-en="Brand-Style Model">نموذج يعكس أسلوب البراند</span>
+                <span class="info-tip inline-block align-middle mr-1" tabindex="0">
+                  <svg class="w-4 h-4 text-slate-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                  <span class="tip-text" data-ar="نموذج يلتقط الجو العام لبراندك ويكرره على كل الصور الجديدة." data-en="A model that captures your brand's vibe and repeats it on all new images.">نموذج يلتقط الجو العام لبراندك ويكرره على كل الصور الجديدة.</span>
+                </span>
+              </td>
+              <td class="text-center text-slate-400 text-xs" data-ar="إضافة" data-en="Add-on">إضافة</td>
+              <td class="text-center text-slate-400 text-xs" data-ar="إضافة" data-en="Add-on">إضافة</td>
+              <td class="text-center text-emerald-600 font-bold" data-ar="متضمّن" data-en="Included">متضمّن</td>
+            </tr>
+            <tr>
+              <td class="py-2.5 pr-3 font-medium" data-ar="وصول إلى API" data-en="API Access">وصول إلى API</td>
+              <td class="text-center text-slate-400">–</td>
+              <td class="text-center text-emerald-600 font-bold">✓</td>
+              <td class="text-center text-emerald-600 font-bold">✓</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         SECTION 5: Add-ons
+    ════════════════════════════════════════════════════════════════════ -->
+    <section class="space-y-5">
+      <h2 class="text-xl font-bold text-center" data-ar="إضافات اختيارية" data-en="Optional Add-ons">إضافات اختيارية</h2>
+      <p class="text-sm text-slate-600 text-center max-w-xl mx-auto" data-ar="ابدأ بالباقة الأقرب لك، ثم أضف فقط ما تحتاجه فعلياً." data-en="Start with the plan that fits you, then add only what you actually need.">ابدأ بالباقة الأقرب لك، ثم أضف فقط ما تحتاجه فعلياً.</p>
+      
+      <div class="grid md:grid-cols-3 gap-4">
+        <!-- Add-on 1 -->
+        <div class="bg-white rounded-xl border border-slate-200 p-5">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-bold text-slate-900" data-ar="حرية البرومبت" data-en="Prompt Freedom">حرية البرومبت</h3>
+            <span class="text-sm font-bold text-indigo-600">٢٥ <span class="text-xs font-normal text-slate-500" data-ar="ر.ع/شهر" data-en="OMR/mo">ر.ع/شهر</span></span>
+          </div>
+          <p class="text-xs text-slate-600" data-ar="لباقة انطلاقة: اكتب البرومبت بطريقتك ويوصل للنموذج كما هو." data-en="For Launch plan: write prompts your way and they go to the model as-is.">لباقة انطلاقة: اكتب البرومبت بطريقتك ويوصل للنموذج كما هو.</p>
+        </div>
+        <!-- Add-on 2 -->
+        <div class="bg-white rounded-xl border border-slate-200 p-5">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-bold text-slate-900" data-ar="نموذج أسلوب البراند" data-en="Brand-Style Model">نموذج أسلوب البراند</h3>
+            <span class="text-sm font-bold text-indigo-600">٩٩ <span class="text-xs font-normal text-slate-500" data-ar="ر.ع مرة واحدة" data-en="OMR one-time">ر.ع مرة واحدة</span></span>
+          </div>
+          <p class="text-xs text-slate-600" data-ar="عندك هوية بصرية أو ستايل معين؟ نجهّز لك نموذج خاص يلتقط جو براندك ويكرره على كل صورة جديدة تلقائياً." data-en="Have a visual identity or specific style? We create a custom model that captures your brand's vibe and repeats it on every new image automatically.">عندك هوية بصرية أو ستايل معين؟ نجهّز لك نموذج خاص يلتقط جو براندك ويكرره على كل صورة جديدة تلقائياً.</p>
+        </div>
+        <!-- Add-on 3 -->
+        <div class="bg-white rounded-xl border border-slate-200 p-5">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="font-bold text-slate-900" data-ar="دمج API مخصّص" data-en="Custom API Integration">دمج API مخصّص</h3>
+            <span class="text-sm font-bold text-indigo-600" data-ar="من ٣٠ ر.ع/شهر" data-en="From 30 OMR/mo">من ٣٠ <span class="text-xs font-normal text-slate-500">ر.ع/شهر</span></span>
+          </div>
+          <p class="text-xs text-slate-600" data-ar="ربط هيبة مع أنظمتكم الداخلية، صلاحيات للفرق، أو حلول لحجم استخدام عالي." data-en="Connect Haiba to your internal systems, team permissions, or high-volume solutions.">ربط هيبة مع أنظمتكم الداخلية، صلاحيات للفرق، أو حلول لحجم استخدام عالي.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         SECTION 6: Contact CTA
+    ════════════════════════════════════════════════════════════════════ -->
+    <section class="text-center space-y-4 py-8">
+      <h2 class="text-xl md:text-2xl font-bold" data-ar="مستعد تبدأ؟" data-en="Ready to Start?">مستعد تبدأ؟</h2>
+      <p class="text-sm md:text-base text-slate-600 max-w-lg mx-auto" data-ar="أرسل لنا رسالة قصيرة على الواتساب بطبيعة عملك وعدد المستخدمين، ونرد عليك بمقترح واضح." data-en="Send us a short WhatsApp message with your business type and number of users, and we'll reply with a clear proposal.">أرسل لنا رسالة قصيرة على الواتساب بطبيعة عملك وعدد المستخدمين، ونرد عليك بمقترح واضح.</p>
+      <a href="https://api.whatsapp.com/send?phone=96877310987&text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D9%85%D9%87%D8%AA%D9%85%20%D8%A8%D8%A8%D8%A7%D9%82%D8%A7%D8%AA%20%D9%87%D9%8A%D8%A8%D8%A9%20%D9%84%D9%84%D8%A3%D8%B9%D9%85%D8%A7%D9%84" target="_blank" rel="noopener"
+         class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-emerald-600 text-white font-semibold hover:bg-emerald-500 transition shadow-lg">
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span data-ar="تواصل على الواتساب" data-en="Chat on WhatsApp">تواصل على الواتساب</span>
+      </a>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white/50 py-8">
+    <div class="max-w-5xl mx-auto px-4 space-y-4">
+      <!-- Social Links -->
+      <div class="flex items-center justify-center gap-5">
+        <!-- Email -->
+        <a href="mailto:hello@haiba.store" class="text-slate-500 hover:text-slate-700 transition" title="Email">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        </a>
+          <!-- Instagram -->
+          <a href="https://instagram.com/haiba_auth" target="_blank" rel="noopener" class="text-slate-500 hover:text-pink-600 transition" title="Instagram">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+        <!-- LinkedIn -->
+        <a href="https://www.linkedin.com/company/haiba-auth" target="_blank" rel="noopener" class="text-slate-500 hover:text-blue-600 transition" title="LinkedIn">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <!-- WhatsApp -->
+        <a href="https://api.whatsapp.com/send?phone=96877310987" target="_blank" rel="noopener" class="text-slate-500 hover:text-emerald-600 transition" title="WhatsApp">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+      </div>
+      <!-- Copyright -->
+      <div class="text-center text-xs text-slate-500">
+        <a href="/" class="hover:text-slate-700 transition" data-ar="© هيبة ٢٠٢٥" data-en="© Haiba 2025">© هيبة ٢٠٢٥</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Language Toggle Script -->
+  <script>
+    (function() {
+      const html = document.documentElement;
+      const toggle = document.getElementById('langToggle');
+      if (!toggle) return;
+
+      let currentLang = 'ar';
+
+      function applyLang(lang) {
+        const isAr = lang === 'ar';
+        html.lang = isAr ? 'ar' : 'en';
+        html.dir = isAr ? 'rtl' : 'ltr';
+
+        document.querySelectorAll('[data-ar][data-en]').forEach(el => {
+          const val = el.getAttribute(isAr ? 'data-ar' : 'data-en');
+          if (val !== null) el.innerHTML = val;
+        });
+
+        toggle.textContent = isAr ? 'English' : 'العربية';
+      }
+
+      toggle.addEventListener('click', () => {
+        currentLang = currentLang === 'ar' ? 'en' : 'ar';
+        applyLang(currentLang);
+      });
+
+      applyLang(currentLang);
+    })();
+  </script>
+</body>
+</html>

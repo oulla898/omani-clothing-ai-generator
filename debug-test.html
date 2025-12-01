@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Test - Session Issue</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .test-section { background: #f5f5f5; padding: 20px; margin: 10px 0; border-radius: 8px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 4px; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        .warning { background: #fff3cd; color: #856404; }
+        .info { background: #d1ecf1; color: #0c5460; }
+        .log { background: #f8f9fa; border: 1px solid #dee2e6; padding: 10px; border-radius: 4px; font-family: monospace; font-size: 12px; max-height: 300px; overflow-y: auto; white-space: pre-wrap; }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Session Debug Test</h1>
+    
+    <div class="test-section">
+        <h2>📊 Current State</h2>
+        <div id="currentState" class="status info">Loading...</div>
+        <button onclick="checkState()">Check State</button>
+        <button onclick="clearLog()">Clear Log</button>
+    </div>
+
+    <div class="test-section">
+        <h2>🧪 Test Actions</h2>
+        <button onclick="testGeneration()">Test Generation</button>
+        <button onclick="refreshSession()">Refresh Session</button>
+        <button onclick="testAuthCheck()">Test Auth Check</button>
+    </div>
+
+    <div class="test-section">
+        <h2>📝 Debug Log</h2>
+        <div id="debugLog" class="log">Debug log will appear here...\n</div>
+    </div>
+
+    <!-- Include the main app script -->
+    <script src="app.js"></script>
+    
+    <script>
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = `[${timestamp}] ${message}\n`;
+            document.getElementById('debugLog').textContent += logEntry;
+            document.getElementById('debugLog').scrollTop = document.getElementById('debugLog').scrollHeight;
+            console.log(`[DEBUG] ${message}`);
+        }
+
+        function clearLog() {
+            document.getElementById('debugLog').textContent = 'Debug log cleared...\n';
+        }
+
+        function checkState() {
+            if (window.app) {
+                const state = {
+                    authenticated: window.app.isAuthenticated,
+                    sessionReady: window.app.sessionReady,
+                    credits: window.app.userCredits,
+                    generating: window.app.isGenerating
+                };
+                
+                document.getElementById('currentState').innerHTML = `
+                    <strong>Current State:</strong><br>
+                    Authenticated: ${state.authenticated ? '✅' : '❌'}<br>
+                    Session Ready: ${state.sessionReady ? '✅' : '❌'}<br>
+                    Credits: ${state.credits}<br>
+                    Generating: ${state.generating ? '⏳' : '✅'}
+                `;
+                
+                document.getElementById('currentState').className = `status ${state.authenticated && state.sessionReady ? 'success' : 'warning'}`;
+                
+                log(`State check: Auth=${state.authenticated}, Session=${state.sessionReady}, Credits=${state.credits}`);
+            } else {
+                document.getElementById('currentState').innerHTML = 'App not loaded yet...';
+                document.getElementById('currentState').className = 'status warning';
+                log('App not available', 'error');
+            }
+        }
+
+        async function testGeneration() {
+            log('Testing generation...');
+            if (window.app) {
+                try {
+                    await window.app.handleGenerate();
+                    log('Generation test completed');
+                } catch (error) {
+                    log(`Generation test failed: ${error.message}`, 'error');
+                }
+            } else {
+                log('App not available', 'error');
+            }
+        }
+
+        async function refreshSession() {
+            log('Refreshing session...');
+            if (window.app && window.app.refreshSession) {
+                try {
+                    await window.app.refreshSession();
+                    log('Session refresh completed');
+                    checkState();
+                } catch (error) {
+                    log(`Session refresh failed: ${error.message}`, 'error');
+                }
+            } else {
+                log('Refresh not available', 'error');
+            }
+        }
+
+        async function testAuthCheck() {
+            log('Testing auth check API...');
+            try {
+                const response = await fetch('/api/auth/check', {
+                    method: 'GET',
+                    credentials: 'include'
+                });
+                
+                const data = await response.json();
+                log(`Auth check response: ${response.status} - ${JSON.stringify(data)}`);
+                
+                if (response.ok) {
+                    log('Auth check successful', 'success');
+                } else {
+                    log('Auth check failed', 'error');
+                }
+            } catch (error) {
+                log(`Auth check error: ${error.message}`, 'error');
+            }
+        }
+
+        // Auto-check state every 2 seconds
+        setInterval(checkState, 2000);
+        
+        // Initial check
+        setTimeout(checkState, 1000);
+        
+        log('Debug test page loaded. Use buttons to test different scenarios.');
+    </script>
+</body>
+</html>
+
