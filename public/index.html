@@ -2125,22 +2125,22 @@
                 this.hideImageResult();
 
                 try {
-                    // 1. First, check for notifications immediately
                     // Get session token for API calls
                     const token = this.clerk?.session ? await this.clerk.session.getToken() : null;
+                    const headers = { 
+                        'Content-Type': 'application/json',
+                        ...(token && { 'Authorization': `Bearer ${token}` })
+                    };
                     
-                    const notificationPromise = fetch('/api/notifications', {
+                    // Check for notifications in background
+                    fetch('/api/notifications', {
                         method: 'POST',
-                        headers: { 
-                            'Content-Type': 'application/json',
-                            ...(token && { 'Authorization': `Bearer ${token}` })
-                        },
+                        headers,
                         body: JSON.stringify({ prompt })
                     }).then(async (response) => {
                         if (response.ok) {
                             const data = await response.json();
                             if (data.notification) {
-                                // Show notification immediately while image is generating
                                 this.showSoftNotification(data.notification);
                             }
                         }
@@ -2148,56 +2148,106 @@
                         console.warn('Notification check failed:', error);
                     });
 
-                    // 2. Start image generation (this will take longer)
-                    const generatePromise = fetch('/api/generate', {
-                        method: 'POST',
-                        headers: { 
-                            'Content-Type': 'application/json',
-                            ...(token && { 'Authorization': `Bearer ${token}` })
-                        },
-                        body: JSON.stringify({ prompt, options })
-                    });
-
-                    // Execute notification check immediately
-                    notificationPromise;
-
-                    // Wait for image generation
-                    const response = await generatePromise;
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        // Hide loading FIRST before showing results
-                        this.showGenerationStatus(false);
+                    let data;
+                    
+                    // ═══════════════════════════════════════════════════════════════
+                    // SPLIT API: Nano Banana (رزّة) uses 2-step process to avoid 30s timeout
+                    // Flux (طيف) uses original single /api/generate endpoint
+                    // ═══════════════════════════════════════════════════════════════
+                    
+                    if (options.model === 'nano' || !options.model) {
+                        // ═══════════════════════════════════════════════════════════
+                        // 🍌 NANO BANANA (رزّة) - Split API (2 calls, ~15s each)
+                        // ═══════════════════════════════════════════════════════════
+                        console.log('🍌 Using split API for Nano Banana...');
                         
-                        // Show refined prompt
-                        this.showRefinedPrompt(data.enhancedPrompt);
+                        // Step 1: Analyze prompt and select references (~10-15s)
+                        console.log('📊 Step 1: Analyzing prompt...');
+                        const analyzeResponse = await fetch('/api/analyze', {
+                            method: 'POST',
+                            headers,
+                            body: JSON.stringify({ prompt, options })
+                        });
                         
-                        // Show generated image
-                        this.showImageResult(data.imageUrl);
-                        
-                        // Update credits
-                        this.userCredits = data.remainingCredits;
-                        this.updateCreditsDisplay();
-                        
-                        // Check for low credits and show alert
-                        if (this.userCredits <= 5 && this.userCredits > 0) {
-                            setTimeout(() => {
-                                showLowCreditAlert();
-                            }, 2000); // Show alert 2 seconds after successful generation
+                        if (!analyzeResponse.ok) {
+                            const analyzeError = await analyzeResponse.json();
+                            throw new Error(analyzeError.error || 'Analysis failed');
                         }
                         
-                        // Reload history in background - don't block UI
-                        this.loadUserHistory().catch(e => console.warn('History refresh failed:', e));
+                        const analyzeData = await analyzeResponse.json();
+                        console.log('✅ Analysis complete, generating image...');
                         
-                        this.showMessage(
-                            this.currentLanguage === 'ar' 
-                                ? 'تم إنشاء الصورة بنجاح!' 
-                                : 'Image generated successfully!',
-                            'success'
-                        );
+                        // Step 2: Generate image with analysis result (~15s)
+                        console.log('🎨 Step 2: Generating image...');
+                        const generateResponse = await fetch('/api/generate-image', {
+                            method: 'POST',
+                            headers,
+                            body: JSON.stringify({
+                                analysis: analyzeData.analysis,
+                                selectedImages: analyzeData.selectedImages,
+                                aspectRatio: analyzeData.aspectRatio,
+                                prompt: analyzeData.prompt
+                            })
+                        });
+                        
+                        if (!generateResponse.ok) {
+                            const genError = await generateResponse.json();
+                            throw new Error(genError.error || 'Generation failed');
+                        }
+                        
+                        data = await generateResponse.json();
+                        console.log('✅ Nano Banana generation complete!');
+                        
                     } else {
-                        throw new Error(data.error || 'Generation failed');
+                        // ═══════════════════════════════════════════════════════════
+                        // 🎨 FLUX (طيف) - Original single API (unchanged)
+                        // ═══════════════════════════════════════════════════════════
+                        console.log('🎨 Using original API for Flux...');
+                        
+                        const response = await fetch('/api/generate', {
+                            method: 'POST',
+                            headers,
+                            body: JSON.stringify({ prompt, options })
+                        });
+                        
+                        data = await response.json();
+                        
+                        if (!response.ok) {
+                            throw new Error(data.error || 'Generation failed');
+                        }
+                        
+                        console.log('✅ Flux generation complete!');
                     }
+
+                    // Hide loading FIRST before showing results
+                    this.showGenerationStatus(false);
+                    
+                    // Show refined prompt
+                    this.showRefinedPrompt(data.enhancedPrompt);
+                    
+                    // Show generated image
+                    this.showImageResult(data.imageUrl);
+                    
+                    // Update credits
+                    this.userCredits = data.remainingCredits;
+                    this.updateCreditsDisplay();
+                    
+                    // Check for low credits and show alert
+                    if (this.userCredits <= 5 && this.userCredits > 0) {
+                        setTimeout(() => {
+                            showLowCreditAlert();
+                        }, 2000);
+                    }
+                    
+                    // Reload history in background
+                    this.loadUserHistory().catch(e => console.warn('History refresh failed:', e));
+                    
+                    this.showMessage(
+                        this.currentLanguage === 'ar' 
+                            ? 'تم إنشاء الصورة بنجاح!' 
+                            : 'Image generated successfully!',
+                        'success'
+                    );
                 } catch (error) {
                     console.error('Generation error:', error);
                     this.showMessage(
