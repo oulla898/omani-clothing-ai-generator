@@ -1,5 +1,5 @@
 /**
- * Nano Banana Analysis API
+ * Razza Analysis API
  * 
  * Phase 1 of split API to avoid Vercel 30s timeout.
  * This endpoint only analyzes the prompt and selects reference images.

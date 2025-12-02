@@ -1,5 +1,5 @@
 /**
- * Nano Banana Image Generation API
+ * Razza Image Generation API
  * 
  * Phase 2 of split API to avoid Vercel 30s timeout.
  * This endpoint takes the analysis result and generates the actual image.

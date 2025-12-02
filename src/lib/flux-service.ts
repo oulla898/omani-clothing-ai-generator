@@ -34,7 +34,7 @@ export class FluxService {
     options: FluxOptions = {}
   ): Promise<FluxResult> {
     try {
-      console.log('🎨 Flux: Starting generation...')
+      console.log('🎨 Taif: Starting generation...')
       console.log('📝 User prompt:', userPrompt)
 
       // Step 1: Translate and enhance the prompt using TranslationService
@@ -54,7 +54,7 @@ export class FluxService {
       // Step 4: Output format
       const output_format = options.outputFormat || "webp";
 
-      console.log('⚙️ Flux settings:', {
+      console.log('⚙️ Taif settings:', {
         aspect_ratio,
         num_inference_steps,
         output_format,
@@ -100,11 +100,11 @@ export class FluxService {
       if (!imageUrl) {
         return {
           success: false,
-          error: 'No image URL returned from Flux'
+          error: 'No image URL returned from Taif'
         }
       }
 
-      console.log('✅ Flux: Generation complete')
+      console.log('✅ Taif: Generation complete')
       console.log('🖼️ Image URL:', imageUrl)
 
       return {
@@ -114,7 +114,7 @@ export class FluxService {
       }
 
     } catch (error) {
-      console.error('❌ Flux generation error:', error)
+      console.error('❌ Taif generation error:', error)
       return {
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error'

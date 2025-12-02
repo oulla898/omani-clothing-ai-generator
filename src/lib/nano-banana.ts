@@ -1,5 +1,5 @@
 /**
- * Nano Banana Service
+ * Razza Service (formerly Nano Banana)
  * 
  * Uses Gemini 2.5 Flash Image for generation with intelligent component image references.
  * Understands Omani culture, clothing, and locations deeply.
@@ -350,7 +350,7 @@ Return ONLY valid JSON, no other text.`
 
 export class NanoBananaService {
   /**
-   * Generate an image using Nano Banana (Gemini 2.5 Flash Image)
+   * Generate an image using Razza (Gemini 2.5 Flash Image)
    * 
    * Intelligently selects reference images and builds instructional prompts for authentic Omani imagery.
    */
@@ -521,7 +521,7 @@ ${analysisResult.scene_description}
       }
       
       // Step 4: Generate with Gemini 2.5 Flash Image
-      console.log('🎨 Generating with Nano Banana...')
+      console.log('🍌 Generating with Razza...')
       
       const response = await ai.models.generateContentStream({
         model: 'gemini-2.5-flash-image',
