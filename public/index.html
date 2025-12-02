@@ -2157,9 +2157,9 @@
                     
                     if (options.model === 'nano' || !options.model) {
                         // ═══════════════════════════════════════════════════════════
-                        // 🍌 NANO BANANA (رزّة) - Split API (2 calls, ~15s each)
+                        // 🍌 RAZZA (رزّة) - Split API (2 calls, ~15s each)
                         // ═══════════════════════════════════════════════════════════
-                        console.log('🍌 Using split API for Nano Banana...');
+                        console.log('🍌 Using split API for Razza...');
                         
                         // Step 1: Analyze prompt and select references (~10-15s)
                         console.log('📊 Step 1: Analyzing prompt...');
@@ -2196,13 +2196,13 @@
                         }
                         
                         data = await generateResponse.json();
-                        console.log('✅ Nano Banana generation complete!');
+                        console.log('✅ Razza generation complete!');
                         
                     } else {
                         // ═══════════════════════════════════════════════════════════
-                        // 🎨 FLUX (طيف) - Original single API (unchanged)
+                        // 🎨 TAIF (طيف) - Original single API (unchanged)
                         // ═══════════════════════════════════════════════════════════
-                        console.log('🎨 Using original API for Flux...');
+                        console.log('🎨 Using original API for Taif...');
                         
                         const response = await fetch('/api/generate', {
                             method: 'POST',
@@ -2216,7 +2216,7 @@
                             throw new Error(data.error || 'Generation failed');
                         }
                         
-                        console.log('✅ Flux generation complete!');
+                        console.log('✅ Taif generation complete!');
                     }
 
                     // Hide loading FIRST before showing results

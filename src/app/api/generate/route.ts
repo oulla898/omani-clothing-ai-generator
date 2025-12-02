@@ -115,9 +115,9 @@ export async function POST(request: NextRequest) {
 
     if (selectedModel === 'flux') {
       // ═══════════════════════════════════════════════════════════════
-      // 🎨 FLUX MODEL - Great for portraits, single person, mussar
+      // 🎨 TAIF MODEL - Great for portraits, single person, mussar
       // ═══════════════════════════════════════════════════════════════
-      console.log('🎨 Generating with Flux...')
+      console.log('🎨 Generating with Taif...')
       console.log('📝 User prompt:', prompt)
       
       const fluxResult = await FluxService.generate(prompt, {
@@ -127,7 +127,7 @@ export async function POST(request: NextRequest) {
       })
 
       if (!fluxResult.success || !fluxResult.imageUrl) {
-        console.error('❌ Flux generation failed:', fluxResult.error)
+        console.error('❌ Taif generation failed:', fluxResult.error)
         return NextResponse.json({ 
           error: fluxResult.error || 'Image generation failed',
           success: false 
@@ -139,9 +139,9 @@ export async function POST(request: NextRequest) {
 
     } else {
       // ═══════════════════════════════════════════════════════════════
-      // 🍌 NANO BANANA MODEL - Great for most things, especially khanjar
+      // 🍌 RAZZA MODEL - Great for most things, especially khanjar
       // ═══════════════════════════════════════════════════════════════
-      console.log('🍌 Generating with Nano Banana...')
+      console.log('🍌 Generating with Razza...')
       console.log('📝 User prompt:', prompt)
       
       const nanoResult = await NanoBananaService.generate(prompt, {
@@ -150,7 +150,7 @@ export async function POST(request: NextRequest) {
       })
       
       if (!nanoResult.success || !nanoResult.imageBase64) {
-        console.error('❌ Nano Banana generation failed:', nanoResult.error)
+        console.error('❌ Razza generation failed:', nanoResult.error)
         return NextResponse.json({ 
           error: nanoResult.error || 'Image generation failed',
           success: false 
