@@ -1542,20 +1542,34 @@
             }
 
             async init() {
+                const startTime = performance.now();
                 console.log('🚀 Initializing Modern Omani AI Generator...');
                 
                 // Create browser session ID for non-authenticated users
                 this.createBrowserSession();
+                console.log(`⏱️ [${(performance.now() - startTime).toFixed(0)}ms] Browser session created`);
                 
                 // Restore saved prompt from localStorage if exists
                 this.restoreSavedPrompt();
+                console.log(`⏱️ [${(performance.now() - startTime).toFixed(0)}ms] Prompt restored`);
                 
-                await this.initializeClerk();
-                this.setupEventListeners();
-                this.updateLanguage();
+                // Load sample images FIRST (non-blocking, fast)
                 this.loadRandomSampleImages();
+                console.log(`⏱️ [${(performance.now() - startTime).toFixed(0)}ms] Sample images loaded`);
                 
-                console.log('✅ Modern app initialized successfully');
+                // Setup event listeners (fast)
+                this.setupEventListeners();
+                console.log(`⏱️ [${(performance.now() - startTime).toFixed(0)}ms] Event listeners setup`);
+                
+                // Update language (fast)
+                this.updateLanguage();
+                console.log(`⏱️ [${(performance.now() - startTime).toFixed(0)}ms] Language updated`);
+                
+                // Initialize Clerk LAST (slowest, async)
+                await this.initializeClerk();
+                console.log(`⏱️ [${(performance.now() - startTime).toFixed(0)}ms] Clerk initialized`);
+                
+                console.log(`✅ Modern app initialized successfully in ${(performance.now() - startTime).toFixed(0)}ms`);
             }
 
             restoreSavedPrompt() {
@@ -1718,18 +1732,36 @@
             }
 
             async initializeClerk() {
+                const startTime = performance.now();
                 try {
+                    console.log(`⏱️ Clerk: Waiting for window.Clerk...`);
+                    let waitCount = 0;
                     while (!window.Clerk) {
                         await new Promise(resolve => setTimeout(resolve, 100));
+                        waitCount++;
+                        if (waitCount % 10 === 0) {
+                            console.log(`⏱️ Clerk: Still waiting... ${waitCount * 100}ms`);
+                        }
+                        if (waitCount > 100) {
+                            console.error('❌ Clerk failed to load after 10 seconds');
+                            return;
+                        }
                     }
+                    console.log(`⏱️ [${(performance.now() - startTime).toFixed(0)}ms] window.Clerk available`);
                     
                     this.clerk = window.Clerk;
                     await this.clerk.load();
+                    console.log(`⏱️ [${(performance.now() - startTime).toFixed(0)}ms] clerk.load() completed`);
                     
                     const session = this.clerk.session;
                     this.isAuthenticated = !!session;
+                    console.log(`⏱️ [${(performance.now() - startTime).toFixed(0)}ms] Session check: ${this.isAuthenticated}`);
                     
-                    // Show loading state first
+                    // Update UI immediately BEFORE loading credits
+                    this.updateAuthUI(this.isAuthenticated);
+                    console.log(`⏱️ [${(performance.now() - startTime).toFixed(0)}ms] Auth UI updated`);
+                    
+                    // Show loading state for credits
                     this.showCreditsLoading();
                     
                     // Store user info globally for easier access
@@ -1741,14 +1773,16 @@
                                    this.clerk.user.emailAddresses?.[0]?.emailAddress,
                             name: this.clerk.user.fullName || this.clerk.user.firstName
                         };
-                        console.log('User authenticated:', window.heibaUser);
+                        console.log(`⏱️ [${(performance.now() - startTime).toFixed(0)}ms] User info stored:`, window.heibaUser);
                         
-                        // Load credits BEFORE updating UI
-                        await this.loadUserCredits();
-                        await this.loadUserHistory();
+                        // Load credits and history in parallel (non-blocking for UI)
+                        Promise.all([
+                            this.loadUserCredits(),
+                            this.loadUserHistory()
+                        ]).then(() => {
+                            console.log(`⏱️ [${(performance.now() - startTime).toFixed(0)}ms] Credits & history loaded`);
+                        });
                     }
-                    
-                    this.updateAuthUI(this.isAuthenticated);
                     
                     this.clerk.addListener(async ({ session }) => {
                         const wasAuthenticated = this.isAuthenticated;
