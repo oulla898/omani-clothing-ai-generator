@@ -152,7 +152,7 @@ ${analysisResult.scene_description}
     // Generate with Gemini 2.5 Flash Image
     const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! })
     
-    console.log('🍌 Calling Razza ...')
+    console.log(' Calling Razza ...')
     
     const response = await ai.models.generateContentStream({
       model: 'gemini-2.5-flash-image',
