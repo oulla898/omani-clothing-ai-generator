@@ -558,7 +558,7 @@
                                 </div>
                             </div>
                             
-                            <!-- Output Format - HIDDEN: Nano Banana always outputs PNG -->
+                            <!-- Output Format - HIDDEN: Razza always outputs PNG -->
                             <!-- 
                             <div class="space-y-2">
                                 <label class="block text-xs font-medium text-gray-600" data-en="Output Format" data-ar="صيغة الإخراج">صيغة الإخراج</label>
@@ -2151,15 +2151,15 @@
                     let data;
                     
                     // ═══════════════════════════════════════════════════════════════
-                    // SPLIT API: Nano Banana (رزّة) uses 2-step process to avoid 30s timeout
-                    // Flux (طيف) uses original single /api/generate endpoint
+                    // SPLIT API: Razza (رزّة) uses 2-step process to avoid 30s timeout
+                    // Taif (طيف) uses original single /api/generate endpoint
                     // ═══════════════════════════════════════════════════════════════
                     
                     if (options.model === 'nano' || !options.model) {
                         // ═══════════════════════════════════════════════════════════
-                        // 🍌 RAZZA (رزّة) - Split API (2 calls, ~15s each)
+                        // 🎨 RAZZA (رزّة) - Split API (2 calls, ~15s each)
                         // ═══════════════════════════════════════════════════════════
-                        console.log('🍌 Using split API for Razza...');
+                        console.log('🎨 Using split API for Razza...');
                         
                         // Step 1: Analyze prompt and select references (~10-15s)
                         console.log('📊 Step 1: Analyzing prompt...');
@@ -2527,8 +2527,8 @@
 
         // Advanced Options State
         const advancedOptions = {
-            model: 'nano', // 'nano' (Nano Banana/Gemini) or 'flux' (Flux via Replicate)
-            mode: 'quality', // 'quality' or 'fast' - only used by Flux
+            model: 'nano', // 'nano' (Razza/Gemini) or 'flux' (Taif via Replicate)
+            mode: 'quality', // 'quality' or 'fast' - only used by Taif
             aspectRatio: '1:1',
             outputFormat: 'webp'
         };
@@ -2649,7 +2649,7 @@
                 }
             }
             
-            console.log('Model set to:', model, model === 'nano' ? '(رزّة)' : '(طيف)');
+            console.log('🎨 Model set to:', model === 'nano' ? 'رزّة (Razza)' : 'طيف (Taif)');
         }
 
         function setAspectRatio(ratio) {
