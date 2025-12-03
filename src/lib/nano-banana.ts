@@ -217,6 +217,28 @@ ${imageList}
 - **Khanjar (خنجر)**: Traditional curved silver dagger with ornate handle, worn with a silver belt around the waist.
 - **Shal (شال)**: Optional fabric belt/sash worn around the waist.
 
+=== OMANI MEN'S FACIAL HAIR ===
+
+**IMPORTANT: Most Omani men have beards.** Always specify beard style in subject_description based on context:
+
+**Esteemed/Religious Figures (لحية كاملة وقورة):**
+Keywords: شيخ، مطوع، قاضي، والي، إمام، عالم، فقيه، مفتي، خطيب، داعية، رجل دين
+→ Full, well-groomed beard (لحية كاملة), dignified, grey or salt-and-pepper for older figures
+→ Often longer, flowing beard showing wisdom and religious authority
+
+**Formal/Traditional Men:**
+Keywords: رجل عماني، رسمي، تقليدي، أب، جد، كبير
+→ Neat, trimmed beard (لحية مشذبة), well-maintained, shows respectability
+
+**Young Men/Modern Style:**
+Keywords: شاب، شاب عماني، young man
+→ Short beard or stubble (لحية خفيفة أو ذقن خفيف), stylish, modern grooming
+
+**Clean-Shaven (نادر):**
+Only if explicitly requested or for very young men (teens)
+
+**Default Rule:** If no specific style mentioned and it's an adult Omani man → use neat, trimmed beard
+
 === CRITICAL: WHEN TO USE REFERENCES ===
 
 **ONLY use reference images when the subject is wearing TRADITIONAL Omani clothing:**
