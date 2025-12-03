@@ -300,6 +300,88 @@
         
         .generation-status.active {
             display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Beautiful purple loader */
+        .haiba-loader {
+            width: 80px;
+            height: 50px;
+            position: relative;
+            margin: 0 auto;
+        }
+        
+        .haiba-loader .loader-text {
+            position: absolute;
+            top: 0;
+            padding: 0;
+            margin: 0;
+            color: #818cf8;
+            animation: loaderText 3.5s ease both infinite;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+        
+        .haiba-loader .load {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 50px;
+            display: block;
+            height: 16px;
+            width: 16px;
+            bottom: 0;
+            position: absolute;
+            transform: translateX(64px);
+            animation: loading 3.5s ease both infinite;
+        }
+        
+        .haiba-loader .load::before {
+            position: absolute;
+            content: "";
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #a5b4fc 0%, #c4b5fd 100%);
+            border-radius: inherit;
+            animation: loading2 3.5s ease both infinite;
+        }
+        
+        @keyframes loaderText {
+            0% { letter-spacing: 1px; transform: translateX(0px); }
+            40% { letter-spacing: 2px; transform: translateX(26px); }
+            80% { letter-spacing: 1px; transform: translateX(32px); }
+            90% { letter-spacing: 2px; transform: translateX(0px); }
+            100% { letter-spacing: 1px; transform: translateX(0px); }
+        }
+        
+        @keyframes loading {
+            0% { width: 16px; transform: translateX(0px); }
+            40% { width: 100%; transform: translateX(0px); }
+            80% { width: 16px; transform: translateX(64px); }
+            90% { width: 100%; transform: translateX(0px); }
+            100% { width: 16px; transform: translateX(0px); }
+        }
+        
+        @keyframes loading2 {
+            0% { transform: translateX(0px); width: 16px; }
+            40% { transform: translateX(0%); width: 80%; }
+            80% { width: 100%; transform: translateX(0px); }
+            90% { width: 80%; transform: translateX(15px); }
+            100% { transform: translateX(0px); width: 16px; }
+        }
+        
+        /* Fun message animation */
+        .status-message {
+            animation: messageSlide 0.4s ease;
+        }
+        
+        @keyframes messageSlide {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -617,10 +699,30 @@
                         </div>
                     </div>
 
-                    <!-- Generation Status -->
-                    <div id="generationStatus" class="generation-status mt-4 p-4 bg-amber-50 rounded-xl border border-amber-200 text-center">
-                        <div class="animate-spin w-6 h-6 border-2 border-amber-600 border-t-transparent rounded-full mx-auto mb-2"></div>
-                        <p class="text-sm text-amber-700" data-en="Creating your traditional Omani clothing..." data-ar="جارٍ إنشاء أزياءك العمانية التراثية...">جارٍ إنشاء أزياءك العمانية التراثية...</p>
+                    <!-- Generation Status - Beautiful Loader -->
+                    <div id="generationStatus" class="generation-status mt-6 p-6 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl border border-indigo-100 text-center">
+                        <!-- Animated Loader -->
+                        <div class="haiba-loader mb-4">
+                            <span class="loader-text">haiba</span>
+                            <span class="load"></span>
+                        </div>
+                        
+                        <!-- Status Message -->
+                        <p id="statusText" class="status-message text-base font-medium text-indigo-700 mb-2">
+                            جارٍ إبداع تصميمك...
+                        </p>
+                        
+                        <!-- Sub-message with emoji -->
+                        <p id="statusSubtext" class="text-sm text-indigo-500">
+                            ✨ نختار أجمل التفاصيل لك
+                        </p>
+                        
+                        <!-- Progress bar -->
+                        <div id="progressContainer" class="mt-4 px-4">
+                            <div class="w-full bg-indigo-100 rounded-full h-1.5 overflow-hidden">
+                                <div id="progressBar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-1.5 rounded-full transition-all duration-700 ease-out" style="width: 0%"></div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Generated Image Display -->
@@ -2157,66 +2259,213 @@
                     
                     if (options.model === 'nano' || !options.model) {
                         // ═══════════════════════════════════════════════════════════
-                        // 🎨 RAZZA (رزّة) - Split API (2 calls, ~15s each)
+                        // 🎨 RAZZA (رزّة) - Split API with fun progress messages
                         // ═══════════════════════════════════════════════════════════
                         console.log('🎨 Using split API for Razza...');
                         
-                        // Step 1: Analyze prompt and select references (~10-15s)
-                        console.log('📊 Step 1: Analyzing prompt...');
-                        const analyzeResponse = await fetch('/api/analyze', {
-                            method: 'POST',
-                            headers,
-                            body: JSON.stringify({ prompt, options })
-                        });
+                        const statusText = document.getElementById('statusText');
+                        const statusSubtext = document.getElementById('statusSubtext');
+                        const progressBar = document.getElementById('progressBar');
                         
-                        if (!analyzeResponse.ok) {
-                            const analyzeError = await analyzeResponse.json();
-                            throw new Error(analyzeError.error || 'Analysis failed');
+                        // Fun messages for Razza (takes 30-40s total)
+                        const razzaMessages = this.currentLanguage === 'ar' ? [
+                            { text: 'نقرأ طلبك بعناية...', sub: '📖 نفهم اللي تريده', progress: 10 },
+                            { text: 'نختار أجمل التفاصيل...', sub: '👘 تفاصيل مميزة', progress: 25 },
+                            { text: 'ندرس التفاصيل الدقيقة...', sub: '🔍 المصر والخنجر والكمة', progress: 40 },
+                            { text: 'نرسم لك التصميم...', sub: '🎨 بأيدي فنانين ماهرين', progress: 55 },
+                            { text: 'نضيف اللمسات العمانية...', sub: '✨ الألوان والنقوش الأصيلة', progress: 70 },
+                            { text: 'نصقل الصورة النهائية...', sub: '💎 عشان تطلع تحفة فنية', progress: 85 },
+                            { text: 'خلاص تقريباً!', sub: '🎁 تصميمك جاهز...', progress: 95 }
+                        ] : [
+                            { text: 'Reading your request...', sub: '📖 Understanding exactly what you want', progress: 10 },
+                            { text: 'Selecting beautiful pieces...', sub: '👘 From our special collection', progress: 25 },
+                            { text: 'Studying the fine details...', sub: '🔍 Mussar, khanjar, and kuma', progress: 40 },
+                            { text: 'Creating your design...', sub: '🎨 With skilled artistry', progress: 55 },
+                            { text: 'Adding Omani touches...', sub: '✨ Authentic colors and patterns', progress: 70 },
+                            { text: 'Polishing the final image...', sub: '💎 Making it a masterpiece', progress: 85 },
+                            { text: 'Almost there!', sub: '🎁 Your design is ready...', progress: 95 }
+                        ];
+                        
+                        let messageIndex = 0;
+                        const updateMessage = () => {
+                            if (messageIndex < razzaMessages.length) {
+                                const msg = razzaMessages[messageIndex];
+                                if (statusText) statusText.textContent = msg.text;
+                                if (statusSubtext) statusSubtext.textContent = msg.sub;
+                                if (progressBar) progressBar.style.width = msg.progress + '%';
+                                messageIndex++;
+                            }
+                        };
+                        
+                        // Start message rotation (every 5 seconds for ~35s total)
+                        updateMessage();
+                        const messageInterval = setInterval(updateMessage, 5000);
+                        
+                        try {
+                            // Step 1: Analyze prompt and select references (~10-15s)
+                            console.log('📊 Step 1: Analyzing prompt...');
+                            const analyzeResponse = await fetch('/api/analyze', {
+                                method: 'POST',
+                                headers,
+                                body: JSON.stringify({ prompt, options })
+                            });
+                            
+                            if (!analyzeResponse.ok) {
+                                const analyzeError = await analyzeResponse.json();
+                                throw new Error(analyzeError.error || 'Analysis failed');
+                            }
+                            
+                            const analyzeData = await analyzeResponse.json();
+                            console.log('✅ Analysis complete, generating image...');
+                            
+                            // Jump to generating phase
+                            messageIndex = Math.max(messageIndex, 3);
+                            updateMessage();
+                            
+                            // Step 2: Generate image with analysis result (~15s)
+                            console.log('🎨 Step 2: Generating image...');
+                            const generateResponse = await fetch('/api/generate-image', {
+                                method: 'POST',
+                                headers,
+                                body: JSON.stringify({
+                                    analysis: analyzeData.analysis,
+                                    selectedImages: analyzeData.selectedImages,
+                                    aspectRatio: analyzeData.aspectRatio,
+                                    prompt: analyzeData.prompt
+                                })
+                            });
+                            
+                            if (!generateResponse.ok) {
+                                const genError = await generateResponse.json();
+                                throw new Error(genError.error || 'Generation failed');
+                            }
+                            
+                            data = await generateResponse.json();
+                            console.log('✅ Razza generation complete!');
+                            
+                            // Final message
+                            if (progressBar) progressBar.style.width = '100%';
+                            
+                        } finally {
+                            clearInterval(messageInterval);
                         }
-                        
-                        const analyzeData = await analyzeResponse.json();
-                        console.log('✅ Analysis complete, generating image...');
-                        
-                        // Step 2: Generate image with analysis result (~15s)
-                        console.log('🎨 Step 2: Generating image...');
-                        const generateResponse = await fetch('/api/generate-image', {
-                            method: 'POST',
-                            headers,
-                            body: JSON.stringify({
-                                analysis: analyzeData.analysis,
-                                selectedImages: analyzeData.selectedImages,
-                                aspectRatio: analyzeData.aspectRatio,
-                                prompt: analyzeData.prompt
-                            })
-                        });
-                        
-                        if (!generateResponse.ok) {
-                            const genError = await generateResponse.json();
-                            throw new Error(genError.error || 'Generation failed');
-                        }
-                        
-                        data = await generateResponse.json();
-                        console.log('✅ Razza generation complete!');
                         
                     } else {
                         // ═══════════════════════════════════════════════════════════
-                        // 🎨 TAIF (طيف) - Original single API (unchanged)
+                        // 🎨 TAIF (طيف) - Async API with fun progress messages
                         // ═══════════════════════════════════════════════════════════
-                        console.log('🎨 Using original API for Taif...');
+                        console.log('🎨 Using async API for Taif with progress...');
                         
-                        const response = await fetch('/api/generate', {
-                            method: 'POST',
-                            headers,
-                            body: JSON.stringify({ prompt, options })
-                        });
+                        const statusText = document.getElementById('statusText');
+                        const statusSubtext = document.getElementById('statusSubtext');
+                        const progressBar = document.getElementById('progressBar');
                         
-                        data = await response.json();
+                        // Fun messages for Taif (takes ~10-15s)
+                        const taifMessages = this.currentLanguage === 'ar' ? [
+                            { text: 'نجهز لك الطيف...', sub: '🌈 لحظات وتشوف السحر' },
+                            { text: 'نرسم الحلم...', sub: '✏️ بألوان عمانية أصيلة' },
+                            { text: 'خلاص قربنا!', sub: '🎨 تصميمك جاهز...' }
+                        ] : [
+                            { text: 'Preparing Taif...', sub: '🌈 Magic in moments' },
+                            { text: 'Drawing the dream...', sub: '✏️ With authentic Omani colors' },
+                            { text: 'Almost done!', sub: '🎨 Your design is ready...' }
+                        ];
                         
-                        if (!response.ok) {
-                            throw new Error(data.error || 'Generation failed');
+                        let taifMsgIndex = 0;
+                        const taifMessageInterval = setInterval(() => {
+                            if (taifMsgIndex < taifMessages.length) {
+                                const msg = taifMessages[taifMsgIndex];
+                                if (statusText) statusText.textContent = msg.text;
+                                if (statusSubtext) statusSubtext.textContent = msg.sub;
+                                taifMsgIndex++;
+                            }
+                        }, 4000);
+                        
+                        // Initial message
+                        if (statusText) statusText.textContent = taifMessages[0].text;
+                        if (statusSubtext) statusSubtext.textContent = taifMessages[0].sub;
+                        if (progressBar) progressBar.style.width = '15%';
+                        
+                        try {
+                            // Step 1: Start generation (returns immediately with prediction ID)
+                            console.log('🚀 Starting Taif generation...');
+                            
+                            const startResponse = await fetch('/api/start-taif', {
+                                method: 'POST',
+                                headers,
+                                body: JSON.stringify({ 
+                                    prompt, 
+                                    aspectRatio: options.aspectRatio || '1:1',
+                                    mode: options.goFast ? 'fast' : 'quality'
+                                })
+                            });
+                            
+                            if (!startResponse.ok) {
+                                const startError = await startResponse.json();
+                                throw new Error(startError.error || 'Failed to start generation');
+                            }
+                            
+                            const startData = await startResponse.json();
+                            console.log('✅ Generation started, prediction ID:', startData.predictionId);
+                            
+                            if (progressBar) progressBar.style.width = '25%';
+                            
+                            // Step 2: Poll for status until complete
+                            let attempts = 0;
+                            const maxAttempts = 60; // 60 * 2s = 2 minutes max
+                            
+                            while (attempts < maxAttempts) {
+                                await new Promise(resolve => setTimeout(resolve, 2000)); // Poll every 2 seconds
+                                attempts++;
+                                
+                                // Smooth progress animation
+                                const estimatedProgress = Math.min(90, 25 + (attempts * 5));
+                                if (progressBar) progressBar.style.width = estimatedProgress + '%';
+                                
+                                console.log(`🔍 Checking status (attempt ${attempts})...`);
+                                
+                                const checkResponse = await fetch('/api/check-taif', {
+                                    method: 'POST',
+                                    headers,
+                                    body: JSON.stringify({ 
+                                        predictionId: startData.predictionId,
+                                        prompt: prompt
+                                    })
+                                });
+                                
+                                if (!checkResponse.ok) {
+                                    console.warn('Status check failed, retrying...');
+                                    continue;
+                                }
+                                
+                                const checkData = await checkResponse.json();
+                                console.log('📊 Status:', checkData.status, 'Progress:', checkData.progress);
+                                
+                                // Check if complete
+                                if (checkData.status === 'succeeded') {
+                                    console.log('✅ Taif generation complete!');
+                                    if (progressBar) progressBar.style.width = '100%';
+                                    data = {
+                                        imageUrl: checkData.imageUrl,
+                                        enhancedPrompt: startData.enhancedPrompt,
+                                        remainingCredits: checkData.remainingCredits
+                                    };
+                                    break;
+                                }
+                                
+                                // Check if failed
+                                if (checkData.status === 'failed') {
+                                    throw new Error(checkData.error || 'Generation failed');
+                                }
+                            }
+                            
+                            if (attempts >= maxAttempts) {
+                                throw new Error('Generation timed out. Please try again.');
+                            }
+                            
+                        } finally {
+                            clearInterval(taifMessageInterval);
                         }
-                        
-                        console.log('✅ Taif generation complete!');
                     }
 
                     // Hide loading FIRST before showing results
@@ -2312,9 +2561,26 @@
 
             showGenerationStatus(show) {
                 const status = document.getElementById('generationStatus');
+                const progressBar = document.getElementById('progressBar');
+                const statusText = document.getElementById('statusText');
+                const statusSubtext = document.getElementById('statusSubtext');
+                
                 if (status) {
                     if (show) {
                         status.classList.add('active');
+                        // Reset progress bar
+                        if (progressBar) progressBar.style.width = '5%';
+                        // Set initial fun message
+                        if (statusText) {
+                            statusText.textContent = this.currentLanguage === 'ar' 
+                                ? 'جارٍ إبداع تصميمك...' 
+                                : 'Creating your design...';
+                        }
+                        if (statusSubtext) {
+                            statusSubtext.textContent = this.currentLanguage === 'ar'
+                                ? '✨ نختار أجمل التفاصيل لك'
+                                : '✨ Selecting the best details for you';
+                        }
                     } else {
                         // Use requestAnimationFrame to ensure DOM is updated
                         requestAnimationFrame(() => {

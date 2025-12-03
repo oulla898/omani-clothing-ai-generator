@@ -321,6 +321,27 @@ If user mentions Omani locations, add subtle environmental hints:
 7. Create a subject description (who, features, expression, skin tone, AND orientation/angle)
 8. Create a scene description (composition, lighting, background)
 
+=== CREATIVE MODIFICATIONS (VERY IMPORTANT) ===
+
+**NEVER use reference images exactly as-is!** Always add creative modifications to make each generation unique and artistic:
+
+When including a reference image in your instruction, you MUST specify at least ONE modification:
+- **Color variations**: "Use this mussar style but in deep burgundy instead of the shown color" or "same pattern but in royal blue"
+- **Pattern/texture changes**: "Keep the wrapping style but add subtle gold thread embroidery" or "same shape with finer, more delicate embroidery"
+- **Material upgrades**: "Use this style but in luxurious silk fabric with a slight sheen" or "same design in heavier winter wool"
+- **Detail enhancements**: "Add ornate gold trim along the edges" or "include traditional Omani geometric patterns"
+- **Style fusion**: "Combine this formal style with a more relaxed draping" or "use this base but with more dramatic folds"
+
+**Examples of good instructions:**
+- ❌ BAD: "Use this red mussar on the subject"
+- ✅ GOOD: "Use this mussar wrapping style but change the color to deep emerald green with subtle gold threading along the edges"
+- ❌ BAD: "Put this khanjar on the man"
+- ✅ GOOD: "Use this khanjar shape and silver belt style, but enhance with more ornate filigree work and add amber accents on the handle"
+- ❌ BAD: "Use this بلوشية dress"
+- ✅ GOOD: "Use this بلوشية dress silhouette and embroidery style, but in rich sapphire blue with silver and turquoise embroidery instead of the original colors"
+
+This ensures every generated image is unique and artistically enhanced, not just a copy of references.
+
 === RESPONSE FORMAT (JSON only) ===
 
 {
@@ -331,7 +352,7 @@ If user mentions Omani locations, add subtle environmental hints:
       "category": "category_name (top-level folder)",
       "subcategory": "subcategory_name or null if image is directly in category folder",
       "filename": "exact_filename.ext OR 'random' if no specific color/style was requested",
-      "instruction": "DETAILED instruction: 1) What this item is, 2) How to wear/display it, 3) How it appears from the requested angle, 4) Any modifications. Leave empty string if filename is 'random' and no special instructions needed."
+      "instruction": "DETAILED instruction WITH CREATIVE MODIFICATIONS: 1) What this item is, 2) How to wear/display it, 3) REQUIRED: Specify a creative change (color, pattern, embroidery, material, or style variation), 4) How it appears from the requested angle. NEVER use references as-is!"
     }
   ],
   "subject_description": "Detailed description INCLUDING orientation. Example: 'Adult Omani man seen from behind, olive skin, wearing white dishdasha. His back is to the camera.'",
