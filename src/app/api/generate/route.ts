@@ -9,6 +9,35 @@ import { FluxService } from '@/lib/flux-service'
 // Model types
 type ModelType = 'nano' | 'flux'
 
+/**
+ * Upload image to Supabase Storage and return public URL
+ * This saves bandwidth - images served from Supabase CDN, not through Vercel
+ */
+async function uploadToStorage(imageBase64: string, odulUserId: string): Promise<string> {
+  const buffer = Buffer.from(imageBase64, 'base64')
+  const filename = `${odulUserId}/${Date.now()}-${Math.random().toString(36).substring(7)}.png`
+  
+  const { error: uploadError } = await supabase
+    .storage
+    .from('generations')
+    .upload(filename, buffer, {
+      contentType: 'image/png',
+      upsert: false
+    })
+
+  if (uploadError) {
+    console.error('❌ Storage upload error:', uploadError)
+    throw new Error(`Failed to upload image: ${uploadError.message}`)
+  }
+
+  const { data: publicUrlData } = supabase
+    .storage
+    .from('generations')
+    .getPublicUrl(filename)
+
+  return publicUrlData.publicUrl
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Enhanced logging for debugging
@@ -157,7 +186,11 @@ export async function POST(request: NextRequest) {
         }, { status: 500 })
       }
 
-      imageUrl = `data:image/png;base64,${nanoResult.imageBase64}`
+      // Upload to Supabase Storage (saves bandwidth - images served from Supabase CDN)
+      console.log('📤 Uploading Razza image to Supabase Storage...')
+      imageUrl = await uploadToStorage(nanoResult.imageBase64, userId)
+      console.log('✅ Uploaded:', imageUrl)
+      
       enhancedPrompt = nanoResult.enhancedPrompt || prompt
       componentsUsed = nanoResult.componentsUsed
     }

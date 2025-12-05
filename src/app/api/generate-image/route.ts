@@ -47,6 +47,35 @@ function getMimeType(filepath: string): string {
   return 'image/jpeg'
 }
 
+/**
+ * Upload image to Supabase Storage and return public URL
+ * This saves bandwidth - images served from Supabase CDN, not through Vercel
+ */
+async function uploadToStorage(imageBase64: string, userId: string): Promise<string> {
+  const buffer = Buffer.from(imageBase64, 'base64')
+  const filename = `${userId}/${Date.now()}-${Math.random().toString(36).substring(7)}.png`
+  
+  const { error: uploadError } = await supabase
+    .storage
+    .from('generations')
+    .upload(filename, buffer, {
+      contentType: 'image/png',
+      upsert: false
+    })
+
+  if (uploadError) {
+    console.error('❌ Storage upload error:', uploadError)
+    throw new Error(`Failed to upload image: ${uploadError.message}`)
+  }
+
+  const { data: publicUrlData } = supabase
+    .storage
+    .from('generations')
+    .getPublicUrl(filename)
+
+  return publicUrlData.publicUrl
+}
+
 export async function POST(request: NextRequest) {
   const startTime = Date.now()
   
@@ -185,9 +214,12 @@ ${analysisResult.scene_description}
       throw new Error('No image generated')
     }
     
-    const imageUrl = `data:image/png;base64,${imageBase64}`
+    // Upload to Supabase Storage (saves bandwidth - images served from Supabase CDN)
+    console.log('📤 Uploading to Supabase Storage...')
+    const imageUrl = await uploadToStorage(imageBase64, userId)
+    console.log('✅ Uploaded:', imageUrl)
     
-    // Save to database
+    // Save to database (now just a small URL, not huge base64)
     try {
       const { error: dbError } = await supabase
         .from('user_generations')
