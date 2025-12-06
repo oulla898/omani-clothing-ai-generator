@@ -349,6 +349,27 @@ If user mentions Omani locations, add subtle environmental hints:
 - Include: professional photography, soft studio lighting, dramatic lighting, cinematic mood
 - Quality: high quality, photorealistic, ultra detailed
 
+=== FACIAL FEATURES & PHYSICAL DIVERSITY ===
+
+**ALWAYS specify for EACH person:**
+- Skin tone (olive, tan, bronze, deep brown, light brown, etc.)
+- Facial features (face shape, nose, eyes, eyebrows)
+- Age indicators (wrinkles, youthful skin, etc.)
+
+**MULTIPLE PEOPLE - CRITICAL:**
+When request includes multiple people (keywords: family, عائلة, students, طلاب, group, مجموعة, children, أطفال, men, رجال, women, نساء, people, ناس, team, فريق, friends, أصدقاء, crowd, brothers, أخوان, sisters, couple, زوجين):
+- Give EACH person DISTINCT and VARIED:
+  - **Skin tones**: Mix of olive, tan, bronze, light brown, deep brown (Omani diversity)
+  - **Facial features**: Different face shapes (oval, round, angular), nose sizes, eye shapes
+  - **Heights**: Vary heights noticeably (tall, medium, shorter)
+  - **Body builds**: Slim, average, stocky, athletic
+  - **Ages**: Unless specified, vary ages appropriately (e.g., family = mix of ages)
+- NEVER make everyone look identical or like clones
+- Describe each person individually in subject_description
+
+**Example for "عائلة عمانية" (Omani family):**
+"Father: tall, stocky build, deep bronze skin, round face, full beard, 50s. Mother: medium height, olive skin, soft oval face, 40s. Son: tall, slim, tan skin, angular face, short beard, 20s. Daughter: petite, light brown skin, round face, 16 years old."
+
 === YOUR TASK ===
 
 1. Analyze the user's request
