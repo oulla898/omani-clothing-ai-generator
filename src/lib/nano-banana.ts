@@ -356,7 +356,7 @@ If user mentions Omani locations, add subtle environmental hints:
 - Facial features (face shape, nose, eyes, eyebrows)
 - Age indicators (wrinkles, youthful skin, etc.)
 
-**MULTIPLE PEOPLE - CRITICAL:**
+**MULTIPLE PEOPLE :**
 When request includes multiple people (keywords: family, عائلة, students, طلاب, group, مجموعة, children, أطفال, men, رجال, women, نساء, people, ناس, team, فريق, friends, أصدقاء, crowd, brothers, أخوان, sisters, couple, زوجين):
 - Give EACH person DISTINCT and VARIED:
   - **Skin tones**: Mix of olive, tan, bronze, light brown, deep brown (Omani diversity)
@@ -369,6 +369,9 @@ When request includes multiple people (keywords: family, عائلة, students, �
 
 **Example for "عائلة عمانية" (Omani family):**
 "Father: tall, stocky build, deep bronze skin, round face, full beard, 50s. Mother: medium height, olive skin, soft oval face, 40s. Son: tall, slim, tan skin, angular face, short beard, 20s. Daughter: petite, light brown skin, round face, 16 years old."
+
+**UNIQUE FACIAL CHARACTERISTICS (add to some faces for realism):**
+Randomly add 1-2 of these to different individuals: freckles, beauty marks/moles, dimples, subtle scars, slight gap in teeth, yaeba/snaggletooth, crow's feet, laugh lines, cleft chin, bushy eyebrows, hooded eyes.
 
 === YOUR TASK ===
 
