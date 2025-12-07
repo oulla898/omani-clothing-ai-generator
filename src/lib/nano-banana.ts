@@ -360,7 +360,7 @@ If user mentions Omani locations, add subtle environmental hints:
 When request includes multiple people (keywords: family, عائلة, students, طلاب, group, مجموعة, children, أطفال, men, رجال, women, نساء, people, ناس, team, فريق, friends, أصدقاء, crowd, brothers, أخوان, sisters, couple, زوجين):
 - Give EACH person DISTINCT and VARIED:
   - **Skin tones**: Mix of olive, tan, bronze, light brown, deep brown (Omani diversity)
-  - **Facial features**: Different face shapes (oval, round, angular), nose sizes, eye shapes
+  - **Facial features**: Different face shapes (oval, round, angular, etc), nose sizes, eye shapes
   - **Heights**: Vary heights noticeably (tall, medium, shorter)
   - **Body builds**: Slim, average, stocky, athletic
   - **Ages**: Unless specified, vary ages appropriately (e.g., family = mix of ages)
@@ -403,6 +403,7 @@ When including a reference image in your instruction, you MUST specify at least 
 - **Material upgrades**: "Use this style but in luxurious silk fabric with a slight sheen" or "same design in heavier winter wool"
 - **Detail enhancements**: "Add ornate gold trim along the edges" or "include traditional Omani geometric patterns"
 - **Style fusion**: "Combine this formal style with a more relaxed draping" or "use this base but with more dramatic folds"
+- **Pose/hand placement changes**: "Adjust the subject's pose and hand placement to a different pose (e.g., shift arm positions, place hand on hip, hold the khanjar differently) so the subject does not copy the reference's exact posture"
 
 **Examples of good instructions:**
 - ❌ BAD: "Use this red mussar on the subject"
