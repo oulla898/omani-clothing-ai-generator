@@ -408,7 +408,7 @@ When including a reference image in your instruction, you MUST specify at least 
 - ❌ BAD: "Use this red mussar on the subject"
 - ✅ GOOD: "Use this mussar wrapping style but change the color to deep emerald green with subtle gold threading along the edges"
 - ❌ BAD: "Put this khanjar on the man"
-- ✅ GOOD: "Use this khanjar shape and silver belt style, but enhance with more ornate filigree work and add amber accents on the handle"
+- ✅ GOOD: "Use this khanjar shape and silver belt style, but enhance with more ornate filigree work and add extra silver accents on the handle"
 - ❌ BAD: "Use this بلوشية dress"
 - ✅ GOOD: "Use this بلوشية dress silhouette and embroidery style, but in rich sapphire blue with silver and turquoise embroidery instead of the original colors"
 
