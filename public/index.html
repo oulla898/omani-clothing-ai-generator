@@ -423,33 +423,32 @@
     <div class="min-h-screen flex flex-col">
         
         <!-- Header -->
-        <header class="glass-effect sticky top-0 z-40 px-4 py-3" dir="ltr">
-            <div class="flex items-center justify-between max-w-7xl mx-auto">
-                <!-- Logo - always on left -->
-                <div class="flex items-center">
-                    <img src="logo.webp" alt="Logo" class="w-10 h-10 rounded-full logo-tint">
+        <header class="glass-effect sticky top-0 z-40 border-b border-[#E8E4DE]/50" dir="ltr">
+            <div class="flex items-center justify-between max-w-7xl mx-auto px-4 py-3">
+                <!-- Logo - Clean & Pro -->
+                <div class="flex items-center gap-3">
+                    <img src="logo.webp" alt="Haiba" class="h-10 w-auto object-contain logo-tint">
+                    <span class="text-xl font-bold text-[#2C3E50] tracking-tight hidden sm:block font-english">Haiba</span>
                 </div>
                 
-                <!-- Account Area - always on right, fixed order -->
-                <div class="flex items-center gap-4">
+                <!-- Account Area -->
+                <div class="flex items-center gap-3 sm:gap-4">
                     <!-- Language Toggle -->
-                    <button id="languageToggle" class="px-3 py-2 rounded-full text-sm font-medium bg-white/20 hover:bg-white/30 transition-colors">
-                        <span id="languageText">English</span>
+                    <button id="languageToggle" class="px-3 py-1.5 text-sm font-medium text-[#5D6D7E] hover:text-[#2C3E50] hover:bg-[#F8F5F0] rounded-lg transition-all">
+                        <span id="languageText">En</span>
                     </button>
                     
                     <!-- Credits Display -->
-                    <div id="creditsDisplay" class="hidden px-3 py-2 bg-[#F8F5F0] rounded-full cursor-pointer hover:bg-[#F5E6D3] transition-all credits-display" onclick="showCreditModal()">
-                        <span class="text-sm font-medium text-[#2C3E50] flex items-center gap-1.5">
-                            <span id="creditsLabel" data-en="Credits:" data-ar="الرصيد:">الرصيد:</span>
-                            <span id="creditsCount">0</span>
-                            <svg id="creditsCartIcon" class="w-3.5 h-3.5 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-                            </svg>
-                        </span>
+                    <div id="creditsDisplay" class="hidden flex items-center gap-2 px-3 py-1.5 bg-[#F8F5F0] border border-[#E8E4DE] rounded-full cursor-pointer hover:border-[#D4AF37] transition-all credits-display" onclick="showCreditModal()">
+                        <span class="text-xs font-medium text-[#5D6D7E]" id="creditsLabel" data-en="Credits" data-ar="الرصيد">Credits</span>
+                        <span id="creditsCount" class="text-sm font-bold text-[#2C3E50]">0</span>
+                        <svg id="creditsCartIcon" class="w-3.5 h-3.5 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
                     </div>
                     
                     <!-- Auth Button -->
-                    <button id="authButton" class="px-5 py-2.5 bg-[#2C3E50] hover:bg-[#1a252f] text-white rounded-xl text-sm font-medium transition-all shadow-sm hover:shadow-md">
+                    <button id="authButton" class="px-5 py-2 bg-[#2C3E50] hover:bg-[#1a252f] text-white rounded-lg text-sm font-medium transition-all shadow-sm hover:shadow-md whitespace-nowrap">
                         <span data-en="Sign In" data-ar="تسجيل الدخول">تسجيل الدخول</span>
                     </button>
                 </div>
@@ -2021,7 +2020,7 @@
                     html.setAttribute('lang', 'ar');
                     html.classList.add('font-arabic');
                     html.classList.remove('font-english');
-                    if (languageText) languageText.textContent = 'English';
+                    if (languageText) languageText.textContent = 'En';
                     
                     if (description) {
                         description.placeholder = description.getAttribute('data-placeholder-ar');
