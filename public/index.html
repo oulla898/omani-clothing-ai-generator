@@ -415,6 +415,122 @@
             from { opacity: 0; transform: translateY(5px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* ═══════════════════════════════════════════════════════════
+           SMOOTH IMAGE REVEAL ANIMATION SYSTEM
+           ═══════════════════════════════════════════════════════════ */
+        
+        /* Container that appears immediately */
+        .image-reveal-container {
+            position: relative;
+            overflow: hidden;
+            border-radius: 1rem;
+            background: linear-gradient(135deg, #F8F5F0 0%, #E8E4DE 100%);
+            min-height: 300px;
+            animation: containerSlideIn 0.4s ease-out;
+        }
+        
+        @keyframes containerSlideIn {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px) scale(0.98);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        /* Skeleton placeholder while loading */
+        .image-skeleton {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, #F8F5F0 0%, #E8E4DE 100%);
+            overflow: hidden;
+        }
+        
+        .image-skeleton::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.4) 50%,
+                transparent 100%
+            );
+            animation: skeletonShimmer 1.5s infinite;
+        }
+        
+        @keyframes skeletonShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .image-skeleton .skeleton-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #D5CFC5;
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes iconPulse {
+            0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+        }
+        
+        /* Image wrapper for reveal effect */
+        .image-reveal-wrapper {
+            position: relative;
+            width: 100%;
+            opacity: 0;
+            filter: blur(20px);
+            transition: opacity 0.6s ease-out, filter 0.8s ease-out;
+        }
+        
+        .image-reveal-wrapper.revealing {
+            opacity: 1;
+            filter: blur(0px);
+        }
+        
+        .image-reveal-wrapper img {
+            width: 100%;
+            display: block;
+            border-radius: 1rem;
+        }
+        
+        /* Reveal mask overlay - slides up to reveal */
+        .reveal-mask {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(253, 251, 247, 0.3) 70%,
+                rgba(253, 251, 247, 0.9) 100%
+            );
+            transform: translateY(0%);
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+        
+        .image-reveal-wrapper.revealing .reveal-mask {
+            transform: translateY(100%);
+        }
+        
+        /* Loading text inside skeleton */
+        .skeleton-text {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #95A5A6;
+            font-size: 0.875rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body class="min-h-screen bg-[#FDFBF7] font-english">
@@ -756,11 +872,23 @@
                         </div>
                     </div>
 
-                    <!-- Generated Image Display -->
+                    <!-- Generated Image Display with Smooth Reveal -->
                     <div id="imageResult" class="mt-6 hidden">
-                        <div class="relative">
-                            <img id="generatedImage" src="" alt="Generated Image" class="w-full rounded-2xl shadow-lg">
-                            <button id="downloadImage" class="absolute top-4 right-4 p-2 bg-white/90 hover:bg-white rounded-full shadow-lg transition-colors">
+                        <div class="image-reveal-container shadow-lg">
+                            <!-- Skeleton placeholder -->
+                            <div id="imageSkeleton" class="image-skeleton">
+                                <svg class="skeleton-icon w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                                </svg>
+                                <span id="skeletonText" class="skeleton-text" data-en="Loading your creation..." data-ar="جاري تحميل إبداعك...">Loading your creation...</span>
+                            </div>
+                            <!-- Image with reveal effect -->
+                            <div id="imageRevealWrapper" class="image-reveal-wrapper">
+                                <img id="generatedImage" src="" alt="Generated Image">
+                                <div class="reveal-mask"></div>
+                            </div>
+                            <!-- Download button -->
+                            <button id="downloadImage" class="absolute top-4 right-4 p-2 bg-white/90 hover:bg-white rounded-full shadow-lg transition-all opacity-0 z-10" style="transition: opacity 0.3s ease;">
                                 <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                                 </svg>
@@ -2293,7 +2421,7 @@
                     // Taif (طيف) uses original single /api/generate endpoint
                     // ═══════════════════════════════════════════════════════════════
                     
-                    if (options.model === 'nano' || !options.model) {
+                    if (options.model === 'razza' || !options.model) {
                         // ═══════════════════════════════════════════════════════════
                         // 🎨 RAZZA (رزّة) - Split API with fun progress messages
                         // ═══════════════════════════════════════════════════════════
@@ -2581,17 +2709,97 @@
             showImageResult(imageUrl) {
                 const container = document.getElementById('imageResult');
                 const image = document.getElementById('generatedImage');
+                const skeleton = document.getElementById('imageSkeleton');
+                const revealWrapper = document.getElementById('imageRevealWrapper');
+                const downloadBtn = document.getElementById('downloadImage');
+                const skeletonText = document.getElementById('skeletonText');
                 
-                if (container && image) {
-                    image.src = imageUrl;
-                    container.classList.remove('hidden');
+                if (!container || !image) return;
+                
+                // Update skeleton text based on language
+                if (skeletonText) {
+                    skeletonText.textContent = this.currentLanguage === 'ar' 
+                        ? 'جاري تحميل إبداعك...' 
+                        : 'Loading your creation...';
                 }
+                
+                // Step 1: Show container immediately with skeleton
+                container.classList.remove('hidden');
+                if (skeleton) skeleton.style.display = 'block';
+                if (revealWrapper) revealWrapper.classList.remove('revealing');
+                if (downloadBtn) downloadBtn.style.opacity = '0';
+                
+                // Step 2: Pre-decode image in background
+                const tempImg = new Image();
+                tempImg.crossOrigin = 'anonymous';
+                
+                tempImg.onload = async () => {
+                    try {
+                        // Decode the image before displaying (prevents chunky render)
+                        await tempImg.decode();
+                        
+                        // Step 3: Set the src on the actual image (now fully decoded)
+                        image.src = imageUrl;
+                        
+                        // Step 4: Small delay to ensure paint, then reveal
+                        requestAnimationFrame(() => {
+                            // Hide skeleton
+                            if (skeleton) {
+                                skeleton.style.opacity = '0';
+                                setTimeout(() => skeleton.style.display = 'none', 300);
+                            }
+                            
+                            // Trigger reveal animation
+                            if (revealWrapper) {
+                                revealWrapper.classList.add('revealing');
+                            }
+                            
+                            // Show download button after reveal
+                            setTimeout(() => {
+                                if (downloadBtn) downloadBtn.style.opacity = '1';
+                            }, 600);
+                        });
+                    } catch (err) {
+                        // Fallback if decode fails - just show it
+                        console.warn('Image decode failed, showing directly:', err);
+                        image.src = imageUrl;
+                        if (skeleton) skeleton.style.display = 'none';
+                        if (revealWrapper) revealWrapper.classList.add('revealing');
+                        if (downloadBtn) downloadBtn.style.opacity = '1';
+                    }
+                };
+                
+                tempImg.onerror = () => {
+                    console.error('Failed to load image:', imageUrl);
+                    // Still try to show something
+                    image.src = imageUrl;
+                    if (skeleton) skeleton.style.display = 'none';
+                    if (revealWrapper) revealWrapper.classList.add('revealing');
+                };
+                
+                // Start loading
+                tempImg.src = imageUrl;
             }
 
             hideImageResult() {
                 const container = document.getElementById('imageResult');
+                const skeleton = document.getElementById('imageSkeleton');
+                const revealWrapper = document.getElementById('imageRevealWrapper');
+                const downloadBtn = document.getElementById('downloadImage');
+                
                 if (container) {
                     container.classList.add('hidden');
+                }
+                // Reset reveal state for next generation
+                if (skeleton) {
+                    skeleton.style.display = 'block';
+                    skeleton.style.opacity = '1';
+                }
+                if (revealWrapper) {
+                    revealWrapper.classList.remove('revealing');
+                }
+                if (downloadBtn) {
+                    downloadBtn.style.opacity = '0';
                 }
             }
 
@@ -2829,8 +3037,8 @@
 
         // Advanced Options State
         const advancedOptions = {
-            model: 'nano', // 'nano' (Razza/Gemini) or 'flux' (Taif via Replicate)
-            mode: 'quality', // 'quality' or 'fast' - only used by Taif
+            model: 'razza',
+            mode: 'quality',
             aspectRatio: '1:1',
             outputFormat: 'webp'
         };
@@ -2897,7 +3105,7 @@
         }
 
         function handleModelToggle(isChecked) {
-            const model = isChecked ? 'flux' : 'nano';
+            const model = isChecked ? 'taif' : 'razza';
             setModel(model);
         }
 
@@ -2911,7 +3119,7 @@
             const modelToggle = document.getElementById('modelToggle');
             const taifExtraOptions = document.getElementById('taifExtraOptions');
             
-            if (model === 'nano') {
+            if (model === 'razza') {
                 // رزّة active
                 razzaLabel.classList.add('active');
                 razzaLabel.classList.remove('inactive');
@@ -2951,7 +3159,7 @@
                 }
             }
             
-            console.log('🎨 Model set to:', model === 'nano' ? 'رزّة (Razza)' : 'طيف (Taif)');
+            console.log('🎨 Model set to:', model === 'razza' ? 'رزّة (Razza)' : 'طيف (Taif)');
         }
 
         function setAspectRatio(ratio) {

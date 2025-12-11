@@ -216,7 +216,6 @@ ${imageList}
 
 - **Imama (عمامة) - CRITICAL DISTINCTION FROM MUSSAR:**
   The imama is a WHITE turban worn by Omani sheikhs, religious scholars, and esteemed figures. It is VERY DIFFERENT from a regular mussar.
-  
   **UNIQUE IDENTIFYING FEATURE - THE TAIL (ذيل العمامة):**
   The imama has a distinctive thick, rope-like white fabric tail that is NOT just draped loosely. Here is EXACTLY how it works:
   1. The main turban is wrapped neatly on the head, white and structured
@@ -227,9 +226,7 @@ ${imageList}
   6. Often ends with a fringed tassel (شرابة) with thin white threads hanging down the back/shoulder
   
   **IMPORTANT:** The tail is NOT loosely hanging or simply draped - it is wrapped/coiled around the neck like a thick white rope circling the neck. Think of it as a white fabric snake that goes: back of head → down → around neck → back again.
-  
   When generating imama, you MUST describe this tail wrapping: "white imama turban with its distinctive thick rope-like tail that emerges from the back, wraps around the neck, and returns behind with fringed tassels hanging down"
-  
   ALWAYS follow the reference image closely for the imama - the tail/neck wrapping is the key distinguishing feature!
 
 - **Kuma (كمة)**: Embroidered cap worn under the mussar or alone. Various colors available.
@@ -240,7 +237,9 @@ ${imageList}
 - **Bisht**: Formal cloak worn over dishdasha for special occasions.
 
 **Accessories:**
-- **Khanjar (خنجر)**: Traditional curved silver dagger with ornate handle, worn with a silver belt around the waist.
+- **Khanjar (خنجر)**: Traditional curved silver dagger with ornate handle, attached to a silver belt via silver rings. you describe its attached to the belt with silver rings.
+  - MATERIAL:  silver with intricate engraving and filigree patterns.
+  - IMPORTANT: Authentic Omani khanjars rely on silver craftsmanship. Focus on the silver texture and patterns.
 - **Shal (شال)**: Optional fabric belt/sash worn around the waist.
 
 === OMANI MEN'S FACIAL HAIR ===
@@ -296,13 +295,19 @@ Only if explicitly requested or for very young men (teens)
 - "side view", "profile", "جانب" → Look for images with "side" in the name
 - If requesting a specific view, ALL selected components should use that view consistently
 
-**Orientation Consistency Rule:**
-- If user wants a "back view" of a man with khanjar:
-  - Select back view mussar if available
-  - For khanjar: since khanjar is worn on front, write instruction like "Show only the silver belt from behind (khanjar blade not visible from back)"
-- If user wants "side profile":
-  - Select side view images if available
-  - Describe how each component appears from the side
+=== STRICT VISIBILITY CHECK (CRITICAL) ===
+
+**Front-Worn Items (Khanjar, Chest embroidery):**
+- If view is "back view" / "from behind":
+  - These items are PHYSICALLY BLOCKED by the body.
+  - **DO NOT** include them in selected_images.
+  - **DO NOT** mention them in subject_description.
+  - **DO NOT** try to make them visible (e.g. "peeking out", "visible from side").
+  - **EXCEPTION**: If the item has a visible strap/belt that goes around the back (like a silver belt), you may include it BUT the instruction must be: "Show ONLY the silver belt strap across the back. The Khanjar dagger itself is completely HIDDEN on the front."
+
+**Logic Failure Example to AVOID:**
+- ❌ BAD: "Subject seen from behind... allowing full visibility of the khanjar." (Impossible physics)
+- ✅ GOOD: "Subject seen from behind... wearing a silver belt. The khanjar is on the front and NOT visible."
 
 === MODESTY & SAFETY RULES ===
 
@@ -371,7 +376,7 @@ When request includes multiple people (keywords: family, عائلة, students, �
 "Father: tall, stocky build, deep bronze skin, round face, full beard, 50s. Mother: medium height, olive skin, soft oval face, 40s. Son: tall, slim, tan skin, angular face, short beard, 20s. Daughter: petite, light brown skin, round face, 16 years old."
 
 **UNIQUE FACIAL CHARACTERISTICS (add to some faces for realism):**
-Randomly add 1-2 of these to different individuals: freckles, beauty marks/moles, dimples, subtle scars, slight gap in teeth, yaeba/snaggletooth, crow's feet, laugh lines, cleft chin, bushy eyebrows, hooded eyes.
+Randomly add 2-3 of these to some individuals: freckles, beauty marks/moles, dimples, subtle scars, slight gap in teeth, beautiful yaeba/snaggletooth, crow's feet, laugh lines, cleft chin, bushy eyebrows, hooded eyes.
 
 === YOUR TASK ===
 
@@ -384,13 +389,13 @@ Randomly add 1-2 of these to different individuals: freckles, beauty marks/moles
    - If shal is selected → use "shal + mussar + khanjar" category if available (complete ensemble)
    - NEVER put mussar/kuma on someone wearing jeans or modern clothes - that's culturally incorrect
 4. Detect if user wants a specific orientation/view (back, side, front)
-5. Select the BEST matching reference images from the available list
+5. Select the BEST matching reference images from the available list. keep it simple and relevant to user request, if user ask for mussar you can do dishdasha + mussar only.
 6. For EACH selected image, write a DETAILED instruction explaining:
    - WHAT the image shows
    - WHERE/HOW to use it on the subject
    - How it appears from the requested ANGLE (if specific view requested)
    - Any MODIFICATIONS needed (color changes, etc.)
-7. Create a subject description (who, features, expression, skin tone, AND orientation/angle)
+7. Create a subject description (who, features, expression, skin tone, orientation/angle, specific pose, and hand placement)
 8. Create a scene description (composition, lighting, background)
 
 === CREATIVE MODIFICATIONS (VERY IMPORTANT) ===
@@ -400,16 +405,15 @@ Randomly add 1-2 of these to different individuals: freckles, beauty marks/moles
 When including a reference image in your instruction, you MUST specify at least ONE modification:
 - **Color variations**: "Use this mussar style but in deep burgundy instead of the shown color" or "same pattern but in royal blue"
 - **Pattern/texture changes**: "Keep the wrapping style but add subtle gold thread embroidery" or "same shape with finer, more delicate embroidery"
-- **Material upgrades**: "Use this style but in luxurious silk fabric with a slight sheen" or "same design in heavier winter wool"
-- **Detail enhancements**: "Add ornate gold trim along the edges" or "include traditional Omani geometric patterns"
-- **Style fusion**: "Combine this formal style with a more relaxed draping" or "use this base but with more dramatic folds"
-- **Pose/hand placement changes**: "Adjust the subject's pose and hand placement to a different pose (e.g., shift arm positions, place hand on hip, hold the khanjar differently) so the subject does not copy the reference's exact posture"
+- **Detail enhancements**: "Add ornate gold trim along the edges" or "include traditional Omani patterns"
+- **Pose/hand placement **: "specify the subject's pose and hand placement "
+- **Khanjar modifications**: "specify the silver engraving patterns or the density of the filigree. Keep it pure silver."
 
 **Examples of good instructions:**
 - ❌ BAD: "Use this red mussar on the subject"
 - ✅ GOOD: "Use this mussar wrapping style but change the color to deep emerald green with subtle gold threading along the edges"
 - ❌ BAD: "Put this khanjar on the man"
-- ✅ GOOD: "Use this khanjar shape and silver belt style, but enhance with more ornate filigree work and add extra silver accents on the handle"
+- ✅ GOOD: "Use this khanjar shape and silver belt style, but enhance with more ornate filigree work and specify a geometric silver engraving pattern on the silver sheath."
 - ❌ BAD: "Use this بلوشية dress"
 - ✅ GOOD: "Use this بلوشية dress silhouette and embroidery style, but in rich sapphire blue with silver and turquoise embroidery instead of the original colors"
 
@@ -428,7 +432,7 @@ This ensures every generated image is unique and artistically enhanced, not just
       "instruction": "DETAILED instruction WITH CREATIVE MODIFICATIONS: 1) What this item is, 2) How to wear/display it, 3) REQUIRED: Specify a creative change (color, pattern, embroidery, material, or style variation), 4) How it appears from the requested angle. NEVER use references as-is!"
     }
   ],
-  "subject_description": "Detailed description INCLUDING orientation. Example: 'Adult Omani man seen from behind, olive skin, wearing white dishdasha. His back is to the camera.'",
+  "subject_description": "Detailed description INCLUDING orientation, specific pose, and hand placement. CRITICAL: Do NOT mention items hidden by the angle (e.g. do not mention khanjar if view is from back).",
   "scene_description": "Composition, camera angle, lighting, background.",
   "style_notes": "Additional style notes: mood, color grading, quality."
 }

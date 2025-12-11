@@ -14,16 +14,16 @@ class OmaniAI {
 
     async init() {
         console.log('🚀 Initializing Omani AI Generator...');
-        
+
         // Initialize Clerk first
         await this.initializeClerk();
-        
+
         // Setup event listeners
         this.setupEventListeners();
-        
+
         // Initialize language
         this.updateLanguage();
-        
+
         console.log('✅ App initialized successfully');
     }
 
@@ -33,34 +33,34 @@ class OmaniAI {
             while (!window.Clerk) {
                 await new Promise(resolve => setTimeout(resolve, 100));
             }
-            
+
             this.clerk = window.Clerk;
             await this.clerk.load();
-            
+
             // Check initial auth state
             const session = this.clerk.session;
             this.isAuthenticated = !!session;
             this.sessionReady = !!session;
             this.updateAuthUI(this.isAuthenticated);
-            
+
             if (this.isAuthenticated) {
                 // Wait for session to be fully ready before loading credits
                 await this.waitForSessionReady();
                 await this.loadUserCredits();
             }
-            
+
             // Listen for auth changes
             this.clerk.addListener(({ session }) => {
                 const wasAuthenticated = this.isAuthenticated;
                 this.isAuthenticated = !!session;
-                
+
                 if (this.isAuthenticated !== wasAuthenticated) {
                     this.updateAuthUI(this.isAuthenticated);
                     if (this.isAuthenticated) {
                         // Mark session as not ready until fully established
                         this.sessionReady = false;
                         this.updateDebugInfo();
-                        
+
                         // Force a session refresh to avoid stuck state
                         await this.refreshSession();
                         await this.waitForSessionReady();
@@ -72,7 +72,7 @@ class OmaniAI {
                     }
                 }
             });
-            
+
         } catch (error) {
             console.error('Failed to initialize Clerk:', error);
         }
@@ -82,9 +82,9 @@ class OmaniAI {
         // Wait for session to be fully established on both client and server
         let attempts = 0;
         const maxAttempts = 15; // Increased attempts
-        
+
         this.logDebug('Starting session readiness check...', 'info');
-        
+
         while (attempts < maxAttempts) {
             try {
                 // Test if session is ready by making a test API call
@@ -92,9 +92,9 @@ class OmaniAI {
                     method: 'GET',
                     credentials: 'include'
                 });
-                
+
                 this.logDebug(`Session check attempt ${attempts + 1}: ${response.status}`, 'info');
-                
+
                 if (response.ok) {
                     const data = await response.json();
                     this.logDebug(`Session check response: ${JSON.stringify(data)}`, 'info');
@@ -106,12 +106,12 @@ class OmaniAI {
             } catch (error) {
                 this.logDebug(`Session check attempt ${attempts + 1} failed: ${error.message}`, 'error');
             }
-            
+
             // Wait before retry (increased delay)
             await new Promise(resolve => setTimeout(resolve, 300));
             attempts++;
         }
-        
+
         // If all attempts failed, still mark as ready but log warning
         console.warn('Session readiness check failed, proceeding anyway');
         this.sessionReady = true;
@@ -163,7 +163,7 @@ class OmaniAI {
             html.classList.add('font-arabic');
             html.classList.remove('font-english');
             if (languageText) languageText.textContent = 'English';
-            
+
             // Update placeholder
             if (description) {
                 description.placeholder = description.getAttribute('data-placeholder-ar');
@@ -174,7 +174,7 @@ class OmaniAI {
             html.classList.add('font-english');
             html.classList.remove('font-arabic');
             if (languageText) languageText.textContent = 'عربي';
-            
+
             // Update placeholder
             if (description) {
                 description.placeholder = description.getAttribute('data-placeholder-en');
@@ -183,7 +183,7 @@ class OmaniAI {
 
         // Update all translatable elements
         document.querySelectorAll('[data-en][data-ar]').forEach(element => {
-            const text = this.currentLanguage === 'ar' 
+            const text = this.currentLanguage === 'ar'
                 ? element.getAttribute('data-ar')
                 : element.getAttribute('data-en');
             element.textContent = text;
@@ -217,14 +217,14 @@ class OmaniAI {
             if (this.clerk) {
                 await this.clerk.signOut();
                 this.showMessage(
-                    this.currentLanguage === 'ar' ? 'تم تسجيل الخروج بنجاح' : 'Signed out successfully', 
+                    this.currentLanguage === 'ar' ? 'تم تسجيل الخروج بنجاح' : 'Signed out successfully',
                     'success'
                 );
             }
         } catch (error) {
             console.error('Sign out failed:', error);
             this.showMessage(
-                this.currentLanguage === 'ar' ? 'فشل تسجيل الخروج' : 'Sign out failed', 
+                this.currentLanguage === 'ar' ? 'فشل تسجيل الخروج' : 'Sign out failed',
                 'error'
             );
         }
@@ -235,13 +235,13 @@ class OmaniAI {
         const creditsDisplay = document.getElementById('creditsDisplay');
 
         if (authenticated) {
-            authButton.innerHTML = this.currentLanguage === 'ar' 
-                ? 'تسجيل الخروج' 
+            authButton.innerHTML = this.currentLanguage === 'ar'
+                ? 'تسجيل الخروج'
                 : 'Sign Out';
             creditsDisplay?.classList.remove('hidden');
         } else {
-            authButton.innerHTML = this.currentLanguage === 'ar' 
-                ? 'تسجيل الدخول' 
+            authButton.innerHTML = this.currentLanguage === 'ar'
+                ? 'تسجيل الدخول'
                 : 'Sign In';
             creditsDisplay?.classList.add('hidden');
         }
@@ -277,10 +277,10 @@ class OmaniAI {
     checkRateLimit() {
         const now = Date.now();
         const oneMinuteAgo = now - 60000;
-        
+
         // Clean up old timestamps (older than 60 seconds)
         this.generationHistory = this.generationHistory.filter(timestamp => timestamp > oneMinuteAgo);
-        
+
         // Check if user exceeded rate limit
         if (this.generationHistory.length >= this.maxGenerationsPerMinute) {
             const oldestTimestamp = this.generationHistory[0];
@@ -290,7 +290,7 @@ class OmaniAI {
                 waitTime: waitTime
             };
         }
-        
+
         return { allowed: true, waitTime: 0 };
     }
 
@@ -302,8 +302,8 @@ class OmaniAI {
     async handleGenerate() {
         if (!this.isAuthenticated) {
             this.showMessage(
-                this.currentLanguage === 'ar' 
-                    ? 'يرجى تسجيل الدخول أولاً' 
+                this.currentLanguage === 'ar'
+                    ? 'يرجى تسجيل الدخول أولاً'
                     : 'Please sign in first',
                 'warning'
             );
@@ -312,15 +312,15 @@ class OmaniAI {
 
         if (!this.sessionReady) {
             this.logDebug('Session not ready, attempting recovery...', 'warning');
-            
+
             // Try to recover the session
             await this.attemptSessionRecovery();
-            
+
             if (!this.sessionReady) {
                 this.logDebug('Session recovery failed, showing user message', 'error');
                 this.showMessage(
-                    this.currentLanguage === 'ar' 
-                        ? 'جاري تحميل الحساب... يرجى المحاولة مرة أخرى' 
+                    this.currentLanguage === 'ar'
+                        ? 'جاري تحميل الحساب... يرجى المحاولة مرة أخرى'
                         : 'Loading account... Please try again',
                     'warning'
                 );
@@ -331,8 +331,8 @@ class OmaniAI {
         // Check if already generating
         if (this.isGenerating) {
             this.showMessage(
-                this.currentLanguage === 'ar' 
-                    ? 'جاري التوليد... يرجى الانتظار' 
+                this.currentLanguage === 'ar'
+                    ? 'جاري التوليد... يرجى الانتظار'
                     : 'Generation in progress... Please wait',
                 'warning'
             );
@@ -343,8 +343,8 @@ class OmaniAI {
         const rateCheck = this.checkRateLimit();
         if (!rateCheck.allowed) {
             this.showMessage(
-                this.currentLanguage === 'ar' 
-                    ? `لقد تجاوزت الحد الأقصى. يرجى الانتظار ${rateCheck.waitTime} ثانية` 
+                this.currentLanguage === 'ar'
+                    ? `لقد تجاوزت الحد الأقصى. يرجى الانتظار ${rateCheck.waitTime} ثانية`
                     : `Rate limit exceeded. Please wait ${rateCheck.waitTime} seconds`,
                 'warning'
             );
@@ -353,8 +353,8 @@ class OmaniAI {
 
         if (this.userCredits <= 0) {
             this.showMessage(
-                this.currentLanguage === 'ar' 
-                    ? 'رصيدك منتهي' 
+                this.currentLanguage === 'ar'
+                    ? 'رصيدك منتهي'
                     : 'No credits remaining',
                 'warning'
             );
@@ -367,8 +367,8 @@ class OmaniAI {
 
         if (!description) {
             this.showMessage(
-                this.currentLanguage === 'ar' 
-                    ? 'يرجى كتابة وصف' 
+                this.currentLanguage === 'ar'
+                    ? 'يرجى كتابة وصف'
                     : 'Please enter a description',
                 'warning'
             );
@@ -381,7 +381,7 @@ class OmaniAI {
         // Mark generation as in progress
         this.isGenerating = true;
         this.setLoading(true);
-        
+
         try {
             const token = await this.clerk?.session?.getToken();
             const response = await fetch('/api/generate', {
@@ -399,12 +399,12 @@ class OmaniAI {
             if (response.status === 401 && data.code === 'AUTH_PENDING' && data.retry) {
                 this.logDebug('Session not ready, retrying in 1 second...', 'warning');
                 this.showMessage(
-                    this.currentLanguage === 'ar' 
-                        ? 'جاري تحضير الحساب...' 
+                    this.currentLanguage === 'ar'
+                        ? 'جاري تحضير الحساب...'
                         : 'Preparing account...',
                     'info'
                 );
-                
+
                 // Wait and retry once
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 return this.handleGenerate();
@@ -414,8 +414,8 @@ class OmaniAI {
             if (response.status === 429 || data.rateLimitExceeded) {
                 const waitTime = data.waitTime || 60;
                 this.showMessage(
-                    this.currentLanguage === 'ar' 
-                        ? `لقد تجاوزت الحد الأقصى. يرجى الانتظار ${waitTime} ثانية` 
+                    this.currentLanguage === 'ar'
+                        ? `لقد تجاوزت الحد الأقصى. يرجى الانتظار ${waitTime} ثانية`
                         : `Rate limit exceeded. Please wait ${waitTime} seconds`,
                     'warning'
                 );
@@ -429,13 +429,13 @@ class OmaniAI {
             if (data.success && data.imageUrl) {
                 // Record successful generation for rate limiting
                 this.recordGeneration();
-                
+
                 this.displayGeneratedImage(data.imageUrl);
                 this.userCredits = data.remainingCredits;
                 this.updateCreditsDisplay();
                 this.showMessage(
-                    this.currentLanguage === 'ar' 
-                        ? 'تم توليد الصورة بنجاح!' 
+                    this.currentLanguage === 'ar'
+                        ? 'تم توليد الصورة بنجاح!'
                         : 'Image generated successfully!',
                     'success'
                 );
@@ -446,8 +446,8 @@ class OmaniAI {
         } catch (error) {
             console.error('Generation error:', error);
             this.showMessage(
-                this.currentLanguage === 'ar' 
-                    ? 'فشل في توليد الصورة' 
+                this.currentLanguage === 'ar'
+                    ? 'فشل في توليد الصورة'
                     : 'Failed to generate image',
                 'error'
             );
@@ -481,7 +481,7 @@ class OmaniAI {
             generatedImage.src = imageUrl;
             generatedImage.alt = 'Generated Omani clothing';
             imageResult.classList.remove('hidden');
-            
+
             // Scroll to image
             imageResult.scrollIntoView({ behavior: 'smooth' });
         }
@@ -490,10 +490,10 @@ class OmaniAI {
     resetForm() {
         const imageResult = document.getElementById('imageResult');
         const form = document.getElementById('generateForm');
-        
+
         imageResult?.classList.add('hidden');
         form?.reset();
-        
+
         // Scroll back to form
         form?.scrollIntoView({ behavior: 'smooth' });
     }

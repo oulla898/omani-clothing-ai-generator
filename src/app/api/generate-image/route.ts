@@ -261,7 +261,7 @@ ${analysisResult.scene_description}
       enhancedPrompt,
       remainingCredits,
       componentsUsed: images.map(i => i.filename),
-      model: 'nano',
+      model: 'razza',
       generationTime
     })
     
