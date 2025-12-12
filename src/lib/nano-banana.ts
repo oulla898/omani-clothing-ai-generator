@@ -234,7 +234,7 @@ ${imageList}
 
 **Body Garments:**
 - **Dishdasha**: The traditional long robe worn by Omani men. Usually white, but can be other colors.
-- **Bisht (بشت)**: Formal cloak worn over dishdasha for special occasions. Features decorative zari (metallic thread) embroidery along the front opening edges and neckline.
+- **Bisht (بشت)**: Formal cloak worn over dishdasha for special occasions. Made from lightweight, semi-sheer wool or fine camel hair fabric with a flowing, elegant drape. Features decorative zari (metallic thread) embroidery along the front opening edges and neckline.
   
   **BISHT COLOR & ZARI COMBINATIONS (Omani preferences):**
   - **Black Bisht**: Gold zari (most popular), Silver zari (modern), Copper zari (warm traditional)
@@ -243,6 +243,28 @@ ${imageList}
   - **White Bisht**: Gold zari (ceremonial), Silver zari (simple, modern)
   
   When generating bisht, always specify the zari embroidery color running along the front vertical edges.
+
+=== OMANI WOMEN'S TRADITIONAL DRESSES (FABRIC IS CRITICAL) ===
+
+**Three main types - each has DISTINCT fabric:**
+
+1. **عمانية (Omaniyya)**: Traditional Omani dress
+   - FABRIC: Stiff, structured, crisp fabric with body (similar to taffeta or stiff silk)
+   - The fabric holds its shape and doesn't drape loosely
+   - Often has metallic thread embroidery
+   - Formal, elegant silhouette
+
+2. **بلوشية (Balushi)**: Baluchi-style dress
+   - FABRIC: Heavy, substantial fabric with weight
+   - Thick cotton or heavy polyester blend
+   - Dense, colorful embroidery (often geometric patterns)
+   - Rich jewel tones (red, green, blue, purple)
+
+3. **ظفارية (Dhofari)**: Dhofar region dress
+   - FABRIC: Velvet-like plush fabric (قماش مخمل)
+   - Soft, luxurious texture with sheen
+   - DISTINCTIVE FEATURE: Very wide, dramatic sleeve openings (الأكمام واسعة جداً)
+   - Often in deep colors with gold embroidery
 
 **Accessories:**
 - **Khanjar (خنجر)**: Traditional curved silver dagger with ornate handle, attached to a silver belt via silver rings. you describe its attached to the belt with silver rings.
@@ -397,35 +419,29 @@ Randomly add 2-3 of these to some individuals: freckles, beauty marks/moles, dim
    - If shal is selected → use "shal + mussar + khanjar" category if available (complete ensemble)
    - NEVER put mussar/kuma on someone wearing jeans or modern clothes - that's culturally incorrect
 4. Detect if user wants a specific orientation/view (back, side, front)
-5. Select the BEST matching reference images from the available list. keep it simple and relevant to user request, if user ask for mussar you can do dishdasha + mussar only.
-6. For EACH selected image, write a DETAILED instruction explaining:
-   - WHAT the image shows
-   - WHERE/HOW to use it on the subject
-   - How it appears from the requested ANGLE (if specific view requested)
-   - Any MODIFICATIONS needed (color changes, etc.)
-7. Create a subject description (who, features, expression, skin tone, orientation/angle, specific pose, and hand placement)
+5. Select MINIMAL reference images - only what's explicitly needed:
+   - User asks for khanjar → 1 khanjar reference + 1 mussar reference (that's it)
+   - User asks for mussar → 1 mussar reference only
+   - User asks for bisht → 1 bisht reference + 1 mussar reference
+   - Don't add extra items the user didn't ask for
+6. For EACH selected image, write a BRIEF instruction:
+   - What it is and how to wear it
+   - Specify color/pattern/age (brief, not paragraphs)
+7. Create a subject description (who, features, skin tone, pose, hand placement)
 8. Create a scene description (composition, lighting, background)
 
-=== CREATIVE MODIFICATIONS (VERY IMPORTANT) ===
+=== CREATIVE MODIFICATIONS ===
 
-**NEVER use reference images exactly as-is!** Always add creative modifications to make each generation unique and artistic:
+**For each reference image, specify these attributes (don't copy reference exactly):**
+- **Color**: Specify the exact color you want
+- **Pattern**: Describe the pattern style (geometric, floral, traditional Omani, etc.)
+- **Age/Condition**: New and pristine, or vintage/antique with character
+- **Embroidery density**: Light, medium, or dense
 
-When including a reference image in your instruction, you MUST specify at least ONE modification:
-- **Color variations**: "Use this mussar style but in deep burgundy instead of the shown color" or "same pattern but in royal blue"
-- **Pattern/texture changes**: "Keep the wrapping style but add subtle gold thread embroidery" or "same shape with finer, more delicate embroidery"
-- **Detail enhancements**: "Add ornate gold trim along the edges" or "include traditional Omani patterns"
-- **Pose/hand placement **: "specify the subject's pose and hand placement "
-- **Khanjar modifications**: "specify the silver engraving patterns or the density of the filigree. Keep it pure silver."
+**Keep instructions BRIEF and SIMPLE.** Don't over-describe. One or two attribute specifications per item is enough.
 
-**Examples of good instructions:**
-- ❌ BAD: "Use this red mussar on the subject"
-- ✅ GOOD: "Use this mussar wrapping style but change the color to deep emerald green with subtle gold threading along the edges"
-- ❌ BAD: "Put this khanjar on the man"
-- ✅ GOOD: "Use this khanjar shape and silver belt style, but enhance with more ornate filigree work and specify a geometric silver engraving pattern on the silver sheath."
-- ❌ BAD: "Use this بلوشية dress"
-- ✅ GOOD: "Use this بلوشية dress silhouette and embroidery style, but in rich sapphire blue with silver and turquoise embroidery instead of the original colors"
-
-This ensures every generated image is unique and artistically enhanced, not just a copy of references.
+**For khanjar**: Specify silver engraving pattern and filigree density. Always pure silver.
+**For women's dresses**: Use the correct fabric type (stiff for عمانية, heavy for بلوشية, velvet for ظفارية).
 
 === RESPONSE FORMAT (JSON only) ===
 
@@ -437,7 +453,7 @@ This ensures every generated image is unique and artistically enhanced, not just
       "category": "category_name (top-level folder)",
       "subcategory": "subcategory_name or null if image is directly in category folder",
       "filename": "exact_filename.ext OR 'random' if no specific color/style was requested",
-      "instruction": "DETAILED instruction WITH CREATIVE MODIFICATIONS: 1) What this item is, 2) How to wear/display it, 3) REQUIRED: Specify a creative change (color, pattern, embroidery, material, or style variation), 4) How it appears from the requested angle. NEVER use references as-is!"
+      "instruction": "BRIEF instruction: What it is, how to wear it, and specify color/pattern/age. Keep it simple - 1-2 sentences max."
     }
   ],
   "subject_description": "Detailed description INCLUDING orientation, specific pose, and hand placement. CRITICAL: Do NOT mention items hidden by the angle (e.g. do not mention khanjar if view is from back).",
