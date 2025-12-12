@@ -55,6 +55,16 @@ const HIGHLIGHTS: HighlightDefinition[] = [
     screenshotPath: SCREENSHOT_HOW_TO_PATH
   },
   {
+    key: 'how-to-find',
+    title: 'كيف تلقانا؟',
+    heroDirection:
+      'تصميم بسيط ونظيف جداً: شريط بحث أبيض مسطح في منتصف الشاشة بدون أي تأثيرات لامعة. خلفية بلون رمادي داكن موحد (#1a1a1a). لا زخارف، لا تدرجات معقدة، لا إضاءة ذهبية. فقط شريط بحث نظيف مكتوب فيه النص العربي. تحته مسافة فارغة ثم النص.',
+    copy:
+      'ابحث في جوجل:\n\n"مولد الازياء العمانية"\n\nأو زور haiba.store',
+    notes:
+      'تصميم مينيمالي جداً. شريط بحث أبيض بسيط بدون ظلال قوية. خط عربي نظيف وواضح. لا تضف أسهم أو أيقونات إضافية. المساحة البيضاء مهمة. الخلفية داكنة وهادئة بدون أي زخارف.'
+  },
+  {
     key: 'credits',
     title: 'الرصيد',
     heroDirection:
@@ -245,7 +255,7 @@ async function main() {
   const brandReference = await loadInlineReference(BRAND_REFERENCE_PATH)
   const logoReference = await loadInlineReference(LOGO_PATH)
 
-  const activeHighlights = HIGHLIGHTS.filter(h => h.key === 'ai-limits')
+  const activeHighlights = HIGHLIGHTS.filter(h => h.key === 'how-to-find')
 
   for (const highlight of activeHighlights) {
     console.log(`🎯 Generating highlight: ${highlight.title}`)
