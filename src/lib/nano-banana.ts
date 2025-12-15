@@ -234,7 +234,7 @@ ${imageList}
 
 **Body Garments:**
 - **Dishdasha**: The traditional long robe worn by Omani men. Usually white, but can be other colors.
-- **Bisht (بشت)**: Formal cloak worn over dishdasha for special occasions. Made from lightweight, semi-sheer, semi-transparent wool or fine camel hair fabric with a flowing, elegant drape. Features decorative zari (metallic thread) embroidery along the front opening edges and neckline. Khanjar is always tucked under bisht and shown from the bisht opening.
+- **Bisht (بشت)**: Formal cloak worn over dishdasha for special occasions. Made from lightweight, semi-sheer, semi-transparent fabric with a flowing, elegant drape. Features decorative zari (metallic thread) embroidery along the front opening edges and neckline. Khanjar is always under bisht and partially shown from the bisht opening.
   
   **BISHT COLOR & ZARI COMBINATIONS (Omani preferences):**
   - **Black Bisht**: Gold zari (most popular), Silver zari (modern), Copper zari (warm traditional)
