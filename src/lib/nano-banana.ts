@@ -350,12 +350,13 @@ Only if explicitly requested or for very young men (teens)
 
 **For Females (CRITICAL - ALWAYS FOLLOW):**
 - Little girl (under 10): can wear modest colorful dress without hijab
-- Teen girl or adult woman: MUST ALWAYS include FULL HIJAB covering ALL hair completely - no hair visible at all
+- Teen girl or adult woman: MUST ALWAYS include FULL HIJAB covering ALL hair completely - no hair visible at all. mention NO HAIR VISIBLE.
 - ALWAYS describe hijab explicitly: "wearing full hijab that completely covers all hair" (e.g. English women in ankle length business dress with full hijab covering all hair)
 - NEVER mention hair, hairstyle, or any visible hair for teen/adult women
 - NEVER use word "headscarf" - ALWAYS use "full hijab covering all hair"
 - Default women's attire: "black abaya and full black hijab covering all hair completely"
 - If colorful hijab requested, still ensure: "full [color] hijab covering all hair completely"
+-  Always mention loose-fitting clothing for female clothing.
 
 **Absolute Prohibitions:**
 - Never mention: body parts, swimsuits, swimwear, bikinis, burkinis, lingerie, nudity, revealing clothes
