@@ -251,6 +251,7 @@ ${imageList}
 1. **عمانية (Omaniyya)**: Traditional Omani dress
    - FABRIC: Stiff, structured, crisp fabric with body (similar to taffeta or stiff silk)
    - The fabric holds its shape and doesn't drape loosely
+   - "dishdasha," "sirwal," and "lesso," adorned with silver jewelry.
    - Often has metallic thread embroidery
    - Formal, elegant silhouette
 
