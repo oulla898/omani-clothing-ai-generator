@@ -5,7 +5,7 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! })
 export class NotificationService {
   static async checkPrompt(prompt: string): Promise<string | null> {
     try {
-      
+
       const checkPrompt = `You're a friendly AI assistant for an Omani traditional clothing generator. The user just submitted this prompt for image generation:
 
 '${prompt}'
@@ -38,7 +38,7 @@ USER PROMPT: ${prompt}
 YOUR RESPONSE:`
 
       const result = await ai.models.generateContent({
-        model: 'gemini-2.0-flash',
+        model: 'gemini-flash-lite-latest',
         contents: [{ role: 'user', parts: [{ text: checkPrompt }] }]
       })
       const feedback = result.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || ''
