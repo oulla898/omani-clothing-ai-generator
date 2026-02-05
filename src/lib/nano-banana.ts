@@ -58,20 +58,20 @@ interface AnalysisResult {
 }
 
 // Signature style suffix for consistent cinematic look
-const SIGNATURE_STYLE = `Cinematic Omani aesthetic, warm golden hour lighting with rich deep shadows, earthy desaturated color palette with traditional Omani color accents (indigo, burgundy, gold), medium format film photography look, shallow depth of field, dramatic side lighting, photorealistic, high quality.`
+const SIGNATURE_STYLE = `Cinematic Omani aesthetic, warm golden hour lighting with rich deep shadows, earthy desaturated color palette with traditional Omani color accents (indigo, burgundy, gold), medium format film photography look, shallow depth of field, dramatic side lighting, high quality.`
 
 /**
  * Recursively scan a directory and return all image files with their category/subcategory info
  */
 async function scanDirectory(dirPath: string, category: string, subcategory?: string): Promise<ComponentImage[]> {
   const images: ComponentImage[] = []
-  
+
   try {
     const entries = await readdir(dirPath, { withFileTypes: true })
-    
+
     for (const entry of entries) {
       const fullPath = join(dirPath, entry.name)
-      
+
       if (entry.isDirectory()) {
         // Recurse into subdirectory
         const subImages = await scanDirectory(fullPath, category, entry.name)
@@ -79,10 +79,10 @@ async function scanDirectory(dirPath: string, category: string, subcategory?: st
       } else if (entry.isFile()) {
         const ext = extname(entry.name).toLowerCase()
         if (['.jpg', '.jpeg', '.png', '.webp'].includes(ext)) {
-          const relativePath = subcategory 
+          const relativePath = subcategory
             ? `${category}/${subcategory}/${entry.name}`
             : `${category}/${entry.name}`
-          
+
           images.push({
             category,
             subcategory,
@@ -96,7 +96,7 @@ async function scanDirectory(dirPath: string, category: string, subcategory?: st
   } catch {
     // Directory doesn't exist or can't be read, skip silently
   }
-  
+
   return images
 }
 
@@ -106,10 +106,10 @@ async function scanDirectory(dirPath: string, category: string, subcategory?: st
  */
 async function getAvailableImages(): Promise<ComponentImage[]> {
   const images: ComponentImage[] = []
-  
+
   try {
     const topLevelEntries = await readdir(IMAGES_BASE_DIR, { withFileTypes: true })
-    
+
     for (const entry of topLevelEntries) {
       if (entry.isDirectory()) {
         const categoryPath = join(IMAGES_BASE_DIR, entry.name)
@@ -120,7 +120,7 @@ async function getAvailableImages(): Promise<ComponentImage[]> {
   } catch {
     console.warn('⚠️ Could not read component images directory')
   }
-  
+
   return images
 }
 
@@ -128,7 +128,7 @@ async function getAvailableImages(): Promise<ComponentImage[]> {
  * Get a random image from a specific category (and optionally subcategory)
  */
 async function getRandomImageFromCategory(
-  category: string, 
+  category: string,
   subcategory?: string,
   allImages?: ComponentImage[]
 ): Promise<ComponentImage | null> {
@@ -140,36 +140,36 @@ async function getRandomImageFromCategory(
       }
       return img.category === category
     })
-    
+
     if (matching.length === 0) return null
-    
+
     // Fisher-Yates shuffle for true randomness
     for (let i = matching.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [matching[i], matching[j]] = [matching[j], matching[i]]
     }
-    
+
     const selected = matching[0]
     console.log(`📂 Available in ${category}${subcategory ? '/' + subcategory : ''}: ${matching.length} files`)
     console.log(`🎲 Selected: ${selected.filename}`)
     return selected
   }
-  
+
   // Otherwise scan the directory directly
-  const dirPath = subcategory 
+  const dirPath = subcategory
     ? join(IMAGES_BASE_DIR, category, subcategory)
     : join(IMAGES_BASE_DIR, category)
-    
+
   const images = await scanDirectory(dirPath, category, subcategory)
-  
+
   if (images.length === 0) return null
-  
+
   // Fisher-Yates shuffle
   for (let i = images.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [images[i], images[j]] = [images[j], images[i]]
   }
-  
+
   const selected = images[0]
   console.log(`📂 Available in ${category}${subcategory ? '/' + subcategory : ''}: ${images.length} files`)
   console.log(`🎲 Selected: ${selected.filename}`)
@@ -384,7 +384,7 @@ If user mentions Omani locations, add subtle environmental hints:
 - Prefer: medium shot, waist-up, bust shot, three-quarter portrait, or closeup
 - Avoid full body shots unless explicitly requested
 - Include: professional photography, soft studio lighting, dramatic lighting, cinematic mood
-- Quality: high quality, photorealistic, ultra detailed
+- Quality: high quality, ultra detailed
 
 === FACIAL FEATURES & PHYSICAL DIVERSITY ===
 
@@ -483,17 +483,17 @@ export class NanoBananaService {
       const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! })
       const useComponents = options.useComponentImages ?? true
       const aspectRatio = options.aspectRatio ?? '1:1'
-      
+
       const selectedImages: SelectedImageWithInstruction[] = []
       let analysisResult: AnalysisResult | null = null
-      
+
       // Step 1: Intelligent analysis with component selection (using fast lite model)
       if (useComponents) {
         const availableImages = await getAvailableImages()
-        
+
         if (availableImages.length > 0) {
           console.log(`🎯 Agent analyzing request... (${availableImages.length} reference images available)`)
-          
+
           // Build image list showing full relative path
           const imageList = availableImages.map(img => `[${img.relativePath}]`).join('\n')
           const analysisPrompt = buildAnalysisPrompt(prompt, imageList)
@@ -502,24 +502,24 @@ export class NanoBananaService {
             const response = await ai.models.generateContent({
               model: 'gemini-2.5-flash',
               contents: [{ role: 'user', parts: [{ text: analysisPrompt }] }],
-              config: { 
+              config: {
                 responseMimeType: 'application/json'
               }
             })
-            
+
             const text = response.candidates?.[0]?.content?.parts?.[0]?.text
             if (text) {
               analysisResult = JSON.parse(text) as AnalysisResult
               console.log('🤖 LLM Analysis Result:', JSON.stringify(analysisResult, null, 2))
-              
+
               // Get selected images with their instructions (handle random selection)
               if (analysisResult.needs_references && analysisResult.selected_images) {
                 for (const sel of analysisResult.selected_images) {
-                  const selPath = sel.subcategory 
+                  const selPath = sel.subcategory
                     ? `${sel.category}/${sel.subcategory}/${sel.filename}`
                     : `${sel.category}/${sel.filename}`
                   console.log(`📋 LLM selected: ${selPath}`)
-                  
+
                   // Handle random selection
                   if (sel.filename === 'random') {
                     const randomImg = await getRandomImageFromCategory(
@@ -541,8 +541,8 @@ export class NanoBananaService {
                     // Find specific file
                     const found = availableImages.find(img => {
                       const matchesCategory = img.category === sel.category
-                      const matchesSubcategory = sel.subcategory 
-                        ? img.subcategory === sel.subcategory 
+                      const matchesSubcategory = sel.subcategory
+                        ? img.subcategory === sel.subcategory
                         : true
                       const matchesFilename = img.filename === sel.filename
                       return matchesCategory && matchesSubcategory && matchesFilename
@@ -556,7 +556,7 @@ export class NanoBananaService {
                       console.warn(`⚠️ File not found: ${selPath}, trying random from category`)
                       // Fallback to random from category
                       const randomImg = await getRandomImageFromCategory(
-                        sel.category, 
+                        sel.category,
                         sel.subcategory || undefined,
                         availableImages
                       )
@@ -573,7 +573,7 @@ export class NanoBananaService {
                   }
                 }
               }
-              
+
               if (analysisResult.orientation_context) {
                 console.log('🔄 Orientation:', analysisResult.orientation_context)
               }
@@ -590,50 +590,46 @@ export class NanoBananaService {
           }
         }
       }
-      
+
       // Step 2: Build the MASTER PROMPT with per-image instructions
       let masterPrompt = ''
-      
+
       if (analysisResult) {
-        masterPrompt = `Generate a photorealistic image with the following specifications:
+        masterPrompt = `Create a new image by combining the elements from the provided images.
 
-=== CANVAS & COMPOSITION (CRITICAL - FOLLOW EXACTLY) ===
-Generate the new image in exact ${aspectRatio} aspect ratio with 100% full-bleed composition.
-Fill every single pixel of the canvas edge-to-edge with the subject and scene — NO white borders, NO padding, NO blank margins, NO empty space, NO letterboxing.
-Completely ignore the dimensions, aspect ratio, or canvas size of any uploaded reference images.
-Force the entire composition (subject, clothing, background, lighting) to dynamically expand and fill the specified ${aspectRatio} frame seamlessly.
-Treat the reference images ONLY as style/clothing/detail references — never inherit their canvas size or layout.
-Negative: white borders, padding, blank edges, cropped composition, empty space, letterbox, pillarbox, unused canvas.
+${selectedImages.map((img, i) => `Take the ${img.category} from [REFERENCE IMAGE ${i + 1}] (${img.instruction}) and place it on the subject.`).join('\n')}
 
-=== SUBJECT ===
-${analysisResult.subject_description}
-
-=== SCENE ===
+The final image should be a ${analysisResult.subject_description}.
 ${analysisResult.scene_description}
-`
-        
-        // Add reference image instructions (provided by LLM)
+
+${analysisResult.style_notes}
+${SIGNATURE_STYLE}
+
+=== CANVAS & COMPOSITION ===
+Generate the new image in exact ${aspectRatio} aspect ratio with 100% full-bleed composition.
+Fill every single pixel of the canvas edge-to-edge with the subject and scene — NO white borders, NO padding, NO blank margins.`
+
+        // Add reference image blocks
         if (selectedImages.length > 0) {
-          masterPrompt += `\n=== CLOTHING REFERENCES (Use these EXACTLY as instructed) ===\n`
+          masterPrompt += `\n\n=== REFERENCE IMAGES ===\n`
           selectedImages.forEach((img, index) => {
             masterPrompt += `\n[REFERENCE IMAGE ${index + 1}]\n`
-            masterPrompt += `${img.instruction}\n`
           })
         }
-        
-        masterPrompt += `\n=== STYLE ===\n${analysisResult.style_notes}\n\n${SIGNATURE_STYLE}`
       } else {
         // Fallback if analysis failed
-        masterPrompt = `${prompt}\n\n${SIGNATURE_STYLE}`
+        masterPrompt = `Create a new image. The final image should be a ${prompt}.
+        
+${SIGNATURE_STYLE}`
       }
-      
+
       console.log('📝 Master prompt built')
       console.log('📐 Aspect ratio:', aspectRatio)
-      
+
       // Step 3: Build content parts (prompt + reference images)
       type ContentPart = { text: string } | { inlineData: { mimeType: string; data: string } }
       const parts: ContentPart[] = [{ text: masterPrompt }]
-      
+
       // Add reference images if selected
       for (const img of selectedImages) {
         if (img.filepath) {
@@ -651,10 +647,10 @@ ${analysisResult.scene_description}
           }
         }
       }
-      
+
       // Step 4: Generate with Gemini 2.5 Flash Image
       console.log('🍌 Generating with Razza...')
-      
+
       const response = await ai.models.generateContentStream({
         model: 'gemini-2.5-flash-image',
         config: {
@@ -665,10 +661,10 @@ ${analysisResult.scene_description}
         },
         contents: [{ role: 'user', parts }],
       })
-      
+
       // Collect image from stream
       let imageBase64: string | undefined
-      
+
       for await (const chunk of response) {
         const parts = chunk.candidates?.[0]?.content?.parts
         if (parts) {
@@ -681,25 +677,25 @@ ${analysisResult.scene_description}
         }
         if (imageBase64) break
       }
-      
+
       if (!imageBase64) {
         throw new Error('No image generated')
       }
-      
+
       console.log('✅ Generated successfully!')
-      
+
       // Build enhanced prompt for display
-      const enhancedPrompt = analysisResult 
+      const enhancedPrompt = analysisResult
         ? `${analysisResult.subject_description}. ${analysisResult.scene_description}`
         : prompt
-      
+
       return {
         success: true,
         imageBase64,
         enhancedPrompt,
         componentsUsed: selectedImages.map(i => i.filename)
       }
-      
+
     } catch (error) {
       console.error('❌ Generation error:', error)
       return {
